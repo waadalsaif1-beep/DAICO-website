@@ -33,15 +33,15 @@
   --text-secondary: #6e6e73;
   --text-muted: #86868b;
   --border-color: rgba(0, 0, 0, 0.08);
-  --border-focus: rgba(37, 99, 235, 0.4);
+  --border-focus: hsla(199, 95%, 45%, 0.4);
   
   /* HSL Colors */
-  --primary-hue: 220;
+  --primary-hue: 199;
   --primary-sat: 95%;
-  --primary-light: 50%;
+  --primary-light: 45%;
   --primary: hsl(var(--primary-hue), var(--primary-sat), var(--primary-light));
-  --primary-hover: hsl(var(--primary-hue), var(--primary-sat), 40%);
-  --primary-glow: rgba(37, 99, 235, 0.15);
+  --primary-hover: hsl(var(--primary-hue), var(--primary-sat), 38%);
+  --primary-glow: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.15);
   
   --success: #10b981;
   --success-bg: rgba(16, 185, 129, 0.1);
@@ -49,15 +49,15 @@
   --warning-bg: rgba(245, 158, 11, 0.1);
   --danger: #ef4444;
   --danger-bg: rgba(239, 68, 68, 0.1);
-  --info: #3b82f6;
-  --info-bg: rgba(59, 130, 246, 0.1);
+  --info: #0ea5e9;
+  --info-bg: rgba(14, 165, 233, 0.1);
   
   /* Elevation Shadows (Apple Inspired) */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(0, 0, 0, 0.02);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.03);
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.04);
   --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.08), 0 6px 18px rgba(0, 0, 0, 0.06);
-  --shadow-glow: 0 0 40px rgba(37, 99, 235, 0.08);
+  --shadow-glow: 0 0 40px hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.08);
 
   /* Sidebar styling */
   --sidebar-w: 260px;
@@ -72,23 +72,23 @@ html[data-theme="dark"] {
   --text-secondary: #a1a1a6;
   --text-muted: #86868b;
   --border-color: rgba(255, 255, 255, 0.08);
-  --border-focus: rgba(59, 130, 246, 0.5);
+  --border-focus: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.5);
   
-  --primary-light: 60%;
+  --primary-light: 55%;
   --primary: hsl(var(--primary-hue), var(--primary-sat), var(--primary-light));
-  --primary-hover: hsl(var(--primary-hue), var(--primary-sat), 70%);
-  --primary-glow: rgba(59, 130, 246, 0.25);
+  --primary-hover: hsl(var(--primary-hue), var(--primary-sat), 65%);
+  --primary-glow: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.25);
   
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
   --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.15);
+  --shadow-glow: 0 0 40px hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.15);
   
   --success-bg: rgba(16, 185, 129, 0.15);
   --warning-bg: rgba(245, 158, 11, 0.15);
   --danger-bg: rgba(239, 68, 68, 0.15);
-  --info-bg: rgba(59, 130, 246, 0.15);
+  --info-bg: rgba(14, 165, 233, 0.15);
 }
 
 /* Animations */
