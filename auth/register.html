@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>التسجيل في المنصة | دايكو</title>
+  
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+
+  <div class="auth-container">
+    <div class="auth-glow-1"></div>
+    <div class="auth-glow-2"></div>
+
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+          <span>دايكو DAICO</span>
+        </div>
+        <h1 class="auth-title">إنشاء حساب جديد</h1>
+        <p class="auth-subtitle">انضم إلينا اليوم وابدأ بتطوير مهاراتك التقنية والابتكارية.</p>
+      </div>
+
+      <div id="auth-alert-container"></div>
+
+      <form class="auth-form" id="register-form">
+        <div class="form-group">
+          <label class="form-label" for="reg-name">الاسم الثلاثي أو الرباعي *</label>
+          <input type="text" id="reg-name" class="form-control" placeholder="مثال: خالد الحربي" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-email">البريد الإلكتروني *</label>
+          <input type="email" id="reg-email" class="form-control" placeholder="name@domain.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-password">كلمة المرور *</label>
+          <input type="password" id="reg-password" class="form-control" placeholder="••••••••" required autocomplete="new-password">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-password-confirm">تأكيد كلمة المرور *</label>
+          <input type="password" id="reg-password-confirm" class="form-control" placeholder="••••••••" required autocomplete="new-password">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full" style="padding: 0.75rem">تسجيل الحساب</button>
+      </form>
+
+      <div class="auth-links">
+        <span>لديك حساب بالفعل؟ <a href="login.html">سجل الدخول الآن</a></span>
+        <div style="margin-top:var(--space-md)">
+          <a href="../index.html" style="font-size:0.85rem; color:var(--text-muted)">← العودة للصفحة الرئيسية</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/db.js"></script>
+  <script src="../js/auth.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      window.DAICO_AUTH.redirectIfLoggedIn();
+
+      const form = document.getElementById('register-form');
+      const alerts = document.getElementById('auth-alert-container');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alerts.innerHTML = '';
+
+        const name = document.getElementById('reg-name').value;
+        const email = document.getElementById('reg-email').value;
+        const pass = document.getElementById('reg-password').value;
+        const confirmPass = document.getElementById('reg-password-confirm').value;
+
+        if (pass !== confirmPass) {
+          alerts.innerHTML = `<div class="alert alert-danger">كلمتا المرور غير متطابقتين.</div>`;
+          return;
+        }
+
+        if (pass.length < 6) {
+          alerts.innerHTML = `<div class="alert alert-danger">يجب أن تتكون كلمة المرور من 6 خانات على الأقل.</div>`;
+          return;
+        }
+
+        const res = window.DAICO_AUTH.register(name, email, pass);
+
+        if (res.success) {
+          alerts.innerHTML = `<div class="alert alert-success">${res.message} جاري التحويل...</div>`;
+          setTimeout(() => {
+            window.location.href = `verify-email.html?email=${encodeURIComponent(res.email)}`;
+          }, 2000);
+        } else {
+          alerts.innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

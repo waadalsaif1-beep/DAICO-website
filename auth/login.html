@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول | منصة دايكو</title>
+  
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+
+  <div class="auth-container">
+    <div class="auth-glow-1"></div>
+    <div class="auth-glow-2"></div>
+
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+          <span>دايكو DAICO</span>
+        </div>
+        <h1 class="auth-title">تسجيل الدخول للمنصة</h1>
+        <p class="auth-subtitle">أهلاً بك مجدداً! الرجاء إدخال بياناتك للمتابعة.</p>
+      </div>
+
+      <!-- Live alerts -->
+      <div id="auth-alert-container"></div>
+
+      <form class="auth-form" id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">البريد الإلكتروني</label>
+          <input type="email" id="login-email" class="form-control" placeholder="name@daico.edu.sa" required autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password">كلمة المرور</label>
+          <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+
+        <div class="auth-options">
+          <label class="checkbox-group">
+            <input type="checkbox" id="remember-me">
+            <span>تذكرني على هذا الجهاز</span>
+          </label>
+          <a href="forgot-password.html">نسيت كلمة المرور؟</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full" style="padding: 0.75rem">الدخول الآمن</button>
+      </form>
+
+      <div class="auth-links">
+        <span>ليس لديك حساب بعد؟ <a href="register.html">سجل حساباً جديداً</a></span>
+        <div style="margin-top:var(--space-md)">
+          <a href="../index.html" style="font-size:0.85rem; color:var(--text-muted)">← العودة للصفحة الرئيسية</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS Core files -->
+  <script src="../js/db.js"></script>
+  <script src="../js/auth.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Redirect to dashboard immediately if already logged in
+      window.DAICO_AUTH.redirectIfLoggedIn();
+
+      const form = document.getElementById('login-form');
+      const alerts = document.getElementById('auth-alert-container');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alerts.innerHTML = ''; // reset alert
+
+        const email = document.getElementById('login-email').value;
+        const pass = document.getElementById('login-password').value;
+
+        const res = window.DAICO_AUTH.login(email, pass);
+
+        if (res.success) {
+          // Success alert
+          alerts.innerHTML = `<div class="alert alert-success">تم التحقق بنجاح! جاري تحويلك...</div>`;
+          
+          setTimeout(() => {
+            if (res.user.role === 'admin' || res.user.role === 'super_admin') {
+              window.location.href = '../admin/index.html';
+            } else {
+              window.location.href = '../user/index.html';
+            }
+          }, 1000);
+        } else {
+          // Fail alert
+          if (res.unverified) {
+            alerts.innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
+            setTimeout(() => {
+              window.location.href = `verify-email.html?email=${encodeURIComponent(res.email)}`;
+            }, 2500);
+          } else {
+            alerts.innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

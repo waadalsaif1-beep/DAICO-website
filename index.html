@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة دايكو للتعليم والابتكار | DAICO</title>
+  <meta name="description" content="منصة دايكو للتدريب المهني والابتكار الرقمي - معسكرات تقنية متقدمة، هاكاثونات، وورش عمل تخصصية في علوم البيانات، الأمن السيبراني وتطوير البرمجيات.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <div class="nav-container">
+      <div class="logo-container">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+        <span>دايكو <span style="font-weight:300; font-size:1.15rem">DAICO</span></span>
+      </div>
+      
+      <nav>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="#about" class="nav-link">عن دايكو</a></li>
+          <li><a href="#programs" class="nav-link">البرامج والمسارات</a></li>
+          <li><a href="#trainers" class="nav-link">الخبراء والموجهون</a></li>
+          <li><a href="#faqs" class="nav-link">الأسئلة الشائعة</a></li>
+          <li><a href="#contact" class="nav-link">اتصل بنا</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Theme Toggle button -->
+        <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+          <!-- Icon injected dynamically -->
+        </button>
+
+        <a href="auth/login.html" class="btn btn-secondary btn-sm" style="font-weight:700">تسجيل الدخول</a>
+        <a href="auth/register.html" class="btn btn-primary btn-sm" style="font-weight:700">انضم إلينا</a>
+
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="القائمة">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+        <span>المنصة الأولى للابتكار الرقمي بالمملكة</span>
+      </div>
+      <h1 class="hero-title">اصنع مستقبل التقنية معنا في منصة دايكو</h1>
+      <p class="hero-desc">
+        نوفر لك أفضل المعسكرات المتقدمة، ورش العمل التفاعلية والهاكاثونات المبتكرة في مجالات هندسة البرمجيات، الأمن السيبراني والذكاء الاصطناعي بقيادة نخبة من الخبراء التقنيين.
+      </p>
+      <div class="hero-cta">
+        <a href="#programs" class="btn btn-primary" style="padding: 0.8rem 1.8rem">استعرض مساراتك</a>
+        <a href="#about" class="btn btn-secondary" style="padding: 0.8rem 1.8rem">من نحن؟</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Success Statistics (Large Typography) -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-number" id="stat-students">12,500+</span>
+        <span class="stat-label">طالب ومبتكر متخرج</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="stat-courses">140+</span>
+        <span class="stat-label">برنامج تدريبي وورشة عمل</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="stat-trainers">25+</span>
+        <span class="stat-label">مدرب وخبير أكاديمي</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="stat-employment">94%</span>
+        <span class="stat-label">نسبة التوظيف والالتحاق بسوق العمل</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="section-header">
+      <span class="section-subtitle">من نحن</span>
+      <h2 class="section-title">منصة دايكو للتعليم والابتكار</h2>
+      <p class="section-desc">نهدف إلى إثراء المشهد التقني الوطني عبر تأهيل الكوادر وتنمية القدرات الابتكارية للأفراد والمؤسسات.</p>
+    </div>
+    
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="about-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+        </div>
+        <h3>تعليم مهني تفاعلي</h3>
+        <p>مناهج تدريبية مبنية وفقاً لأحدث الممارسات ومعايير سوق العمل الفعلية لضمان تحصيل مهارات حقيقية وعملية.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </div>
+        <h3>ابتكار ومنافسة</h3>
+        <p>تنظيم هاكاثونات ومسابقات برمجية تثير العصف الذهني وتدعم تكوين فرق قوية لصياغة حلول تخدم رؤية المملكة.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <h3>شهادات معتمدة وموثقة</h3>
+        <p>نصدر شهادات حضور وإتمام رقمية مزودة برموز استجابة سريعة (QR) مشفرة وموثقة تتيح للجهات التحقق الفوري.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Programs Section -->
+  <section id="programs" class="section" style="background-color: var(--bg-tertiary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); max-width: 100%">
+    <div style="max-width:1200px; margin:0 auto">
+      <div class="section-header">
+        <span class="section-subtitle">مسارات التدريب</span>
+        <h2 class="section-title">برامج الابتكار المتاحة حالياً</h2>
+        <p class="section-desc">تصفح مساراتنا المعتمدة وسجل مقعدك مباشرة لبدء رحلتك التعليمية معنا.</p>
+      </div>
+
+      <!-- Filters Tabs -->
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-type="all">الكل</button>
+        <button class="filter-tab" data-type="course">الدورات التدريبية</button>
+        <button class="filter-tab" data-type="bootcamp">المعسكرات التقنية</button>
+        <button class="filter-tab" data-type="hackathon">الهاكاثونات</button>
+        <button class="filter-tab" data-type="workshop">ورش العمل</button>
+      </div>
+
+      <!-- Programs Grid -->
+      <div class="programs-grid" id="programs-container">
+        <!-- Rendered dynamically by main.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Trainers Section -->
+  <section id="trainers" class="section">
+    <div class="section-header">
+      <span class="section-subtitle">المشرفون والخبراء</span>
+      <h2 class="section-title">طاقم المدربين الأكاديميين</h2>
+      <p class="section-desc">مجموعة متميزة من المستشارين والخبراء الأكاديميين ذوي الخبرات الطويلة في القطاعين الأكاديمي والخاص.</p>
+    </div>
+
+    <div class="trainers-grid">
+      <!-- Trainer Card 1 -->
+      <div class="card trainer-card">
+        <img class="trainer-photo-large" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=120" alt="م. خالد الحربي">
+        <h3 style="font-size:1.15rem; margin-bottom:var(--space-xs)">م. خالد الحربي</h3>
+        <span style="font-size:0.8rem; color:var(--primary); font-weight:700; margin-bottom:var(--space-sm)">Senior Software Architect</span>
+        <p style="font-size:0.85rem; color:var(--text-secondary)">خبرة تزيد عن 12 سنة في بناء وهندسة البرمجيات الكبرى للشركات السحابية.</p>
+        <span style="font-size:0.8rem; color:var(--text-muted); margin-top:var(--space-md)">⭐ 4.9 (142 مراجعة طالَب)</span>
+      </div>
+
+      <!-- Trainer Card 2 -->
+      <div class="card trainer-card">
+        <img class="trainer-photo-large" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=120" alt="د. سارة الشهري">
+        <h3 style="font-size:1.15rem; margin-bottom:var(--space-xs)">د. سارة الشهري</h3>
+        <span style="font-size:0.8rem; color:var(--primary); font-weight:700; margin-bottom:var(--space-sm)">أستاذة الذكاء الاصطناعي</span>
+        <p style="font-size:0.85rem; color:var(--text-secondary)">دكتوراه في تعلم الآلة ومستشارة الذكاء الاصطناعي لعدة قطاعات تنموية وبحثية.</p>
+        <span style="font-size:0.8rem; color:var(--text-muted); margin-top:var(--space-md)">⭐ 4.8 (98 مراجعة طالَب)</span>
+      </div>
+
+      <!-- Trainer Card 3 -->
+      <div class="card trainer-card">
+        <img class="trainer-photo-large" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=120" alt="م. عمر العتيبي">
+        <h3 style="font-size:1.15rem; margin-bottom:var(--space-xs)">م. عمر العتيبي</h3>
+        <span style="font-size:0.8rem; color:var(--primary); font-weight:700; margin-bottom:var(--space-sm)">مستشار الأمن السيبراني</span>
+        <p style="font-size:0.85rem; color:var(--text-secondary)">مختص في اختبار الاختراق الأخلاقي وتأمين الشبكات السحابية للجهات البنكية.</p>
+        <span style="font-size:0.8rem; color:var(--text-muted); margin-top:var(--space-md)">⭐ 4.9 (110 مراجعة طالَب)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="section" style="background-color: var(--bg-tertiary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); max-width: 100%">
+    <div style="max-width:1200px; margin:0 auto">
+      <div class="section-header">
+        <span class="section-subtitle">قصص نجاح</span>
+        <h2 class="section-title">ماذا يقول خريجونا؟</h2>
+      </div>
+
+      <div class="testimonials-container">
+        <!-- Testimonial 1 -->
+        <div class="testimonial-slide active">
+          <p class="testimonial-quote">"التحقت بمعسكر الأمن السيبراني في منصة دايكو وكان التحدي كبيراً، ولكن الخبرة والمحتوى العملي ساعداني على اجتياز المقابلة والتوظيف كمهندس حماية شبكات فور تخرجي."</p>
+          <strong style="font-size:1rem; color:var(--text-primary)">ريما الشمري</strong>
+          <p style="font-size:0.8rem; color:var(--text-muted)">مهندسة أمن معلومات ببنك الرياض</p>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testimonial-slide">
+          <p class="testimonial-quote">"برنامج مطور الويب المتكامل باستخدام Laravel & Next.js كان نقطة تحول في مسيرتي البرمجية. التطبيقات العملية والربط الحقيقي هما أهم ما يميز هذا الكورس."</p>
+          <strong style="font-size:1rem; color:var(--text-primary)">م. عبد العزيز فهد</strong>
+          <p style="font-size:0.8rem; color:var(--text-muted)">مطور واجهات تفاعلية بشركة صلة</p>
+        </div>
+      </div>
+
+      <!-- Partners Scrolling logos -->
+      <div style="margin-top:var(--space-2xl); border-top:1px solid var(--border-color); padding-top:var(--space-xl)">
+        <p class="text-center" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:var(--space-lg); text-transform:uppercase">شركاء الابتكار والتوظيف لدينا</p>
+        <div class="partners-grid">
+          <img class="partner-logo" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=100" alt="Logo 1">
+          <img class="partner-logo" src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=100" alt="Logo 2">
+          <img class="partner-logo" src="https://images.unsplash.com/photo-1618005198143-e5283b519a7f?auto=format&fit=crop&q=80&w=100" alt="Logo 3">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faqs" class="section">
+    <div class="section-header">
+      <span class="section-subtitle">الأسئلة المتكررة</span>
+      <h2 class="section-title">لديك استفسار؟ لدينا إجابة</h2>
+    </div>
+
+    <div class="faq-container">
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>كيف يمكنني التسجيل في البرامج المجانية؟</span>
+          <span>➕</span>
+        </button>
+        <div class="faq-answer">
+          <p>يمكنك ببساطة إنشاء حساب مجاني في المنصة، والضغط على خيار تفاصيل أي برنامج مجاني، ثم الضغط على "سجل الآن" لحجز مقعدك فوراً طالما تتوفر مقاعد شاغرة.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>هل الشهادات معترف بها؟</span>
+          <span>➕</span>
+        </button>
+        <div class="faq-answer">
+          <p>نعم، جميع الشهادات الصادرة تحمل رمز تحقق فريد (QR Code) مسجل في قواعد بيانات منصة دايكو، مما يمكن إدارات الموارد البشرية والشركات من التحقق من صحتها بمسحة واحدة.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>ما هي متطلبات حضور المعسكرات الحضورية؟</span>
+          <span>➕</span>
+        </button>
+        <div class="faq-answer">
+          <p>المعسكرات الحضورية تقام بمقر الحاضنة بالرياض وتتطلب إحضار حاسب محمول شخصي بمواصفات تقنية مناسبة، واجتياز اختبار المهارات التأسيسي للمسار المحدد.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section id="contact" class="section" style="border-top:1px solid var(--border-color)">
+    <div class="section-header">
+      <span class="section-subtitle">تواصل معنا</span>
+      <h2 class="section-title">يسعدنا سماع صوتك</h2>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>معلومات الاتصال</h3>
+        <p style="color:var(--text-secondary); margin-bottom:var(--space-md)">نحن هنا للإجابة على جميع استفساراتك حول البرامج والتسجيل وعروض رعاية المبتكرين.</p>
+        
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div>
+            <strong>العنوان</strong>
+            <p style="font-size:0.9rem; color:var(--text-secondary)">حي المروج، طريق الملك فهد، الرياض، المملكة العربية السعودية</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">✉</div>
+          <div>
+            <strong>البريد الإلكتروني</strong>
+            <p style="font-size:0.9rem; color:var(--text-secondary)">info@daico.edu.sa</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">📞</div>
+          <div>
+            <strong>رقم الهاتف الموحد</strong>
+            <p style="font-size:0.9rem; color:var(--text-secondary)">+966 11 400 9000</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:var(--space-xl)">
+        <div id="contact-alert-container"></div>
+        <form class="auth-form" id="contact-form">
+          <div class="form-group">
+            <label class="form-label" for="contact-name">الاسم الكريم *</label>
+            <input type="text" id="contact-name" class="form-control" placeholder="الاسم الرباعي" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contact-email">البريد الإلكتروني *</label>
+            <input type="email" id="contact-email" class="form-control" placeholder="example@domain.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contact-message">مضمون الرسالة *</label>
+            <textarea id="contact-message" class="form-control" style="min-height:120px; resize:vertical" placeholder="اكتب استفسارك بالتفصيل..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-full">إرسال الرسالة</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h3 style="color:var(--primary); font-size:1.5rem">دايكو DAICO</h3>
+        <p style="font-size:0.875rem; color:var(--text-secondary)">أكاديمية تدريبية رائدة وحاضنة وطنية للحلول الرقمية وتنمية مهارات الشباب والمبرمجين بالمملكة العربية السعودية.</p>
+      </div>
+      
+      <div class="footer-links-column">
+        <span class="footer-links-title">روابط سريعة</span>
+        <ul class="footer-links-list">
+          <li><a href="#about" class="footer-link">عن المنصة</a></li>
+          <li><a href="#programs" class="footer-link">تصفح المسارات</a></li>
+          <li><a href="#trainers" class="footer-link">فريق الخبراء</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-column">
+        <span class="footer-links-title">الشروط والأنظمة</span>
+        <ul class="footer-links-list">
+          <li><a href="#" class="footer-link">سياسة الخصوصية</a></li>
+          <li><a href="#" class="footer-link">شروط الخدمة والتدريب</a></li>
+          <li><a href="#" class="footer-link">سياسة الاعتماد الفني</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>حقوق الطبع محفوظة © 2026 منصة دايكو للتعليم والابتكار.</span>
+      <span>صنع بكل فخر بالمملكة العربية السعودية 🇸🇦</span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/db.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

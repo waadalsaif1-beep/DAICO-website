@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم - الإدارة العامة | منصة دايكو</title>
+  
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+  <div class="dashboard-layout">
+
+    <!-- Right Sidebar (Notion styled) -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+        <span>إدارة دايكو</span>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li>
+          <div class="sidebar-link active" data-panel="analytics">
+            <span>📊</span> <span>نظرة عامة والتحليلات</span>
+          </div>
+        </li>
+        <li>
+          <div class="sidebar-link" data-panel="events">
+            <span>📚</span> <span>إدارة البرامج والفعاليات</span>
+          </div>
+        </li>
+        <li>
+          <div class="sidebar-link" data-panel="registrations">
+            <span>📝</span> <span>طلبات التسجيل والقبول</span>
+          </div>
+        </li>
+        <li>
+          <div class="sidebar-link" data-panel="users">
+            <span>👥</span> <span>إدارة شؤون الطلاب</span>
+          </div>
+        </li>
+        <li>
+          <div class="sidebar-link" data-panel="trainers">
+            <span>🎓</span> <span>دليل المدربين والخبراء</span>
+          </div>
+        </li>
+        <li>
+          <div class="sidebar-link" data-panel="certificates">
+            <span>🏅</span> <span>الشهادات الرقمية الصادرة</span>
+          </div>
+        </li>
+        <li>
+          <div class="sidebar-link" data-panel="notifications">
+            <span>📢</span> <span>بث الإشعارات والرسائل</span>
+          </div>
+        </li>
+        <li>
+          <div class="sidebar-link" data-panel="homepage">
+            <span>⚙</span> <span>إعدادات الصفحة الرئيسية</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <img src="" id="sidebar-user-avatar" class="sidebar-avatar" alt="Avatar">
+          <div class="sidebar-user-details">
+            <span class="sidebar-user-name" id="sidebar-user-name">تحميل...</span>
+            <span class="sidebar-user-role" id="sidebar-user-role">مشرف</span>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm w-full" id="logout-btn" style="margin-top: var(--space-sm)">تسجيل الخروج</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top navbar -->
+      <header class="dashboard-header">
+        <div>
+          <h2 style="font-size: 1.25rem; font-weight: 700" id="admin-name">مرحباً بك!</h2>
+          <span style="font-size: 0.8rem; color: var(--text-secondary)" id="admin-role">رتبتك: مشرف</span>
+        </div>
+        
+        <div class="dashboard-actions">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Dark/Light Mode">🌓</button>
+        </div>
+      </header>
+
+      <!-- Dashboard Panels -->
+      <div class="dashboard-body">
+
+        <!-- 1. Analytics Panel -->
+        <section class="admin-panel" id="panel-analytics" style="display: flex; flex-direction: column; gap: var(--space-xl)">
+          <div>
+            <h1 class="dashboard-section-title">لوحة التحليلات والإحصائيات</h1>
+            <p class="dashboard-section-desc">مؤشرات أداء البرامج، أعداد المسجلين، والمدخلات المالية للمنصة التقنية.</p>
+          </div>
+
+          <!-- Counter Cards Grid -->
+          <div class="analytics-grid">
+            <div class="card analytics-card">
+              <div class="analytics-info">
+                <span class="analytics-label">إجمالي الطلاب المسجلين</span>
+                <span class="analytics-value" id="stat-total-users">0</span>
+              </div>
+              <div class="analytics-icon">👥</div>
+            </div>
+            
+            <div class="card analytics-card">
+              <div class="analytics-info">
+                <span class="analytics-label">البرامج والفعاليات المنشورة</span>
+                <span class="analytics-value" id="stat-total-events">0</span>
+              </div>
+              <div class="analytics-icon">📚</div>
+            </div>
+
+            <div class="card analytics-card">
+              <div class="analytics-info">
+                <span class="analytics-label">إجمالي طلبات التسجيل</span>
+                <span class="analytics-value" id="stat-total-regs">0</span>
+              </div>
+              <div class="analytics-icon">📝</div>
+            </div>
+
+            <div class="card analytics-card">
+              <div class="analytics-info">
+                <span class="analytics-label">أعضاء الهيئة التدريبية</span>
+                <span class="analytics-value" id="stat-total-trainers">0</span>
+              </div>
+              <div class="analytics-icon">🎓</div>
+            </div>
+          </div>
+
+          <!-- PDF & Excel Exporter Controls -->
+          <div class="card" style="padding: var(--space-lg); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-md)">
+            <div>
+              <h3 style="font-size: 1.05rem">تصدير التقارير الإحصائية للمنصة</h3>
+              <p style="font-size: 0.85rem; color: var(--text-secondary)">يمكنك تحميل تقرير شامل لحالة الطلاب والفعاليات المسجلة للعام الحالي.</p>
+            </div>
+            <div class="flex gap-sm">
+              <button class="btn btn-secondary btn-sm" id="export-excel">تصدير Excel (XLSX)</button>
+              <button class="btn btn-primary btn-sm" id="export-pdf">تصدير تقرير PDF</button>
+            </div>
+          </div>
+
+          <!-- Table of Recent registrations -->
+          <div style="display: flex; flex-direction: column; gap: var(--space-md)">
+            <h3 style="font-size: 1.25rem">أحدث طلبات التسجيل المعلقة بالمنصة</h3>
+            <div class="table-container">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>اسم الطالب</th>
+                    <th>اسم البرنامج التدريبي</th>
+                    <th>تاريخ التقديم</th>
+                    <th>الحالة</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-activity-list">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Events CRUD Management -->
+        <section class="admin-panel" id="panel-events" style="display: none; flex-direction: column; gap: var(--space-xl)">
+          <div class="flex justify-between align-center" style="flex-wrap: wrap; gap: var(--space-md)">
+            <div>
+              <h1 class="dashboard-section-title">إدارة البرامج والمسارات</h1>
+              <p class="dashboard-section-desc">إضافة برامج جديدة، تعديل بيانات الدورات والهاكاثونات، أو تعديل حالات النشر.</p>
+            </div>
+          </div>
+
+          <!-- Add / Edit Event Form -->
+          <div class="card" style="padding: var(--space-xl)">
+            <h3 style="font-size: 1.25rem; margin-bottom: var(--space-md)" id="event-form-title">إضافة برنامج تدريبي جديد</h3>
+            <form id="event-form" class="auth-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-md)">
+              <div class="form-group">
+                <label class="form-label" for="event-title">عنوان الفعالية / البرنامج *</label>
+                <input type="text" id="event-title" class="form-control" placeholder="عنوان البرنامج التدريبي" required>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="event-type">نوع الفعالية *</label>
+                <select id="event-type" class="form-control" required>
+                  <option value="course">دورة تدريبية</option>
+                  <option value="bootcamp">معسكر مهني مكثف</option>
+                  <option value="hackathon">هاكاثون وابتكار</option>
+                  <option value="workshop">ورشة عمل تخصصية</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="event-category">التصنيف الرئيسي *</label>
+                <select id="event-category" class="form-control" required>
+                  <option value="1">الذكاء الاصطناعي وعلوم البيانات</option>
+                  <option value="2">تطوير البرمجيات والويب</option>
+                  <option value="3">الأمن السيبراني والشبكات</option>
+                  <option value="4">تصميم تجربة المستخدم والتصميم الإبداعي</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="event-trainer">المدرب / الموجه المسؤول *</label>
+                <select id="event-trainer" class="form-control" required>
+                  <option value="1">م. خالد الحربي</option>
+                  <option value="2">د. سارة الشهري</option>
+                  <option value="3">م. عمر العتيبي</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="event-start-date">تاريخ البدء *</label>
+                <input type="date" id="event-start-date" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="event-end-date">تاريخ الانتهاء *</label>
+                <input type="date" id="event-end-date" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="event-price">رسوم التسجيل (بالريال - 0 للمجاني) *</label>
+                <input type="number" id="event-price" class="form-control" value="0" min="0" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="event-seats">السعة الإجمالية (عدد المقاعد) *</label>
+                <input type="number" id="event-seats" class="form-control" value="30" min="5" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="event-location">طريقة إقامة اللقاءات *</label>
+                <select id="event-location" class="form-control" required>
+                  <option value="online">عن بعد (أونلاين)</option>
+                  <option value="offline">حضوري (بمقر حاضنة دايكو)</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="grid-column: 1/-1">
+                <label class="form-label" for="event-desc">تفاصيل ووصف البرنامج التدريبي *</label>
+                <textarea id="event-desc" class="form-control" style="min-height: 80px; resize: vertical" placeholder="أدخل تفاصيل ومحاور اللقاء..." required></textarea>
+              </div>
+
+              <div style="grid-column: 1/-1" class="flex gap-sm">
+                <button type="submit" class="btn btn-primary">حفظ وتأكيد البيانات</button>
+                <button type="button" class="btn btn-secondary" onclick="this.closest('form').reset(); document.getElementById('event-form-title').innerText='إضافة برنامج تدريبي جديد'; currentEditingEventId=null;">إعادة تعيين</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Catalog Database Table -->
+          <div class="table-container">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>معرف</th>
+                  <th>عنوان الفعالية</th>
+                  <th>النوع</th>
+                  <th>المدرب</th>
+                  <th>الرسوم</th>
+                  <th>المقاعد المتاحة</th>
+                  <th>حالة النشر</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="events-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 3. Registrations Acceptances Panel -->
+        <section class="admin-panel" id="panel-registrations" style="display: none; flex-direction: column; gap: var(--space-xl)">
+          <div>
+            <h1 class="dashboard-section-title">طلبات التسجيل والمراجعة</h1>
+            <p class="dashboard-section-desc">مراجعة طلبات انضمام الطلاب للبرامج وتحديث حالات القبول، أو إتمام البرامج وتوفير الشهادات.</p>
+          </div>
+
+          <div class="table-container">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>معرف الطلب</th>
+                  <th>اسم الطالب</th>
+                  <th>البرنامج المختار</th>
+                  <th>تاريخ الطلب</th>
+                  <th>الحالة</th>
+                  <th>الإجراءات المتاحة</th>
+                </tr>
+              </thead>
+              <tbody id="regs-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 4. User Database list -->
+        <section class="admin-panel" id="panel-users" style="display: none; flex-direction: column; gap: var(--space-xl)">
+          <div>
+            <h1 class="dashboard-section-title">إدارة شؤون الطلاب والمستخدمين</h1>
+            <p class="dashboard-section-desc">إدارة صلاحيات الأعضاء، حظر الحسابات، وترقية الطلاب إلى مشرفين نظام.</p>
+          </div>
+
+          <div class="table-container">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>رقم</th>
+                  <th>الاسم الكريم</th>
+                  <th>البريد الإلكتروني</th>
+                  <th>الصلاحية الحالية</th>
+                  <th>التحقق من البريد</th>
+                  <th>إجراءات الإدارة</th>
+                </tr>
+              </thead>
+              <tbody id="users-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 5. Trainers Management -->
+        <section class="admin-panel" id="panel-trainers" style="display: none; flex-direction: column; gap: var(--space-xl)">
+          <div>
+            <h1 class="dashboard-section-title">دليل المدربين والخبراء</h1>
+            <p class="dashboard-section-desc">إدارة السير الذاتية لأعضاء الهيئة التدريبية للمنصة وتقييمات الطلاب.</p>
+          </div>
+
+          <div class="table-container">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>رقم الخبير</th>
+                  <th>اسم المدرب</th>
+                  <th>المسمى الوظيفي</th>
+                  <th>سنوات الخبرة</th>
+                  <th>تقييم الطلاب</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="trainers-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 6. Certificates List -->
+        <section class="admin-panel" id="panel-certificates" style="display: none; flex-direction: column; gap: var(--space-xl)">
+          <div>
+            <h1 class="dashboard-section-title">الشهادات الرقمية الصادرة</h1>
+            <p class="dashboard-section-desc">استعراض والتحقق من الشهادات الرقمية المعتمدة الصادرة للطلاب المتخرجين.</p>
+          </div>
+
+          <div class="table-container">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>معرف الشهادة</th>
+                  <th>كود الشهادة (Serial)</th>
+                  <th>اسم الخريج</th>
+                  <th>البرنامج التدريبي</th>
+                  <th>تاريخ الإصدار</th>
+                  <th>الحالة القانونية</th>
+                </tr>
+              </thead>
+              <tbody id="certs-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 7. Announcements and Notifications Panel -->
+        <section class="admin-panel" id="panel-notifications" style="display: none; flex-direction: column; gap: var(--space-xl)">
+          <div>
+            <h1 class="dashboard-section-title">بث الإشعارات والرسائل التنبيهية</h1>
+            <p class="dashboard-section-desc">إرسال إشعارات تنبيهية فورية لصفحات الطلاب أو بث رسائل عامة لكافة مستخدمي المنصة.</p>
+          </div>
+
+          <div class="card" style="padding: var(--space-xl)">
+            <h3 style="font-size: 1.25rem; margin-bottom: var(--space-md)">توجيه إشعار مخصص</h3>
+            <form id="notif-form" class="auth-form" style="max-width: 600px">
+              <div class="form-group">
+                <label class="form-label" for="notif-target-user">المستهدف بالإرسال</label>
+                <select id="notif-target-user" class="form-control">
+                  <!-- Injected dynamically -->
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="notif-title">عنوان الرسالة التنبيهية *</label>
+                <input type="text" id="notif-title" class="form-control" placeholder="مثال: تحديث عاجل لموعد اللقاء" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="notif-message">تفاصيل نص الإشعار *</label>
+                <textarea id="notif-message" class="form-control" style="min-height: 100px" placeholder="تفاصيل الإشعار الذي سيظهر للطلاب باللوحة..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary">بث الإرسال الفوري 🚀</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- 8. Homepage Editor Panel -->
+        <section class="admin-panel" id="panel-homepage" style="display: none; flex-direction: column; gap: var(--space-xl)">
+          <div>
+            <h1 class="dashboard-section-title">تعديل محتوى الصفحة الرئيسية</h1>
+            <p class="dashboard-section-desc">تغيير واجهات البنرات الرئيسية، الأرقام الإحصائية ونصوص النجاح مباشرة.</p>
+          </div>
+
+          <div class="card" style="padding: var(--space-xl)">
+            <h3 style="font-size: 1.25rem; margin-bottom: var(--space-md)">تعديل نصوص البانر الرئيسي (Hero Section)</h3>
+            <form id="homepage-content-form" class="auth-form" style="max-width: 700px; display: flex; flex-direction: column; gap: var(--space-md)">
+              <div class="form-group">
+                <label class="form-label" for="home-hero-title">عنوان البانر الرئيسي (Hero Title)</label>
+                <input type="text" id="home-hero-title" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="home-hero-desc">نص الوصف والتعريف (Hero Description)</label>
+                <textarea id="home-hero-desc" class="form-control" style="min-height: 80px" required></textarea>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md)">
+                <div class="form-group">
+                  <label class="form-label" for="home-stat-students">إحصائية عدد الطلاب</label>
+                  <input type="text" id="home-stat-students" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="home-stat-courses">إحصائية عدد البرامج</label>
+                  <input type="text" id="home-stat-courses" class="form-control" required>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">تحديث بيانات الصفحة 💾</button>
+            </form>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/db.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>
