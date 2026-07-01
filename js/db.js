@@ -249,27 +249,32 @@ const SEED_SETTINGS = [
   { key: 'contact_phone', value: '+966 11 400 9000' }
 ];
 
-const SEED_HOMEPAGE = {
-  section_name: 'homepage_data',
-  content_data: {
-    hero: {
-      badge: 'المنصة الأولى للابتكار الرقمي بالمملكة',
-      title: 'اصنع مستقبل التقنية معنا في منصة دايكو',
-      desc: 'نوفر لك أفضل المعسكرات، الورش والبرامج التدريبية المتقدمة في هندسة البرمجيات، الأمن السيبراني والذكاء الاصطناعي بقيادة نخبة من الخبراء التقنيين.'
-    },
-    stats: {
-      students: '12,500+',
-      courses: '140+',
-      trainers: '25+',
-      employment_rate: '94%'
+const SEED_HOMEPAGE = [
+  {
+    section_name: 'homepage_data',
+    content_data: {
+      hero: {
+        badge: 'المنصة الأولى للابتكار الرقمي بالمملكة',
+        title: 'اصنع مستقبل التقنية معنا في منصة دايكو',
+        desc: 'نوفر لك أفضل المعسكرات، الورش والبرامج التدريبية المتقدمة في هندسة البرمجيات، الأمن السيبراني والذكاء الاصطناعي بقيادة نخبة من الخبراء التقنيين.'
+      },
+      stats: {
+        students: '12,500+',
+        courses: '140+',
+        trainers: '25+',
+        employment_rate: '94%'
+      }
     }
   }
-};
+];
 
 // Database Engine Object
 const DB = {
   init() {
-    if (!localStorage.getItem(DB_KEY_PREFIX + 'initialized')) {
+    const homepageData = localStorage.getItem(DB_KEY_PREFIX + 'homepage');
+    const needsReset = homepageData && !homepageData.startsWith('[');
+    
+    if (!localStorage.getItem(DB_KEY_PREFIX + 'initialized') || needsReset) {
       this.reset();
     }
   },

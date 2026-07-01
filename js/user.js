@@ -22,6 +22,18 @@ function initUserDashboard() {
   loadMyRegistrations();
   setupSearchAndFilters();
   setupDetailModalActions();
+
+  // Auto open details if query param exists
+  const params = new URLSearchParams(window.location.search);
+  const eventIdStr = params.get('event_id');
+  if (eventIdStr && eventIdStr !== 'null' && eventIdStr !== 'undefined') {
+    const autoEventId = parseInt(eventIdStr);
+    if (!isNaN(autoEventId)) {
+      if (typeof window.viewEventDetails === 'function') {
+        window.viewEventDetails(autoEventId);
+      }
+    }
+  }
 }
 
 // Check if page opened with verification URL (e.g. ?verify=CERT-DAICO-2026-778)
@@ -311,6 +323,7 @@ window.viewEventDetails = function(eventId) {
   document.getElementById('modal-trainer-title').innerText = trainer.title;
   document.getElementById('modal-trainer-bio').innerText = trainer.bio;
   document.getElementById('modal-trainer-exp').innerText = `${trainer.experience_years} سنوات خبرة`;
+  document.getElementById('modal-trainer-link').href = `../trainer/index.html?id=${trainer.id}`;
 
   // Dynamic Lists (Objectives, Requirements, FAQs, Schedule)
   document.getElementById('modal-objectives').innerHTML = e.objectives.map(o => `<li>${o}</li>`).join('');

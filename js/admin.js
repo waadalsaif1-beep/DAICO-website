@@ -239,6 +239,7 @@ function renderTrainersManagementTable() {
         <td>⭐ ${t.rating}</td>
         <td>
           <button class="btn btn-secondary btn-sm" onclick="editTrainer(${t.id})">تعديل</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteTrainer(${t.id})">حذف</button>
         </td>
       </tr>
     `;
@@ -429,8 +430,56 @@ function setupFormSubmissions() {
         }
       };
 
-      db.writeTable('homepage', updated);
+      db.writeTable('homepage', [updated]);
       alert('تم تحديث محتوى الصفحة الرئيسية بنجاح');
+    });
+  }
+
+  // Add/Edit Trainer Form
+  const trainerForm = document.getElementById('trainer-form');
+  if (trainerForm) {
+    trainerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const db = window.DAICO_DB;
+
+      const name = document.getElementById('trainer-name-input').value;
+      const title = document.getElementById('trainer-title-input').value;
+      const experience_years = parseInt(document.getElementById('trainer-exp-input').value);
+      const rating = parseFloat(document.getElementById('trainer-rating-input').value || 5.0);
+      const bio = document.getElementById('trainer-bio-input').value;
+
+      const trainerData = {
+        name,
+        title,
+        experience_years,
+        rating,
+        bio,
+        photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=120',
+        specializations: ['عام'],
+        certificates: [],
+        social_links: { linkedin: '#', twitter: '#' }
+      };
+
+      if (currentEditingTrainerId) {
+        // preserve photo and specs if exists
+        const oldTrainer = db.selectOne('trainers', { id: currentEditingTrainerId });
+        if (oldTrainer) {
+          trainerData.photo = oldTrainer.photo;
+          trainerData.specializations = oldTrainer.specializations;
+          trainerData.certificates = oldTrainer.certificates;
+          trainerData.social_links = oldTrainer.social_links;
+        }
+        db.update('trainers', currentEditingTrainerId, trainerData);
+        alert('تم تحديث بيانات المدرب بنجاح');
+      } else {
+        db.insert('trainers', trainerData);
+        alert('تم إضافة المدرب بنجاح');
+      }
+
+      currentEditingTrainerId = null;
+      trainerForm.reset();
+      document.getElementById('trainer-form-title').innerText = 'إضافة مدرب / خبير جديد';
+      loadPanelData('trainers');
     });
   }
 }
@@ -554,3 +603,28 @@ function triggerDownload(filename, mockText) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+window.editTrainer = function(trainerId) {
+  const db = window.DAICO_DB;
+  const t = db.selectOne('trainers', { id: trainerId });
+  if (!t) return;
+
+  currentEditingTrainerId = trainerId;
+  document.getElementById('trainer-form-title').innerText = `تعديل بيانات المدرب #${trainerId}`;
+
+  document.getElementById('trainer-name-input').value = t.name;
+  document.getElementById('trainer-title-input').value = t.title;
+  document.getElementById('trainer-exp-input').value = t.experience_years;
+  document.getElementById('trainer-rating-input').value = t.rating;
+  document.getElementById('trainer-bio-input').value = t.bio;
+
+  // Scroll to form
+  document.getElementById('trainer-form').scrollIntoView({ behavior: 'smooth' });
+};
+
+window.deleteTrainer = function(trainerId) {
+  if (!confirm('هل أنت متأكد من رغبتك في حذف هذا المدرب؟')) return;
+  const db = window.DAICO_DB;
+  db.delete('trainers', trainerId);
+  loadPanelData('trainers');
+};

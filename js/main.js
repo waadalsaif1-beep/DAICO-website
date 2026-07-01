@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initMobileMenu();
+  initHeaderAuth();
   loadFeaturedPrograms('all');
   initFilterTabs();
   initStats();
@@ -93,6 +94,16 @@ function loadFeaturedPrograms(typeFilter = 'all') {
     const priceLabel = event.price > 0 ? `${event.price} ريال` : 'مجانًا';
     const priceClass = event.price > 0 ? 'badge-warning' : 'badge-success';
 
+    let btnLink = 'auth/login.html';
+    const currentUser = window.DAICO_AUTH ? window.DAICO_AUTH.getCurrentUser() : null;
+    if (currentUser) {
+      if (currentUser.role === 'admin' || currentUser.role === 'super_admin') {
+        btnLink = 'admin/index.html';
+      } else {
+        btnLink = `user/index.html?event_id=${event.id}`;
+      }
+    }
+
     return `
       <div class="card program-card">
         <img class="program-image" src="${event.cover_image}" alt="${event.title}">
@@ -122,7 +133,7 @@ function loadFeaturedPrograms(typeFilter = 'all') {
             </div>
           </div>
           
-          <a href="auth/login.html" class="btn btn-primary btn-sm" style="margin-top: var(--space-md)">تفاصيل البرنامج وتسجيل</a>
+          <a href="${btnLink}" class="btn btn-primary btn-sm" style="margin-top: var(--space-md)">تفاصيل البرنامج وتسجيل</a>
         </div>
       </div>
     `;
@@ -231,4 +242,42 @@ function showAlert(container, type, message) {
   setTimeout(() => {
     container.innerHTML = '';
   }, 6000);
+}
+
+function initHeaderAuth() {
+  const user = window.DAICO_AUTH ? window.DAICO_AUTH.getCurrentUser() : null;
+  const navActions = document.querySelector('.nav-actions');
+  if (!navActions || !user) return;
+
+  // Remove existing Login & Register static buttons
+  const loginBtn = navActions.querySelector('a[href="auth/login.html"]');
+  const registerBtn = navActions.querySelector('a[href="auth/register.html"]');
+  
+  if (loginBtn) loginBtn.remove();
+  if (registerBtn) registerBtn.remove();
+  
+  const dashboardPath = (user.role === 'admin' || user.role === 'super_admin') ? 'admin/index.html' : 'user/index.html';
+  
+  const dashboardBtn = document.createElement('a');
+  dashboardBtn.href = dashboardPath;
+  dashboardBtn.className = 'btn btn-primary btn-sm';
+  dashboardBtn.style.fontWeight = '700';
+  dashboardBtn.innerText = 'لوحة التحكم';
+  
+  const logoutBtn = document.createElement('button');
+  logoutBtn.className = 'btn btn-secondary btn-sm';
+  logoutBtn.style.fontWeight = '700';
+  logoutBtn.innerText = 'تسجيل الخروج';
+  logoutBtn.addEventListener('click', () => {
+    window.DAICO_AUTH.logout();
+  });
+
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  if (mobileMenuBtn) {
+    navActions.insertBefore(dashboardBtn, mobileMenuBtn);
+    navActions.insertBefore(logoutBtn, mobileMenuBtn);
+  } else {
+    navActions.appendChild(dashboardBtn);
+    navActions.appendChild(logoutBtn);
+  }
 }

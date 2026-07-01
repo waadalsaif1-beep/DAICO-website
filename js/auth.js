@@ -93,7 +93,12 @@ const AUTH = {
 
   logout() {
     localStorage.removeItem(SESSION_KEY);
-    window.location.href = '/auth/login.html';
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('/admin/') || currentPath.includes('/user/') || currentPath.includes('/trainer/')) {
+      window.location.href = '../auth/login.html';
+    } else {
+      window.location.href = 'auth/login.html';
+    }
   },
 
   // Auth Middleware

@@ -59,6 +59,9 @@
       const pinInputs = document.querySelectorAll('.pin-input');
       const form = document.getElementById('verify-form');
 
+      // Display initial helper alert showing the mock verification pin
+      alerts.innerHTML = `<div class="alert alert-success">تم إرسال رمز التفعيل التجريبي: <strong>1234</strong> (أو يمكنك كتابة أي 4 أرقام للتفعيل).</div>`;
+
       // Auto focus jump inside OTP boxes
       pinInputs.forEach((input, index) => {
         input.addEventListener('keyup', (e) => {

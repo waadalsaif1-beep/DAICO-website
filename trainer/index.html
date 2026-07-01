@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الملف الشخصي للمدرب | منصة دايكو</title>
+  
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/main.css">
+  
+  <style>
+    .trainer-profile-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: var(--space-2xl);
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 var(--space-md);
+      align-items: start;
+    }
+    
+    .trainer-info-card {
+      position: sticky;
+      top: 100px;
+      padding: var(--space-xl);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-md);
+      z-index: 10;
+    }
+    
+    .profile-photo-xl {
+      width: 150px;
+      height: 150px;
+      border-radius: var(--radius-full);
+      object-fit: cover;
+      border: 4px solid var(--primary-glow);
+      box-shadow: var(--shadow-md);
+    }
+
+    .trainer-detail-block {
+      width: 100%;
+      text-align: right;
+      border-top: 1px solid var(--border-color);
+      padding-top: var(--space-md);
+    }
+
+    .trainer-detail-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: var(--space-xs);
+    }
+    
+    .trainer-main-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2xl);
+    }
+
+    .horizontal-slider {
+      display: flex;
+      gap: var(--space-md);
+      overflow-x: auto;
+      padding: var(--space-xs) 0 var(--space-md) 0;
+    }
+    
+    @media (max-width: 768px) {
+      .trainer-profile-layout {
+        grid-template-columns: 1fr;
+      }
+      .trainer-info-card {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header class="header">
+    <div class="nav-container">
+      <div class="logo-container">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+        <span>دايكو <span style="font-weight:300; font-size:1.15rem">DAICO</span></span>
+      </div>
+      
+      <nav>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="../index.html" class="nav-link">الصفحة الرئيسية</a></li>
+          <li><a href="../index.html#about" class="nav-link">عن دايكو</a></li>
+          <li><a href="../index.html#programs" class="nav-link">البرامج والمسارات</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">🌓</button>
+        <a href="../auth/login.html" class="btn btn-secondary btn-sm" style="font-weight:700">تسجيل الدخول</a>
+        <a href="../auth/register.html" class="btn btn-primary btn-sm" style="font-weight:700">انضم إلينا</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Big Decorative Background Header -->
+  <div style="height: 120px; background: linear-gradient(135deg, var(--primary-glow) 0%, rgba(168,85,247,0.05) 100%); border-bottom: 1px solid var(--border-color)"></div>
+
+  <!-- Main Trainer Profile Layout -->
+  <main class="trainer-profile-layout" id="trainer-profile-content">
+    
+    <!-- Right Sidebar Info Card (Apple styled) -->
+    <section class="card trainer-info-card">
+      <img src="" id="trainer-photo" class="profile-photo-xl" alt="Trainer Profile">
+      <div>
+        <h1 style="font-size: 1.5rem; font-weight: 800" id="trainer-name">جاري التحميل...</h1>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 4px" id="trainer-title">-</p>
+      </div>
+
+      <div class="trainer-detail-block">
+        <h4 class="trainer-detail-title">سنوات الخبرة الأكاديمية</h4>
+        <strong id="trainer-experience" style="font-size: 1.1rem; color: var(--text-primary)">-</strong>
+      </div>
+
+      <div class="trainer-detail-block">
+        <h4 class="trainer-detail-title">تقييم الطلاب العام</h4>
+        <strong id="trainer-rating" style="font-size: 1.1rem; color: var(--text-primary)">-</strong>
+      </div>
+
+      <div class="trainer-detail-block">
+        <h4 class="trainer-detail-title">مجالات التخصص الدقيقة</h4>
+        <div id="trainer-specializations" class="flex" style="flex-wrap: wrap; justify-content: right"></div>
+      </div>
+
+      <div class="trainer-detail-block">
+        <h4 class="trainer-detail-title">الشهادات والاعتمادات المهنية</h4>
+        <div id="trainer-certificates" class="flex" style="flex-wrap: wrap; justify-content: right"></div>
+      </div>
+
+      <div class="trainer-detail-block">
+        <h4 class="trainer-detail-title">روابط التواصل والملفات</h4>
+        <div id="trainer-socials" class="flex" style="gap: 6px; justify-content: center; margin-top: 8px"></div>
+      </div>
+    </section>
+
+    <!-- Left Main Panel -->
+    <section class="trainer-main-panel">
+      <!-- Bio -->
+      <div>
+        <h2 style="font-size: 1.75rem; font-weight: 800; margin-bottom: var(--space-md); border-bottom: 2px solid var(--primary-glow); padding-bottom: var(--space-xs)">السيرة المهنية الذاتية</h2>
+        <p id="trainer-bio" style="font-size: 1rem; color: var(--text-secondary); line-height: 1.8; text-align: justify">-</p>
+      </div>
+
+      <!-- Courses Provided -->
+      <div>
+        <h2 style="font-size: 1.75rem; font-weight: 800; margin-bottom: var(--space-md); border-bottom: 2px solid var(--primary-glow); padding-bottom: var(--space-xs)">البرامج التدريبية التي يقدمها</h2>
+        <div class="horizontal-slider" id="trainer-courses-list">
+          <!-- Injected dynamically -->
+        </div>
+      </div>
+
+      <!-- Student Reviews -->
+      <div>
+        <h2 style="font-size: 1.75rem; font-weight: 800; margin-bottom: var(--space-md); border-bottom: 2px solid var(--primary-glow); padding-bottom: var(--space-xs)">آراء ومراجعات الطلاب</h2>
+        <div style="display: flex; flex-direction: column; gap: var(--space-md)" id="trainer-reviews-list">
+          <!-- Injected dynamically -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="footer" style="margin-top: 5rem">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h3 style="color:var(--primary); font-size:1.5rem">دايكو DAICO</h3>
+        <p style="font-size:0.875rem; color:var(--text-secondary)">أكاديمية تدريبية رائدة وحاضنة وطنية للحلول الرقمية وتنمية مهارات الشباب والمبرمجين بالمملكة العربية السعودية.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>حقوق الطبع محفوظة © 2026 منصة دايكو للتعليم والابتكار.</span>
+      <span>صنع بكل فخر بالمملكة العربية السعودية 🇸🇦</span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/db.js?v=2"></script>
+  <script src="../js/auth.js?v=2"></script>
+  <script src="../js/trainer.js?v=2"></script>
+</body>
+</html>

@@ -336,6 +336,42 @@
             <p class="dashboard-section-desc">إدارة السير الذاتية لأعضاء الهيئة التدريبية للمنصة وتقييمات الطلاب.</p>
           </div>
 
+          <!-- Add / Edit Trainer Form -->
+          <div class="card" style="padding: var(--space-xl)">
+            <h3 style="font-size: 1.25rem; margin-bottom: var(--space-md)" id="trainer-form-title">إضافة مدرب / خبير جديد</h3>
+            <form id="trainer-form" class="auth-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-md)">
+              <div class="form-group">
+                <label class="form-label" for="trainer-name-input">اسم المدرب الكريم *</label>
+                <input type="text" id="trainer-name-input" class="form-control" placeholder="اسم المدرب ثنائي أو ثلاثي" required>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="trainer-title-input">المسمى الوظيفي / التخصص *</label>
+                <input type="text" id="trainer-title-input" class="form-control" placeholder="مثال: خبير هندسة برمجيات" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="trainer-exp-input">سنوات الخبرة *</label>
+                <input type="number" id="trainer-exp-input" class="form-control" min="0" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="trainer-rating-input">تقييم الطلاب الافتراضي *</label>
+                <input type="number" id="trainer-rating-input" class="form-control" min="1" max="5" step="0.1" value="5.0" required>
+              </div>
+
+              <div class="form-group" style="grid-column: 1/-1">
+                <label class="form-label" for="trainer-bio-input">السيرة الذاتية المهنية للتعبير بالخبير *</label>
+                <textarea id="trainer-bio-input" class="form-control" style="min-height: 80px; resize: vertical" placeholder="تفاصيل مهارات المدرب ومسيرته..." required></textarea>
+              </div>
+
+              <div style="grid-column: 1/-1" class="flex gap-sm">
+                <button type="submit" class="btn btn-primary">حفظ وتأكيد بيانات المدرب</button>
+                <button type="button" class="btn btn-secondary" onclick="this.closest('form').reset(); document.getElementById('trainer-form-title').innerText='إضافة مدرب / خبير جديد'; currentEditingTrainerId=null;">إعادة تعيين</button>
+              </div>
+            </form>
+          </div>
+
           <div class="table-container">
             <table class="dashboard-table">
               <thead>
@@ -455,8 +491,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="../js/db.js"></script>
-  <script src="../js/auth.js"></script>
-  <script src="../js/admin.js"></script>
+  <script src="../js/db.js?v=2"></script>
+  <script src="../js/auth.js?v=2"></script>
+  <script src="../js/admin.js?v=2"></script>
 </body>
 </html>
