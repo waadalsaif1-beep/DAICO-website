@@ -113,64 +113,75 @@
         
         <!-- Founding Partners / Strategic Initiative -->
         <div class="hero-partners">
-          <span class="partners-label">بمبادرة استراتيجية من</span>
+          <div class="partners-divider">
+            <span>بمبادرة استراتيجية من</span>
+          </div>
           <div class="partners-logos">
-            <div class="partner-item" title="الهيئة السعودية للبيانات والذكاء الاصطناعي | سدايا">
-              <img src="images/sdaia-logo.png" alt="SDAIA" class="partner-logo-svg" style="object-fit: contain;">
-            </div>
+            <a href="https://ksu.edu.sa/" target="_blank" rel="noopener noreferrer" class="partner-card" title="جامعة الملك سعود | King Saud University">
+              <div class="partner-logo-container">
+                <img src="images/ksu-logo.png" alt="جامعة الملك سعود" class="partner-logo-img">
+              </div>
+              <div class="partner-card-action">
+                <svg class="icon-globe" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                <span>زيارة الموقع الرسمي</span>
+                <svg class="icon-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </div>
+            </a>
             
-            <div class="partner-item" title="جامعة الملك سعود | King Saud University">
-              <img src="images/ksu-logo.png" alt="جامعة الملك سعود" class="partner-logo-svg" style="object-fit: contain;">
-            </div>
+            <a href="https://sdaia.gov.sa/" target="_blank" rel="noopener noreferrer" class="partner-card" title="الهيئة السعودية للبيانات والذكاء الاصطناعي | سدايا">
+              <div class="partner-logo-container">
+                <img src="images/sdaia-logo.png" alt="SDAIA" class="partner-logo-img sdaia-logo-img">
+              </div>
+              <div class="partner-card-action">
+                <svg class="icon-globe" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                <span>زيارة الموقع الرسمي</span>
+                <svg class="icon-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </div>
+            </a>
           </div>
         </div>
       </div>
       
       <div class="hero-visual-content">
-        <div class="tech-illustration-wrapper">
-          <svg class="tech-3d-svg" viewBox="0 0 500 500" width="100%" height="100%">
+        <div class="hero-logo-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" class="hero-daico-logo">
             <defs>
-              <radialGradient id="sphere-glow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.3"/>
-                <stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>
-              </radialGradient>
-              <linearGradient id="orbit-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="var(--primary)"/>
-                <stop offset="100%" stop-color="var(--facet-sky)"/>
+              <linearGradient id="hero-grad-top-left" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#5ec2f6" />
+                <stop offset="100%" stop-color="#2a86c7" />
+              </linearGradient>
+              <linearGradient id="hero-grad-top-right" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3ba8e8" />
+                <stop offset="100%" stop-color="#1e6091" />
+              </linearGradient>
+              <linearGradient id="hero-grad-right" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a3e635" />
+                <stop offset="100%" stop-color="#65a30d" />
+              </linearGradient>
+              <linearGradient id="hero-grad-bottom-right" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#10b981" />
+                <stop offset="100%" stop-color="#047857" />
+              </linearGradient>
+              <linearGradient id="hero-grad-bottom-left" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f97316" />
+                <stop offset="100%" stop-color="#b91c1c" />
+              </linearGradient>
+              <linearGradient id="hero-grad-left" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#facc15" />
+                <stop offset="100%" stop-color="#ea580c" />
+              </linearGradient>
+              <linearGradient id="hero-grad-u-shape" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#0ea5e9" />
+                <stop offset="100%" stop-color="#0284c7" />
               </linearGradient>
             </defs>
-            
-            <circle cx="250" cy="250" r="200" fill="url(#sphere-glow)" class="floating-illustration" />
-            
-            <ellipse cx="250" cy="250" rx="160" ry="60" fill="none" stroke="url(#orbit-grad)" stroke-width="1.5" stroke-dasharray="8, 4" opacity="0.6" transform="rotate(-30 250 250)" />
-            <ellipse cx="250" cy="250" rx="180" ry="75" fill="none" stroke="url(#orbit-grad)" stroke-width="1.5" opacity="0.4" transform="rotate(20 250 250)" />
-            <ellipse cx="250" cy="250" rx="140" ry="50" fill="none" stroke="var(--facet-sky)" stroke-width="2" opacity="0.7" transform="rotate(60 250 250)" />
-            
-            <g class="floating-sphere">
-              <circle cx="250" cy="250" r="80" fill="none" stroke="var(--primary)" stroke-width="2" opacity="0.8" />
-              <circle cx="250" cy="250" r="70" fill="var(--bg-secondary)" stroke="var(--primary)" stroke-width="0.5" opacity="0.2" />
-              <circle cx="250" cy="250" r="40" fill="var(--primary)" opacity="0.15" />
-              <circle cx="250" cy="250" r="20" fill="var(--primary)" opacity="0.4" />
-              <circle cx="250" cy="250" r="8" fill="var(--primary)" />
-            </g>
-            
-            <g class="data-nodes">
-              <circle cx="120" cy="180" r="10" fill="var(--primary)" class="node-glow" />
-              <circle cx="120" cy="180" r="6" fill="#fff" />
-              <line x1="120" y1="180" x2="250" y2="250" stroke="var(--primary)" stroke-width="1" opacity="0.4" />
-              
-              <circle cx="380" cy="210" r="12" fill="var(--facet-sky)" class="node-glow" />
-              <circle cx="380" cy="210" r="7" fill="#fff" />
-              <line x1="380" y1="210" x2="250" y2="250" stroke="var(--facet-sky)" stroke-width="1" opacity="0.4" />
-
-              <circle cx="180" cy="360" r="8" fill="var(--facet-sky)" class="node-glow" />
-              <circle cx="180" cy="360" r="5" fill="#fff" />
-              <line x1="180" y1="360" x2="250" y2="250" stroke="var(--facet-sky)" stroke-width="1" opacity="0.4" />
-
-              <circle cx="320" cy="330" r="14" fill="var(--primary)" class="node-glow" />
-              <circle cx="320" cy="330" r="8" fill="#fff" />
-              <line x1="320" y1="330" x2="250" y2="250" stroke="var(--primary)" stroke-width="1" opacity="0.4" />
-            </g>
+            <path d="M 48,108 L 100,138 L 152,108 L 152,150 A 52,52 0 0,1 48,150 Z" fill="url(#hero-grad-u-shape)" />
+            <path d="M 100,10 L 48,40 L 90,53 Z" fill="url(#hero-grad-top-left)" />
+            <path d="M 100,10 L 110,53 L 152,40 Z" fill="url(#hero-grad-top-right)" />
+            <path d="M 152,40 L 120,70 L 152,100 Z" fill="url(#hero-grad-right)" />
+            <path d="M 152,100 L 110,87 L 100,130 Z" fill="url(#hero-grad-bottom-right)" />
+            <path d="M 100,130 L 90,87 L 48,100 Z" fill="url(#hero-grad-bottom-left)" />
+            <path d="M 48,100 L 80,70 L 48,40 Z" fill="url(#hero-grad-left)" />
           </svg>
         </div>
       </div>
@@ -333,11 +344,10 @@
 
       <!-- Partners Scrolling logos -->
       <div style="margin-top:var(--space-2xl); border-top:1px solid var(--border-color); padding-top:var(--space-xl)">
-        <p class="text-center" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:var(--space-lg); text-transform:uppercase">شركاء الابتكار والتوظيف لدينا</p>
+        <p class="text-center" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:var(--space-lg); text-transform:uppercase">شركاء الابتكار والنجاح</p>
         <div class="partners-grid">
-          <img class="partner-logo" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=100" alt="Logo 1">
-          <img class="partner-logo" src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=100" alt="Logo 2">
-          <img class="partner-logo" src="https://images.unsplash.com/photo-1618005198143-e5283b519a7f?auto=format&fit=crop&q=80&w=100" alt="Logo 3">
+          <img class="partner-logo" src="images/ksu-logo.png" alt="جامعة الملك سعود">
+          <img class="partner-logo" src="images/sdaia-logo.png" alt="سدايا">
         </div>
       </div>
     </div>

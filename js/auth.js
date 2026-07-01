@@ -43,7 +43,7 @@ const AUTH = {
     return { success: true, user: sessionUser };
   },
 
-  register(name, email, password) {
+  register(name, email, password, roleId = 3) {
     if (!window.DAICO_DB) return { success: false, message: 'خطأ في قاعدة البيانات' };
 
     const existingUser = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
@@ -59,7 +59,7 @@ const AUTH = {
       name: name,
       email: email.toLowerCase(),
       password_hash: password,
-      role_id: 3,
+      role_id: roleId,
       verified: false,
       verification_code: verificationCode,
       verification_expires_at: expirationTime,

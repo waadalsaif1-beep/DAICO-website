@@ -1,0 +1,645 @@
+:root {
+  --daico-teal-primary: #0e8074;    /* اللون الأساسي: الأزرار، التبويب النشط، الروابط */
+  --daico-teal-dark: #0a5f56;       /* hover states */
+  --daico-teal-tint: #e5f4f2;       /* خلفيات فاتحة (badge الإعدادات، حالات hover خفيفة) */
+  --daico-text-primary: #1a1a1a;
+  --daico-text-secondary: #6b7280;
+  --daico-border: #e5e7eb;
+  --daico-bg: #ffffff;
+}
+
+/* Base Body Auth Reset */
+.daico-auth-body {
+  background-color: #f9fafb !important;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cairo', 'Outfit', 'Inter', sans-serif !important;
+  box-sizing: border-box;
+}
+
+/* Card */
+.daico-auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--daico-bg);
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  padding: 32px 28px;
+  box-sizing: border-box;
+  margin: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header */
+.daico-brand-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.daico-brand-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.daico-brand-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--daico-teal-primary);
+  letter-spacing: -0.5px;
+}
+
+.daico-brand-subrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #9ca3af;
+  font-size: 12px;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.daico-gear-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: #f3f4f6;
+  border-radius: 50%;
+  color: #9ca3af;
+}
+
+.daico-gear-box svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+}
+
+/* H1 Title & Desc */
+.daico-auth-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--daico-text-primary);
+  text-align: center;
+  margin: 0 0 8px 0;
+}
+
+.daico-auth-subtitle {
+  font-size: 13px;
+  color: var(--daico-text-secondary);
+  text-align: center;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+/* Toggle Switch grid */
+.daico-tabs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.daico-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.daico-toggle-btn.inactive {
+  background: var(--daico-bg);
+  border: 1px solid var(--daico-border);
+  color: var(--daico-teal-primary);
+}
+
+.daico-toggle-btn.inactive:hover {
+  background: var(--daico-teal-tint);
+  border-color: var(--daico-teal-primary);
+}
+
+.daico-toggle-btn.active {
+  background: var(--daico-teal-primary);
+  border: 1px solid var(--daico-teal-primary);
+  color: #ffffff;
+}
+
+.daico-toggle-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+}
+
+/* Focus States accessibility */
+.daico-toggle-btn:focus-visible,
+.daico-input-field:focus-visible,
+.daico-submit-btn:focus-visible,
+.daico-google-btn:focus-visible,
+.daico-forgot-link:focus-visible,
+.daico-back-link:focus-visible,
+.daico-footer-signup-link:focus-visible {
+  outline: 2px solid var(--daico-teal-primary) !important;
+  outline-offset: 2px;
+}
+
+/* Form Fields Styling */
+.daico-form-group {
+  margin-bottom: 16px;
+  text-align: right;
+}
+
+.daico-form-label {
+  display: block;
+  font-size: 13px;
+  color: var(--daico-text-secondary);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.daico-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.daico-input-field {
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--daico-border);
+  background: var(--daico-bg);
+  padding: 0 40px 0 16px; /* 40px on right for icon in RTL */
+  box-sizing: border-box;
+  font-size: 14px;
+  color: var(--daico-text-primary);
+  transition: all 0.2s ease;
+  outline: none;
+  text-align: right;
+}
+
+.daico-input-field.password-field {
+  padding: 0 40px 0 40px; /* Right for lock, left for show/hide eye */
+}
+
+.daico-input-field:focus {
+  border-color: var(--daico-teal-primary);
+  box-shadow: 0 0 0 3px rgba(14, 128, 116, 0.15);
+}
+
+.daico-field-icon-right {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--daico-text-secondary);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.daico-field-icon-left-toggle {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--daico-text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  outline: none;
+  transition: color 0.2s ease;
+}
+
+.daico-field-icon-left-toggle:hover {
+  color: var(--daico-text-primary);
+}
+
+.daico-field-icon-right svg,
+.daico-field-icon-left-toggle svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+}
+
+/* Options space-between */
+.daico-options-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  font-size: 13px;
+}
+
+.daico-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--daico-text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.daico-checkbox-label input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--daico-teal-primary);
+  cursor: pointer;
+}
+
+.daico-forgot-link {
+  color: var(--daico-teal-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.daico-forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+.daico-submit-btn {
+  width: 100%;
+  height: 48px;
+  background: var(--daico-teal-primary);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 24px; /* pill كامل */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s ease, transform 0.1s ease;
+  outline: none;
+}
+
+.daico-submit-btn:hover {
+  background: var(--daico-teal-dark);
+}
+
+.daico-submit-btn:active {
+  transform: scale(0.985);
+}
+
+.daico-submit-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+}
+
+/* Divider */
+.daico-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--daico-text-secondary);
+  font-size: 12px;
+  margin: 20px 0;
+}
+
+.daico-divider::before,
+.daico-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--daico-border);
+}
+
+.daico-divider::before {
+  margin-left: 12px;
+}
+
+.daico-divider::after {
+  margin-right: 12px;
+}
+
+/* Google Button */
+.daico-google-btn {
+  width: 100%;
+  height: 44px;
+  background: #ffffff;
+  border: 1px solid var(--daico-border);
+  color: var(--daico-text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.2s ease;
+  outline: none;
+}
+
+.daico-google-btn:hover {
+  background: #f9fafb;
+}
+
+.daico-google-icon-svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Footer structure */
+.daico-auth-footer {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.daico-footer-signup-text {
+  color: var(--daico-text-secondary);
+}
+
+.daico-footer-signup-link {
+  color: var(--daico-teal-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.daico-footer-signup-link:hover {
+  text-decoration: underline;
+}
+
+.daico-back-link {
+  color: var(--daico-text-secondary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  transition: color 0.2s ease;
+}
+
+.daico-back-link:hover {
+  color: var(--daico-text-primary);
+}
+
+.daico-back-link svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  /* Points to the right (exit/back in RTL layout) */
+  transform: scaleX(1);
+}
+
+/* Alert modifications */
+.daico-alert {
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: right;
+}
+
+.daico-alert-danger {
+  background: #fef2f2;
+  color: #ef4444;
+  border: 1px solid #fee2e2;
+}
+
+.daico-alert-success {
+  background: #f0fdf4;
+  color: #22c55e;
+  border: 1px solid #dcfce7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .daico-auth-card {
+    padding: 24px 16px;
+    margin: 12px;
+    border-radius: 20px;
+  }
+  .daico-auth-title {
+    font-size: 20px;
+  }
+}
+
+/* Progress Indicator */
+.daico-auth-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 24px;
+}
+
+.daico-progress-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--daico-text-secondary);
+}
+
+.daico-progress-step.active {
+  color: var(--daico-teal-primary);
+}
+
+.daico-progress-step.completed {
+  color: var(--daico-teal-primary);
+}
+
+.daico-progress-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  border: 2px solid var(--daico-border);
+  background: var(--daico-bg);
+}
+
+.daico-progress-step.active .daico-progress-dot {
+  border-color: var(--daico-teal-primary);
+  background: var(--daico-teal-tint);
+  color: var(--daico-teal-primary);
+}
+
+.daico-progress-step.completed .daico-progress-dot {
+  border-color: var(--daico-teal-primary);
+  background: var(--daico-teal-tint);
+  color: var(--daico-teal-primary);
+}
+
+.daico-progress-line {
+  width: 40px;
+  height: 2px;
+  background: var(--daico-border);
+  margin: 0 8px;
+}
+
+.daico-progress-line.active {
+  background: var(--daico-teal-primary);
+}
+
+.daico-progress-line.completed {
+  background: var(--daico-teal-primary);
+}
+
+/* Google Account Chooser Modal Styles */
+.google-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.google-modal-overlay.active {
+  display: flex;
+}
+
+.google-modal-card {
+  background: var(--daico-bg);
+  border: 1px solid var(--daico-border);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  animation: slideUp 0.3s ease-out;
+}
+
+.google-modal-header {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.google-modal-header h3 {
+  margin: 12px 0 4px 0;
+  font-size: 1.2rem;
+  color: var(--daico-text-primary);
+  font-weight: 700;
+}
+
+.google-modal-header p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--daico-text-secondary);
+}
+
+.google-account-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.google-account-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid var(--daico-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: right;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.google-account-item:hover {
+  background: #f9fafb;
+  border-color: var(--daico-teal-primary);
+}
+
+.google-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.google-account-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.google-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--daico-text-primary);
+}
+
+.google-email {
+  font-size: 0.8rem;
+  color: var(--daico-text-secondary);
+}
+
+.google-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--daico-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.2s ease;
+  outline: none;
+}
+
+.google-modal-close:hover {
+  color: var(--daico-text-primary);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

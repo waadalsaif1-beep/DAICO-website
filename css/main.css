@@ -217,50 +217,49 @@ html[data-theme="dark"] .header {
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 1s ease-out;
+  animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.tech-illustration-wrapper {
+.hero-logo-wrapper {
   position: relative;
   width: 100%;
-  max-width: 420px;
-  aspect-ratio: 1;
+  max-width: 320px;
+  aspect-ratio: 200/220;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-xl);
+  border-radius: var(--radius-xl);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-lg), 0 0 40px rgba(14, 165, 233, 0.04);
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
 }
 
-/* Animations for SVG illustration elements */
+.hero-logo-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+  bottom: 10%;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.18) 0%, rgba(16, 185, 129, 0.06) 50%, rgba(255, 255, 255, 0) 70%);
+  filter: blur(28px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-daico-logo {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 8px 16px rgba(15, 23, 42, 0.06));
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.floating-illustration {
-  animation: float 6s ease-in-out infinite;
-}
-
-.floating-sphere {
-  animation: float 6s ease-in-out infinite;
-  transform-origin: center;
-}
-
-.tech-3d-svg ellipse {
-  transform-origin: center;
-}
-
-.tech-3d-svg ellipse:nth-child(2) {
-  animation: spin 30s linear infinite;
-}
-
-.tech-3d-svg ellipse:nth-child(3) {
-  animation: spin 20s linear infinite reverse;
-}
-
-.node-glow {
-  filter: drop-shadow(0 0 6px var(--primary));
+  50% { transform: translateY(-10px); }
 }
 
 .hero-badge {
@@ -281,41 +280,125 @@ html[data-theme="dark"] .header {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-xs);
-  margin-top: var(--space-xl);
+  gap: var(--space-md);
+  margin-top: var(--space-2xl);
   width: 100%;
   animation: fadeIn 0.8s ease-out 0.2s both;
 }
 
-.partners-label {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  font-weight: 600;
-  letter-spacing: 0.5px;
+/* Strategic Initiative Divider Line */
+.partners-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin-bottom: var(--space-md);
 }
 
+.partners-divider::before,
+.partners-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 2px solid rgba(16, 185, 129, 0.3); /* Emerald/teal accent line */
+}
+
+.partners-divider:not(:empty)::before {
+  margin-left: 1.5rem;
+}
+
+.partners-divider:not(:empty)::after {
+  margin-right: 1.5rem;
+}
+
+.partners-divider span {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Strategic Partner Cards Grid */
 .partners-logos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+  width: 100%;
+}
+
+.partner-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg) var(--space-xl);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  height: 180px; /* Generous height to fit logo + action */
+}
+
+.partner-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md), 0 0 25px rgba(14, 165, 233, 0.08);
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+.partner-logo-container {
   display: flex;
   align-items: center;
-  gap: var(--space-xl);
-  flex-wrap: wrap;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  max-height: 90px;
 }
 
-.partner-item {
-  display: flex;
-  align-items: center;
-  opacity: 0.8;
-  transition: opacity var(--transition-normal), transform var(--transition-normal);
-}
-
-.partner-item:hover {
-  opacity: 1;
-  transform: translateY(-2px);
-}
-
-.partner-logo-svg {
-  height: 38px;
+.partner-logo-img {
+  max-height: 72px; /* Large, sharp logo */
   width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.sdaia-logo-img {
+  max-height: 88px; /* Specifically enlarge SDAIA logo to match KSU visually */
+}
+
+.partner-card-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: var(--space-md);
+  transition: color var(--transition-fast);
+}
+
+.partner-card:hover .partner-card-action {
+  color: var(--primary-hover);
+}
+
+.partner-card-action svg {
+  transition: transform var(--transition-fast);
+}
+
+/* Icon specific alignment or hover effects */
+.partner-card-action .icon-globe {
+  color: var(--primary);
+}
+
+.partner-card-action .icon-chevron {
+  color: var(--primary);
+  width: 14px;
+  height: 14px;
+}
+
+.partner-card:hover .partner-card-action .icon-chevron {
+  transform: translateX(-4px); /* Moves left in RTL on hover */
 }
 
 /* Responsive adjustments */
@@ -337,16 +420,22 @@ html[data-theme="dark"] .header {
   .hero-text-content .hero-cta {
     justify-content: center;
   }
-  .tech-illustration-wrapper {
-    max-width: 320px;
+  .hero-logo-wrapper {
+    max-width: 240px;
   }
   .hero-partners {
     align-items: center;
     margin-top: var(--space-lg);
   }
   .partners-logos {
-    justify-content: center;
-    gap: var(--space-lg);
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    width: 100%;
+    max-width: 480px;
+  }
+  .partner-card {
+    height: 160px;
+    padding: var(--space-md) var(--space-lg);
   }
 }
 

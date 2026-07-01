@@ -3,117 +3,185 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>التسجيل في المنصة | دايكو</title>
+  <title>إنشاء حساب جديد | منصة دايكو</title>
   
+  <script>
+    // Apply user theme configuration before body renders to prevent screen flicker
+    const savedTheme = localStorage.getItem('daico_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="../css/variables.css">
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/daico-auth.css">
 </head>
-<body>
+<body class="daico-auth-body">
 
-  <div class="auth-container">
-    <div class="auth-glow-1"></div>
-    <div class="auth-glow-2"></div>
-    <div class="auth-glow-3"></div>
+  <div class="daico-auth-card">
+    <!-- Registration Progress Indicator (Step 1 of 3) -->
+    <div class="daico-auth-progress">
+      <div class="daico-progress-step active">
+        <div class="daico-progress-dot">1</div>
+        <span>التسجيل</span>
+      </div>
+      <div class="daico-progress-line"></div>
+      <div class="daico-progress-step">
+        <div class="daico-progress-dot">2</div>
+        <span>التفعيل</span>
+      </div>
+      <div class="daico-progress-line"></div>
+      <div class="daico-progress-step">
+        <div class="daico-progress-dot">3</div>
+        <span>الإتمام</span>
+      </div>
+    </div>
 
-    <div class="auth-card">
-      <!-- Registration Progress Indicator — Step 1 of 3 (brief §4 AUTH) -->
-      <div class="auth-progress">
-        <div class="auth-progress-step active">
-          <div class="auth-progress-dot">1</div>
-          <span>التسجيل</span>
-        </div>
-        <div class="auth-progress-line"></div>
-        <div class="auth-progress-step">
-          <div class="auth-progress-dot">2</div>
-          <span>التفعيل</span>
-        </div>
-        <div class="auth-progress-line"></div>
-        <div class="auth-progress-step">
-          <div class="auth-progress-dot">3</div>
-          <span>الإتمام</span>
+    <div class="auth-header">
+      <div class="daico-brand-header">
+        <img src="../images/daico-logo.svg" alt="شعار دايكو" class="daico-brand-logo">
+        <span class="daico-brand-text">DAICO دايكو</span>
+      </div>
+      <div class="daico-brand-subrow">
+        <span>Data & AI Center of Excellence</span>
+        <span class="daico-gear-box">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </span>
+      </div>
+      <h1 class="daico-auth-title">إنشاء حساب جديد</h1>
+      <p class="daico-auth-subtitle">انضم إلينا اليوم وابدأ بتطوير مهاراتك التقنية والابتكارية.</p>
+    </div>
+
+    <!-- Live alerts -->
+    <div id="auth-alert-container"></div>
+
+    <!-- Toggle Buttons (Adjacent side-by-side layout) -->
+    <div class="daico-tabs-grid">
+      <button type="button" class="daico-toggle-btn active" id="tab-trainee" aria-pressed="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>حساب متدرب</span>
+      </button>
+      <button type="button" class="daico-toggle-btn inactive" id="tab-admin" aria-pressed="false">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>حساب مسؤول</span>
+      </button>
+    </div>
+
+    <form class="auth-form" id="register-form">
+      <!-- Full Name -->
+      <div class="daico-form-group">
+        <label class="daico-form-label" for="reg-name">الاسم الثلاثي أو الرباعي *</label>
+        <div class="daico-input-wrapper">
+          <input type="text" id="reg-name" class="daico-input-field" placeholder="مثال: خالد الحربي" required>
+          <span class="daico-field-icon-right">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
         </div>
       </div>
 
-      <div class="auth-header">
-        <div class="auth-logo">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="32" height="32" class="daico-logo">
-            <defs>
-              <linearGradient id="grad-top-left" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#5ec2f6" />
-                <stop offset="100%" stop-color="#2a86c7" />
-              </linearGradient>
-              <linearGradient id="grad-top-right" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#3ba8e8" />
-                <stop offset="100%" stop-color="#1e6091" />
-              </linearGradient>
-              <linearGradient id="grad-right" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#a3e635" />
-                <stop offset="100%" stop-color="#65a30d" />
-              </linearGradient>
-              <linearGradient id="grad-bottom-right" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#10b981" />
-                <stop offset="100%" stop-color="#047857" />
-              </linearGradient>
-              <linearGradient id="grad-bottom-left" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#f97316" />
-                <stop offset="100%" stop-color="#b91c1c" />
-              </linearGradient>
-              <linearGradient id="grad-left" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#facc15" />
-                <stop offset="100%" stop-color="#ea580c" />
-              </linearGradient>
-              <linearGradient id="grad-u-shape" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#0ea5e9" />
-                <stop offset="100%" stop-color="#0284c7" />
-              </linearGradient>
-            </defs>
-            <path d="M 48,108 L 100,138 L 152,108 L 152,150 A 52,52 0 0,1 48,150 Z" fill="url(#grad-u-shape)" />
-            <path d="M 100,10 L 48,40 L 90,53 Z" fill="url(#grad-top-left)" />
-            <path d="M 100,10 L 110,53 L 152,40 Z" fill="url(#grad-top-right)" />
-            <path d="M 152,40 L 120,70 L 152,100 Z" fill="url(#grad-right)" />
-            <path d="M 152,100 L 110,87 L 100,130 Z" fill="url(#grad-bottom-right)" />
-            <path d="M 100,130 L 90,87 L 48,100 Z" fill="url(#grad-bottom-left)" />
-            <path d="M 48,100 L 80,70 L 48,40 Z" fill="url(#grad-left)" />
-          </svg>
-          <span>دايكو DAICO</span>
-        </div>
-        <h1 class="auth-title">إنشاء حساب جديد</h1>
-        <p class="auth-subtitle">انضم إلينا اليوم وابدأ بتطوير مهاراتك التقنية والابتكارية.</p>
-      </div>
-
-      <div id="auth-alert-container"></div>
-
-      <form class="auth-form" id="register-form">
-        <div class="form-group">
-          <label class="form-label" for="reg-name">الاسم الثلاثي أو الرباعي *</label>
-          <input type="text" id="reg-name" class="form-control" placeholder="مثال: خالد الحربي" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="reg-email">البريد الإلكتروني *</label>
-          <input type="email" id="reg-email" class="form-control" placeholder="name@domain.com" required autocomplete="email">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="reg-password">كلمة المرور *</label>
-          <input type="password" id="reg-password" class="form-control" placeholder="••••••••" required autocomplete="new-password">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="reg-password-confirm">تأكيد كلمة المرور *</label>
-          <input type="password" id="reg-password-confirm" class="form-control" placeholder="••••••••" required autocomplete="new-password">
-        </div>
-
-        <button type="submit" class="btn btn-primary w-full" style="padding: 0.75rem">تسجيل الحساب</button>
-      </form>
-
-      <div class="auth-links">
-        <span>لديك حساب بالفعل؟ <a href="login.html">سجل الدخول الآن</a></span>
-        <div style="margin-top:var(--space-md)">
-          <a href="../index.html" style="font-size:0.85rem; color:var(--text-muted)">← العودة للصفحة الرئيسية</a>
+      <!-- Email -->
+      <div class="daico-form-group">
+        <label class="daico-form-label" for="reg-email">البريد الإلكتروني *</label>
+        <div class="daico-input-wrapper">
+          <input type="email" id="reg-email" class="daico-input-field" placeholder="name@domain.com" required autocomplete="email">
+          <span class="daico-field-icon-right">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </span>
         </div>
       </div>
+
+      <!-- Password -->
+      <div class="daico-form-group">
+        <label class="daico-form-label" for="reg-password">كلمة المرور *</label>
+        <div class="daico-input-wrapper">
+          <input type="password" id="reg-password" class="daico-input-field password-field" placeholder="••••••••" required autocomplete="new-password">
+          <span class="daico-field-icon-right">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </span>
+          <button type="button" class="daico-field-icon-left-toggle" id="reg-password-toggle" aria-label="إظهار كلمة المرور" aria-pressed="false">
+            <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Password Confirm -->
+      <div class="daico-form-group">
+        <label class="daico-form-label" for="reg-password-confirm">تأكيد كلمة المرور *</label>
+        <div class="daico-input-wrapper">
+          <input type="password" id="reg-password-confirm" class="daico-input-field password-field" placeholder="••••••••" required autocomplete="new-password">
+          <span class="daico-field-icon-right">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </span>
+          <button type="button" class="daico-field-icon-left-toggle" id="reg-password-confirm-toggle" aria-label="إظهار كلمة المرور" aria-pressed="false">
+            <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Secure Submit button with Lock icon -->
+      <button type="submit" class="daico-submit-btn" style="margin-top: 8px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>تسجيل الحساب</span>
+      </button>
+    </form>
+
+    <!-- Google Sign In Divider & Button -->
+    <div class="daico-divider">
+      <span>أو التسجيل بواسطة</span>
+    </div>
+
+    <button type="button" class="daico-google-btn" id="google-login-btn">
+      <svg class="daico-google-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+      </svg>
+      <span>التسجيل السريع باستخدام Google</span>
+    </button>
+
+    <div class="daico-auth-footer">
+      <span class="daico-footer-signup-text">لديك حساب بالفعل؟ <a href="login.html" class="daico-footer-signup-link">سجل الدخول الآن</a></span>
+      <a href="../index.html" class="daico-back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        <span>العودة للصفحة الرئيسية</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Google Account Chooser Modal -->
+  <div class="google-modal-overlay" id="google-modal">
+    <div class="google-modal-card">
+      <div class="google-modal-header">
+        <svg viewBox="0 0 24 24" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+        </svg>
+        <h3>التسجيل باستخدام Google</h3>
+        <p>اختر حساباً للمتابعة إلى منصة دايكو</p>
+      </div>
+      <div class="google-account-list">
+        <button class="google-account-item" data-email="student@daico.edu.sa" data-name="عبد الرحمن القحطاني">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=60" alt="avatar" class="google-avatar">
+          <div class="google-account-info">
+            <span class="google-name">عبد الرحمن القحطاني (متدرب)</span>
+            <span class="google-email">student@daico.edu.sa</span>
+          </div>
+        </button>
+        <button class="google-account-item" data-email="admin@daico.edu.sa" data-name="سارة العتيبي">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=60" alt="avatar" class="google-avatar">
+          <div class="google-account-info">
+            <span class="google-name">سارة العتيبي (مسؤولة)</span>
+            <span class="google-email">admin@daico.edu.sa</span>
+          </div>
+        </button>
+      </div>
+      <button class="google-modal-close" id="google-modal-close">إلغاء</button>
     </div>
   </div>
 
@@ -126,36 +194,148 @@
 
       const form = document.getElementById('register-form');
       const alerts = document.getElementById('auth-alert-container');
+      const tabTrainee = document.getElementById('tab-trainee');
+      const tabAdmin = document.getElementById('tab-admin');
+      const emailInput = document.getElementById('reg-email');
 
+      let activeRole = 'user'; // 'user' or 'admin'
+
+      // Toggle Registration Role
+      tabTrainee.addEventListener('click', () => {
+        activeRole = 'user';
+        tabTrainee.className = 'daico-toggle-btn active';
+        tabTrainee.setAttribute('aria-pressed', 'true');
+        tabAdmin.className = 'daico-toggle-btn inactive';
+        tabAdmin.setAttribute('aria-pressed', 'false');
+        emailInput.placeholder = 'name@domain.com';
+        alerts.innerHTML = '';
+      });
+
+      tabAdmin.addEventListener('click', () => {
+        activeRole = 'admin';
+        tabAdmin.className = 'daico-toggle-btn active';
+        tabAdmin.setAttribute('aria-pressed', 'true');
+        tabTrainee.className = 'daico-toggle-btn inactive';
+        tabTrainee.setAttribute('aria-pressed', 'false');
+        emailInput.placeholder = 'name@daico.edu.sa';
+        alerts.innerHTML = '';
+      });
+
+      // Submit Registration form
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         alerts.innerHTML = '';
 
         const name = document.getElementById('reg-name').value;
-        const email = document.getElementById('reg-email').value;
+        const email = emailInput.value;
         const pass = document.getElementById('reg-password').value;
         const confirmPass = document.getElementById('reg-password-confirm').value;
 
         if (pass !== confirmPass) {
-          alerts.innerHTML = `<div class="alert alert-danger">كلمتا المرور غير متطابقتين.</div>`;
+          alerts.innerHTML = `<div class="daico-alert daico-alert-danger">كلمتا المرور غير متطابقتين.</div>`;
           return;
         }
 
         if (pass.length < 6) {
-          alerts.innerHTML = `<div class="alert alert-danger">يجب أن تتكون كلمة المرور من 6 خانات على الأقل.</div>`;
+          alerts.innerHTML = `<div class="daico-alert daico-alert-danger">يجب أن تتكون كلمة المرور من 6 خانات على الأقل.</div>`;
           return;
         }
 
-        const res = window.DAICO_AUTH.register(name, email, pass);
+        // Map role to standard DB role_id (2 for Admin, 3 for User)
+        const targetRoleId = activeRole === 'admin' ? 2 : 3;
+
+        const res = window.DAICO_AUTH.register(name, email, pass, targetRoleId);
 
         if (res.success) {
-          alerts.innerHTML = `<div class="alert alert-success">${res.message} جاري التحويل...</div>`;
+          alerts.innerHTML = `<div class="daico-alert daico-alert-success">${res.message} جاري التحويل...</div>`;
           setTimeout(() => {
             window.location.href = `verify-email.html?email=${encodeURIComponent(res.email)}`;
           }, 2000);
         } else {
-          alerts.innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
+          alerts.innerHTML = `<div class="daico-alert daico-alert-danger">${res.message}</div>`;
         }
+      });
+
+      // Show/Hide Password Toggles
+      const regPasswordInput = document.getElementById('reg-password');
+      const regPasswordToggle = document.getElementById('reg-password-toggle');
+      regPasswordToggle.addEventListener('click', () => {
+        if (regPasswordInput.type === 'password') {
+          regPasswordInput.type = 'text';
+          regPasswordToggle.setAttribute('aria-pressed', 'true');
+          regPasswordToggle.setAttribute('aria-label', 'إخفاء كلمة المرور');
+          regPasswordToggle.innerHTML = `<svg class="icon-eye-off" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+        } else {
+          regPasswordInput.type = 'password';
+          regPasswordToggle.setAttribute('aria-pressed', 'false');
+          regPasswordToggle.setAttribute('aria-label', 'إظهار كلمة المرور');
+          regPasswordToggle.innerHTML = `<svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+        }
+      });
+
+      const regConfirmInput = document.getElementById('reg-password-confirm');
+      const regConfirmToggle = document.getElementById('reg-password-confirm-toggle');
+      regConfirmToggle.addEventListener('click', () => {
+        if (regConfirmInput.type === 'password') {
+          regConfirmInput.type = 'text';
+          regConfirmToggle.setAttribute('aria-pressed', 'true');
+          regConfirmToggle.setAttribute('aria-label', 'إخفاء كلمة المرور');
+          regConfirmToggle.innerHTML = `<svg class="icon-eye-off" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+        } else {
+          regConfirmInput.type = 'password';
+          regConfirmToggle.setAttribute('aria-pressed', 'false');
+          regConfirmToggle.setAttribute('aria-label', 'إظهار كلمة المرور');
+          regConfirmToggle.innerHTML = `<svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+        }
+      });
+
+      // Google Mock Auth Setup
+      const googleBtn = document.getElementById('google-login-btn');
+      const googleModal = document.getElementById('google-modal');
+      const googleClose = document.getElementById('google-modal-close');
+      const googleAccounts = document.querySelectorAll('.google-account-item');
+
+      googleBtn.addEventListener('click', () => {
+        googleModal.classList.add('active');
+      });
+
+      googleClose.addEventListener('click', () => {
+        googleModal.classList.remove('active');
+      });
+
+      googleAccounts.forEach(item => {
+        item.addEventListener('click', () => {
+          const email = item.getAttribute('data-email');
+          
+          if (window.DAICO_DB) {
+            const user = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
+            if (user) {
+              if (!user.verified) {
+                window.DAICO_DB.update('users', user.id, { verified: true });
+              }
+              
+              const role = window.DAICO_DB.selectOne('roles', { id: user.role_id });
+              const sessionUser = {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: role ? role.name : 'user'
+              };
+              localStorage.setItem('daico_session', JSON.stringify(sessionUser));
+              
+              googleModal.classList.remove('active');
+              alerts.innerHTML = `<div class="daico-alert daico-alert-success">تم التسجيل والدخول بواسطة Google! جاري تحويلك...</div>`;
+              
+              setTimeout(() => {
+                if (sessionUser.role === 'admin' || sessionUser.role === 'super_admin') {
+                  window.location.href = '../admin/index.html';
+                } else {
+                  window.location.href = '../user/index.html';
+                }
+              }, 1200);
+            }
+          }
+        });
       });
     });
   </script>
