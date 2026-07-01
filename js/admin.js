@@ -28,13 +28,17 @@ function renderAdminHeaderInfo() {
   const avatar = document.getElementById('admin-avatar');
   const nameEl = document.getElementById('admin-name');
   const roleEl = document.getElementById('admin-role');
+  const sidebarAvatar = document.getElementById('sidebar-user-avatar');
   const sidebarName = document.getElementById('sidebar-user-name');
   const sidebarRole = document.getElementById('sidebar-user-role');
 
   const roleNames = { super_admin: 'مدير خارق', admin: 'مشرف النظام' };
   const roleName = roleNames[admin.role] || 'مشرف';
 
-  if (avatar) avatar.src = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=60';
+  const defaultAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(admin.name)}&background=random&color=fff`;
+
+  if (avatar) avatar.src = admin.photo || defaultAvatar;
+  if (sidebarAvatar) sidebarAvatar.src = admin.photo || defaultAvatar;
   if (nameEl) nameEl.innerText = admin.name;
   if (roleEl) roleEl.innerText = roleName;
   if (sidebarName) sidebarName.innerText = admin.name;
@@ -585,15 +589,27 @@ function setupExportButtons() {
   const xlsBtn = document.getElementById('export-excel');
   
   if (pdfBtn) {
-    pdfBtn.addEventListener('click', () => triggerDownload('PDF_Report_DAICO.pdf', 'مستند PDF: تقرير إحصائيات منصة دايكو للتعليم والابتكار...'));
+    pdfBtn.addEventListener('click', () => {
+      const db = window.DAICO_DB;
+      const stats = db.selectOne('homepage', { section_name: 'homepage_data' })?.content_data?.stats || {};
+      const csv = "إحصائية,القيمة\nالطلاب," + (stats.students||0) + "\nالبرامج," + (stats.courses||0) + "\nالمدربين," + (stats.trainers||0);
+      triggerCSVDownload('DAICO_Statistics_Report.csv', csv);
+    });
   }
   if (xlsBtn) {
-    xlsBtn.addEventListener('click', () => triggerDownload('Excel_Report_DAICO.xlsx', 'مستند Excel: إحصائيات الطلاب والتسجيلات للبرامج...'));
+    xlsBtn.addEventListener('click', () => {
+      const db = window.DAICO_DB;
+      const regs = db.readTable('registrations');
+      let csv = "معرف الطلب,تاريخ الطلب,الحالة,معرف الطالب,معرف البرنامج\n";
+      csv += regs.map(r => `${r.id},${r.registered_at},${r.status},${r.user_id},${r.program_id}`).join('\n');
+      triggerCSVDownload('DAICO_Registrations_Data.csv', csv);
+    });
   }
 }
 
-function triggerDownload(filename, mockText) {
-  const blob = new Blob([mockText], { type: 'text/plain;charset=utf-8' });
+function triggerCSVDownload(filename, csvContent) {
+  const BOM = "\uFEFF";
+  const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;

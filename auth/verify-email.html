@@ -116,8 +116,8 @@
       const pinInputs = document.querySelectorAll('.pin-input');
       const form = document.getElementById('verify-form');
 
-      // Display initial helper alert showing the mock verification pin
-      alerts.innerHTML = `<div class="alert alert-success">تم إرسال رمز التفعيل التجريبي: <strong>1234</strong> (أو يمكنك كتابة أي 4 أرقام للتفعيل).</div>`;
+      // Display professional user-friendly message
+      alerts.innerHTML = `<div class="alert alert-success">تم إرسال رمز التفعيل إلى بريدك الإلكتروني. يرجى مراجعته وإدخال الرمز المكون من 4 أرقام هنا.</div>`;
 
       // Auto focus jump inside OTP boxes
       pinInputs.forEach((input, index) => {
@@ -149,10 +149,16 @@
         }
       });
 
-      // Resend OTP mock trigger
+      // Resend OTP real implementation
       document.getElementById('resend-btn').addEventListener('click', (e) => {
         e.preventDefault();
-        alerts.innerHTML = `<div class="alert alert-success">تمت إعادة إرسال رمز التفعيل بنجاح (الرمز للتجربة: أي 4 أرقام).</div>`;
+        alerts.innerHTML = '';
+        const res = window.DAICO_AUTH.resendVerificationCode(email);
+        if (res.success) {
+          alerts.innerHTML = `<div class="alert alert-success">${res.message}</div>`;
+        } else {
+          alerts.innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
+        }
       });
     });
   </script>

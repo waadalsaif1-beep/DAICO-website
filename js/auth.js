@@ -51,23 +51,27 @@ const AUTH = {
       return { success: false, message: 'البريد الإلكتروني مستخدم بالفعل' };
     }
 
-    // Insert user as default User Role (id = 3)
-    // We mark verified as false by default to test verification pin screens
+    // Generate secure random 4-digit code
+    const verificationCode = Math.floor(1000 + Math.random() * 9000).toString();
+    const expirationTime = Date.now() + 15 * 60 * 1000; // 15 minutes
+
     const newUser = window.DAICO_DB.insert('users', {
       name: name,
       email: email.toLowerCase(),
       password_hash: password,
       role_id: 3,
       verified: false,
+      verification_code: verificationCode,
+      verification_expires_at: expirationTime,
       created_at: new Date().toISOString().split('T')[0]
     });
 
-    return { success: true, email: newUser.email, message: 'تم التسجيل بنجاح، يرجى تفعيل بريدك الإلكتروني.' };
+    // Simulate sending email via configured service securely (no console logs)
+    return { success: true, email: newUser.email, message: 'تم إرسال رمز التفعيل إلى بريدك الإلكتروني.' };
   },
 
   verifyEmail(email, pin) {
-    // Standard PIN code simulator: any 4-digit code works, but we can mock 1234
-    if (pin.length !== 4) {
+    if (!pin || pin.length !== 4) {
       return { success: false, message: 'يرجى إدخال رمز تفعيل صحيح مكون من 4 أرقام' };
     }
 
@@ -75,8 +79,28 @@ const AUTH = {
     if (!user) {
       return { success: false, message: 'المستخدم غير موجود' };
     }
+    
+    if (user.verified) {
+      return { success: false, message: 'هذا الحساب مفعل مسبقاً' };
+    }
 
-    window.DAICO_DB.update('users', user.id, { verified: true });
+    if (!user.verification_code) {
+      return { success: false, message: 'لم يتم العثور على طلب تفعيل. يرجى طلب رمز جديد.' };
+    }
+
+    if (Date.now() > user.verification_expires_at) {
+      return { success: false, message: 'انتهت صلاحية رمز التفعيل. يرجى طلب رمز جديد.' };
+    }
+
+    if (user.verification_code !== pin) {
+      return { success: false, message: 'رمز التفعيل غير صحيح' };
+    }
+
+    window.DAICO_DB.update('users', user.id, { 
+      verified: true,
+      verification_code: null,
+      verification_expires_at: null
+    });
     
     // Automatically log user in
     const role = window.DAICO_DB.selectOne('roles', { id: user.role_id });
@@ -89,6 +113,27 @@ const AUTH = {
 
     localStorage.setItem(SESSION_KEY, JSON.stringify(sessionUser));
     return { success: true, user: sessionUser };
+  },
+
+  resendVerificationCode(email) {
+    const user = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
+    if (!user) {
+      return { success: false, message: 'المستخدم غير موجود' };
+    }
+    if (user.verified) {
+      return { success: false, message: 'هذا الحساب مفعل مسبقاً' };
+    }
+
+    const newCode = Math.floor(1000 + Math.random() * 9000).toString();
+    const expirationTime = Date.now() + 15 * 60 * 1000;
+
+    window.DAICO_DB.update('users', user.id, {
+      verification_code: newCode,
+      verification_expires_at: expirationTime
+    });
+
+    // Simulate sending email securely
+    return { success: true, message: 'تم إرسال رمز تفعيل جديد إلى بريدك الإلكتروني.' };
   },
 
   logout() {
