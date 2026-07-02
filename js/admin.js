@@ -32,8 +32,8 @@ function renderAdminHeaderInfo() {
   const sidebarName = document.getElementById('sidebar-user-name');
   const sidebarRole = document.getElementById('sidebar-user-role');
 
-  const roleNames = { super_admin: 'مدير خارق', admin: 'مشرف النظام' };
-  const roleName = roleNames[admin.role] || 'مشرف';
+  const roleNames = { super_admin: window.DAICO_I18N.t('admin_super_admin'), admin: window.DAICO_I18N.t('admin_system_admin') };
+  const roleName = roleNames[admin.role] || window.DAICO_I18N.t('admin_supervisor');
 
   const defaultAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(admin.name)}&background=random&color=fff`;
 
@@ -134,18 +134,18 @@ function renderAnalyticsDashboard() {
   const activityList = document.getElementById('recent-activity-list');
   if (activityList) {
     if (regs.length === 0) {
-      activityList.innerHTML = `<tr><td colspan="4" class="text-center" style="color: var(--text-muted)">لا توجد تسجيلات حديثة</td></tr>`;
+      activityList.innerHTML = `<tr><td colspan="4" class="text-center" style="color: var(--text-muted)">${window.DAICO_I18N.t('admin_no_recent_regs')}</td></tr>`;
       return;
     }
     
     // Sort descending registrations
     const recentRegs = [...regs].reverse().slice(0, 5);
     activityList.innerHTML = recentRegs.map(r => {
-      const u = db.selectOne('users', { id: r.user_id }) || { name: 'طالب مجهول' };
-      const e = db.selectOne('events', { id: r.program_id }) || { title: 'برنامج مجهول' };
+      const u = db.selectOne('users', { id: r.user_id }) || { name: window.DAICO_I18N.t('admin_unknown_student') };
+      const e = db.selectOne('events', { id: r.program_id }) || { title: window.DAICO_I18N.t('admin_unknown_program') };
       
       const badgeClass = r.status === 'approved' ? 'badge-success' : (r.status === 'pending' ? 'badge-warning' : 'badge-danger');
-      const statusMap = { pending: 'قيد الانتظار', approved: 'مقبول', cancelled: 'ملغي', completed: 'مكتمل' };
+      const statusMap = { pending: window.DAICO_I18N.t('admin_status_pending'), approved: window.DAICO_I18N.t('admin_status_approved'), cancelled: window.DAICO_I18N.t('admin_status_cancelled'), completed: window.DAICO_I18N.t('admin_status_completed') };
 
       return `
         <tr>
@@ -166,13 +166,13 @@ function renderEventsManagementTable() {
   const tableBody = document.getElementById('events-table-body');
   if (!tableBody) return;
 
-  const typesMap = { course: 'دورة', bootcamp: 'معسكر', workshop: 'ورشة عمل', hackathon: 'هاكاثون' };
+  const typesMap = { course: window.DAICO_I18N.t('admin_type_course'), bootcamp: window.DAICO_I18N.t('admin_type_bootcamp'), workshop: window.DAICO_I18N.t('admin_type_workshop'), hackathon: window.DAICO_I18N.t('admin_type_hackathon') };
 
   tableBody.innerHTML = events.map(e => {
-    const trainer = db.selectOne('trainers', { id: e.trainer_id }) || { name: 'غير محدد' };
-    const priceText = e.price > 0 ? `${e.price} ريال` : 'مجانًا';
+    const trainer = db.selectOne('trainers', { id: e.trainer_id }) || { name: window.DAICO_I18N.t('admin_trainer_unspecified') };
+    const priceText = e.price > 0 ? `${e.price} SAR` : window.DAICO_I18N.t('admin_price_free');
     const statusClass = e.status === 'published' ? 'badge-success' : 'badge-warning';
-    const statusText = e.status === 'published' ? 'منشور' : 'مسودة';
+    const statusText = e.status === 'published' ? window.DAICO_I18N.t('admin_status_published') : window.DAICO_I18N.t('admin_status_draft');
 
     return `
       <tr>
@@ -184,8 +184,8 @@ function renderEventsManagementTable() {
         <td>${e.seats_remaining} / ${e.seats_total}</td>
         <td><span class="badge ${statusClass}">${statusText}</span></td>
         <td>
-          <button class="btn btn-secondary btn-sm" onclick="editEvent(${e.id})">تعديل</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteEvent(${e.id})">حذف</button>
+          <button class="btn btn-secondary btn-sm" onclick="editEvent(${e.id})">${window.DAICO_I18N.t('admin_btn_edit')}</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteEvent(${e.id})">${window.DAICO_I18N.t('admin_btn_delete')}</button>
         </td>
       </tr>
     `;
@@ -199,22 +199,22 @@ function renderUsersManagementTable() {
   const tableBody = document.getElementById('users-table-body');
   if (!tableBody) return;
 
-  const rolesMap = { 1: 'مدير خارق', 2: 'مشرف النظام', 3: 'طالب / مستخدم' };
+  const rolesMap = { 1: window.DAICO_I18N.t('admin_super_admin'), 2: window.DAICO_I18N.t('admin_system_admin'), 3: window.DAICO_I18N.t('admin_role_student') };
 
   tableBody.innerHTML = users.map(u => {
     const verifiedBadge = u.verified ? 'badge-success' : 'badge-warning';
-    const verifiedText = u.verified ? 'مفعل' : 'قيد التفعيل';
+    const verifiedText = u.verified ? window.DAICO_I18N.t('admin_user_verified') : window.DAICO_I18N.t('admin_user_unverified');
     
     return `
       <tr>
         <td>#${u.id}</td>
         <td><strong>${u.name}</strong></td>
         <td>${u.email}</td>
-        <td>${rolesMap[u.role_id] || 'مستخدم'}</td>
+        <td>${rolesMap[u.role_id] || window.DAICO_I18N.t('admin_role_user')}</td>
         <td><span class="badge ${verifiedBadge}">${verifiedText}</span></td>
         <td>
-          <button class="btn btn-secondary btn-sm" onclick="promoteUser(${u.id})">ترقية لمشرف</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id})">حذف</button>
+          <button class="btn btn-secondary btn-sm" onclick="promoteUser(${u.id})">${window.DAICO_I18N.t('admin_btn_promote')}</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id})">${window.DAICO_I18N.t('admin_btn_delete')}</button>
         </td>
       </tr>
     `;
@@ -239,11 +239,11 @@ function renderTrainersManagementTable() {
           </div>
         </td>
         <td>${t.title}</td>
-        <td>${t.experience_years} سنوات</td>
+        <td>${t.experience_years} ${window.DAICO_I18N.t('admin_years')}</td>
         <td>⭐ ${t.rating}</td>
         <td>
-          <button class="btn btn-secondary btn-sm" onclick="editTrainer(${t.id})">تعديل</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteTrainer(${t.id})">حذف</button>
+          <button class="btn btn-secondary btn-sm" onclick="editTrainer(${t.id})">${window.DAICO_I18N.t('admin_btn_edit')}</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteTrainer(${t.id})">${window.DAICO_I18N.t('admin_btn_delete')}</button>
         </td>
       </tr>
     `;
@@ -257,26 +257,26 @@ function renderRegistrationsManagementTable() {
   const tableBody = document.getElementById('regs-table-body');
   if (!tableBody) return;
 
-  const statusMap = { pending: 'قيد الانتظار', approved: 'مقبول', cancelled: 'ملغي', completed: 'مكتمل' };
+  const statusMap = { pending: window.DAICO_I18N.t('admin_status_pending'), approved: window.DAICO_I18N.t('admin_status_approved'), cancelled: window.DAICO_I18N.t('admin_status_cancelled'), completed: window.DAICO_I18N.t('admin_status_completed') };
 
   tableBody.innerHTML = regs.map(r => {
-    const u = db.selectOne('users', { id: r.user_id }) || { name: 'مجهول' };
-    const e = db.selectOne('events', { id: r.program_id }) || { title: 'برنامج محذوف' };
+    const u = db.selectOne('users', { id: r.user_id }) || { name: window.DAICO_I18N.t('admin_unknown_student') };
+    const e = db.selectOne('events', { id: r.program_id }) || { title: window.DAICO_I18N.t('admin_program_deleted') };
     
     const badgeClass = r.status === 'approved' ? 'badge-success' : (r.status === 'pending' ? 'badge-warning' : (r.status === 'completed' ? 'badge-info' : 'badge-danger'));
 
     let actionButtons = '';
     if (r.status === 'pending') {
       actionButtons = `
-        <button class="btn btn-primary btn-sm" onclick="updateRegStatus(${r.id}, 'approved')">قبول</button>
-        <button class="btn btn-danger btn-sm" onclick="updateRegStatus(${r.id}, 'cancelled')">رفض</button>
+        <button class="btn btn-primary btn-sm" onclick="updateRegStatus(${r.id}, 'approved')">${window.DAICO_I18N.t('admin_btn_approve')}</button>
+        <button class="btn btn-danger btn-sm" onclick="updateRegStatus(${r.id}, 'cancelled')">${window.DAICO_I18N.t('admin_btn_reject')}</button>
       `;
     } else if (r.status === 'approved') {
       actionButtons = `
-        <button class="btn btn-secondary btn-sm" style="background-color: var(--success-bg); color: var(--success)" onclick="updateRegStatus(${r.id}, 'completed')">إتمام البرنامج وإصدار الشهادة</button>
+        <button class="btn btn-secondary btn-sm" style="background-color: var(--success-bg); color: var(--success)" onclick="updateRegStatus(${r.id}, 'completed')">${window.DAICO_I18N.t('admin_btn_complete_cert')}</button>
       `;
     } else {
-      actionButtons = `<span style="color: var(--text-muted); font-size: 0.85rem">لا توجد إجراءات</span>`;
+      actionButtons = `<span style="color: var(--text-muted); font-size: 0.85rem">${window.DAICO_I18N.t('admin_no_actions')}</span>`;
     }
 
     return `
@@ -304,7 +304,7 @@ function renderNotificationsPanel() {
   const select = document.getElementById('notif-target-user');
   if (!select) return;
 
-  select.innerHTML = `<option value="all">كل الطلاب المسجلين</option>` + 
+  select.innerHTML = `<option value="all">${window.DAICO_I18N.t('admin_all_students')}</option>` + 
     users.map(u => `<option value="${u.id}">${u.name} (${u.email})</option>`).join('');
 }
 
@@ -316,8 +316,8 @@ function renderCertificatesTable() {
   if (!tableBody) return;
 
   tableBody.innerHTML = certs.map(c => {
-    const u = db.selectOne('users', { id: c.user_id }) || { name: 'طالب محذوف' };
-    const e = db.selectOne('events', { id: c.event_id }) || { title: 'برنامج محذوف' };
+    const u = db.selectOne('users', { id: c.user_id }) || { name: window.DAICO_I18N.t('admin_student_deleted') };
+    const e = db.selectOne('events', { id: c.event_id }) || { title: window.DAICO_I18N.t('admin_program_deleted') };
 
     return `
       <tr>
@@ -326,7 +326,7 @@ function renderCertificatesTable() {
         <td>${u.name}</td>
         <td>${e.title}</td>
         <td>${c.issued_at}</td>
-        <td><span class="badge badge-success">صادر ونشط</span></td>
+        <td><span class="badge badge-success">${window.DAICO_I18N.t('admin_cert_active')}</span></td>
       </tr>
     `;
   }).join('');
@@ -367,22 +367,22 @@ function setupFormSubmissions() {
 
       const eventData = {
         title, type, category_id, trainer_id, start_date, end_date, price, 
-        seats_total: seats, seats_remaining: seats, location_type, location_name: location_type === 'online' ? 'عن بعد' : 'حضوري',
+        seats_total: seats, seats_remaining: seats, location_type, location_name: location_type === 'online' ? window.DAICO_I18N.t('admin_loc_online') : window.DAICO_I18N.t('admin_loc_onsite'),
         description: desc, cover_image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=600',
-        status: 'published', objectives: ['تعلم مهارات تقنية'], requirements: ['أساسيات الحاسب الآلي'], skills: ['تطوير ذاتي'], schedule: [{ week: 'الأسبوع 1', topic: 'مقدمة عامة' }]
+        status: 'published', objectives: [window.DAICO_I18N.t('admin_prog_skill_1')], requirements: [window.DAICO_I18N.t('admin_prog_req_1')], skills: [window.DAICO_I18N.t('admin_prog_skill_2')], schedule: [{ week: window.DAICO_I18N.t('admin_prog_week_1'), topic: window.DAICO_I18N.t('admin_prog_topic_1') }]
       };
 
       if (currentEditingEventId) {
         db.update('events', currentEditingEventId, eventData);
-        alert('تم تحديث البرنامج بنجاح');
+        alert(window.DAICO_I18N.t('admin_alert_prog_updated'));
       } else {
         db.insert('events', eventData);
-        alert('تم إضافة ونشر البرنامج بنجاح');
+        alert(window.DAICO_I18N.t('admin_alert_prog_added'));
       }
 
       currentEditingEventId = null;
       eventForm.reset();
-      document.getElementById('event-form-title').innerText = 'إضافة برنامج تدريبي جديد';
+      document.getElementById('event-form-title').innerText = window.DAICO_I18N.t('admin_form_new_prog');
       loadPanelData('events');
     });
   }
@@ -410,7 +410,7 @@ function setupFormSubmissions() {
         db.insert('notifications', { user_id: parseInt(target), title, message, is_read: false, created_at: dateStr });
       }
 
-      alert('تم إرسال الإشعار بنجاح');
+      alert(window.DAICO_I18N.t('admin_alert_notif_sent'));
       notifForm.reset();
     });
   }
@@ -429,13 +429,13 @@ function setupFormSubmissions() {
       const updated = {
         section_name: 'homepage_data',
         content_data: {
-          hero: { badge: 'تحديثات المنصة الفورية', title: heroTitle, desc: heroDesc },
+          hero: { badge: window.DAICO_I18N.t('admin_hero_badge'), title: heroTitle, desc: heroDesc },
           stats: { students: statStudents, courses: statCourses, trainers: '25+', employment_rate: '94%' }
         }
       };
 
       db.writeTable('homepage', [updated]);
-      alert('تم تحديث محتوى الصفحة الرئيسية بنجاح');
+      alert(window.DAICO_I18N.t('admin_alert_home_updated'));
     });
   }
 
@@ -459,7 +459,7 @@ function setupFormSubmissions() {
         rating,
         bio,
         photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=120',
-        specializations: ['عام'],
+        specializations: [window.DAICO_I18N.t('admin_spec_general')],
         certificates: [],
         social_links: { linkedin: '#', twitter: '#' }
       };
@@ -474,15 +474,15 @@ function setupFormSubmissions() {
           trainerData.social_links = oldTrainer.social_links;
         }
         db.update('trainers', currentEditingTrainerId, trainerData);
-        alert('تم تحديث بيانات المدرب بنجاح');
+        alert(window.DAICO_I18N.t('admin_alert_trainer_updated'));
       } else {
         db.insert('trainers', trainerData);
-        alert('تم إضافة المدرب بنجاح');
+        alert(window.DAICO_I18N.t('admin_alert_trainer_added'));
       }
 
       currentEditingTrainerId = null;
       trainerForm.reset();
-      document.getElementById('trainer-form-title').innerText = 'إضافة مدرب / خبير جديد';
+      document.getElementById('trainer-form-title').innerText = window.DAICO_I18N.t('admin_form_new_trainer');
       loadPanelData('trainers');
     });
   }
@@ -502,8 +502,8 @@ window.updateRegStatus = function(regId, newStatus) {
   if (newStatus === 'approved') {
     db.insert('notifications', {
       user_id: reg.user_id,
-      title: 'تم قبول طلبك!',
-      message: `تمت الموافقة على طلب انضمامك للبرنامج. تفضل بزيارة لوحة التحكم للاستعراض.`,
+      title: window.DAICO_I18N.t('admin_notif_accept_title'),
+      message: window.DAICO_I18N.t('admin_notif_accept_msg'),
       is_read: false,
       created_at: timeStr
     });
@@ -521,16 +521,16 @@ window.updateRegStatus = function(regId, newStatus) {
 
     db.insert('notifications', {
       user_id: reg.user_id,
-      title: 'شهادة إتمام جديدة 🎉',
-      message: `مبروك! تم إصدار شهادة إتمام البرنامج بنجاح. يمكنك عرضها وتحميلها الآن.`,
+      title: window.DAICO_I18N.t('admin_notif_cert_title'),
+      message: window.DAICO_I18N.t('admin_notif_cert_msg'),
       is_read: false,
       created_at: timeStr
     });
   } else if (newStatus === 'cancelled') {
     db.insert('notifications', {
       user_id: reg.user_id,
-      title: 'تم إلغاء التسجيل',
-      message: `نأسف لإبلاغك بأنه قد تم إلغاء تسجيلك بالبرنامج. يرجى التواصل مع الدعم.`,
+      title: window.DAICO_I18N.t('admin_notif_cancel_title'),
+      message: window.DAICO_I18N.t('admin_notif_cancel_msg'),
       is_read: false,
       created_at: timeStr
     });
@@ -542,22 +542,26 @@ window.updateRegStatus = function(regId, newStatus) {
 window.promoteUser = function(userId) {
   const db = window.DAICO_DB;
   db.update('users', userId, { role_id: 2 });
-  alert('تم ترقية العضو بنجاح لمشرف نظام.');
+  alert(window.DAICO_I18N.t('admin_alert_promoted'));
   loadPanelData('users');
 };
 
-window.deleteUser = function(userId) {
-  if (!confirm('هل أنت متأكد من حذف حساب هذا المستخدم نهائياً؟')) return;
+window.deleteUser = function(id) {
   const db = window.DAICO_DB;
-  db.delete('users', userId);
-  loadPanelData('users');
+  if (confirm(window.DAICO_I18N.t('admin_confirm_delete'))) {
+    db.delete('users', id);
+    alert(window.DAICO_I18N.t('admin_alert_deleted'));
+    loadPanelData('users');
+  }
 };
 
-window.deleteEvent = function(eventId) {
-  if (!confirm('هل أنت متأكد من رغبتك في حذف هذا البرنامج؟')) return;
+window.deleteEvent = function(id) {
   const db = window.DAICO_DB;
-  db.delete('events', eventId);
-  loadPanelData('events');
+  if (confirm(window.DAICO_I18N.t('admin_confirm_delete'))) {
+    db.delete('events', id);
+    alert(window.DAICO_I18N.t('admin_alert_deleted'));
+    loadPanelData('events');
+  }
 };
 
 window.editEvent = function(eventId) {
@@ -566,7 +570,7 @@ window.editEvent = function(eventId) {
   if (!e) return;
 
   currentEditingEventId = eventId;
-  document.getElementById('event-form-title').innerText = `تعديل البرنامج #${eventId}`;
+  document.getElementById('event-form-title').innerText = window.DAICO_I18N.t('admin_edit_program_title') + eventId;
 
   document.getElementById('event-title').value = e.title;
   document.getElementById('event-type').value = e.type;
@@ -592,7 +596,7 @@ function setupExportButtons() {
     pdfBtn.addEventListener('click', () => {
       const db = window.DAICO_DB;
       const stats = db.selectOne('homepage', { section_name: 'homepage_data' })?.content_data?.stats || {};
-      const csv = "إحصائية,القيمة\nالطلاب," + (stats.students||0) + "\nالبرامج," + (stats.courses||0) + "\nالمدربين," + (stats.trainers||0);
+      const csv = window.DAICO_I18N.t('admin_csv_stats_header') + (stats.students||0) + window.DAICO_I18N.t('admin_csv_stats_courses') + (stats.courses||0) + window.DAICO_I18N.t('admin_csv_stats_trainers') + (stats.trainers||0);
       triggerCSVDownload('DAICO_Statistics_Report.csv', csv);
     });
   }
@@ -600,7 +604,7 @@ function setupExportButtons() {
     xlsBtn.addEventListener('click', () => {
       const db = window.DAICO_DB;
       const regs = db.readTable('registrations');
-      let csv = "معرف الطلب,تاريخ الطلب,الحالة,معرف الطالب,معرف البرنامج\n";
+      let csv = window.DAICO_I18N.t('admin_csv_reg_header');
       csv += regs.map(r => `${r.id},${r.registered_at},${r.status},${r.user_id},${r.program_id}`).join('\n');
       triggerCSVDownload('DAICO_Registrations_Data.csv', csv);
     });
@@ -626,7 +630,7 @@ window.editTrainer = function(trainerId) {
   if (!t) return;
 
   currentEditingTrainerId = trainerId;
-  document.getElementById('trainer-form-title').innerText = `تعديل بيانات المدرب #${trainerId}`;
+  document.getElementById('trainer-form-title').innerText = window.DAICO_I18N.t('admin_edit_trainer_title') + trainerId;
 
   document.getElementById('trainer-name-input').value = t.name;
   document.getElementById('trainer-title-input').value = t.title;
@@ -638,9 +642,11 @@ window.editTrainer = function(trainerId) {
   document.getElementById('trainer-form').scrollIntoView({ behavior: 'smooth' });
 };
 
-window.deleteTrainer = function(trainerId) {
-  if (!confirm('هل أنت متأكد من رغبتك في حذف هذا المدرب؟')) return;
+window.deleteTrainer = function(id) {
   const db = window.DAICO_DB;
-  db.delete('trainers', trainerId);
-  loadPanelData('trainers');
+  if (confirm(window.DAICO_I18N.t('admin_confirm_delete'))) {
+    db.delete('trainers', id);
+    alert(window.DAICO_I18N.t('admin_alert_deleted'));
+    loadPanelData('trainers');
+  }
 };

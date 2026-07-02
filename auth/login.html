@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تسجيل الدخول | منصة دايكو</title>
+  <title data-i18n="auth_login_page_title">تسجيل الدخول | منصة دايكو</title>
   
   <script>
     // Apply user theme configuration before body renders to prevent screen flicker
@@ -25,7 +25,7 @@
     <div class="auth-header">
       <div class="daico-brand-header">
         <img src="../images/daico-logo.svg" alt="شعار دايكو" class="daico-brand-logo">
-        <span class="daico-brand-text">DAICO دايكو</span>
+        <span class="daico-brand-text" data-i18n="auth_brand">DAICO دايكو</span>
       </div>
       <div class="daico-brand-subrow">
         <span>Data & AI Center of Excellence</span>
@@ -33,8 +33,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </span>
       </div>
-      <h1 class="daico-auth-title">تسجيل الدخول للمنصة</h1>
-      <p class="daico-auth-subtitle">أهلاً بك مجدداً، الرجاء إدخال بياناتك للمتابعة.</p>
+      <h1 class="daico-auth-title" data-i18n="auth_login_title">تسجيل الدخول للمنصة</h1>
+      <p class="daico-auth-subtitle" data-i18n="auth_login_desc">أهلاً بك مجدداً، الرجاء إدخال بياناتك للمتابعة.</p>
     </div>
 
     <!-- Live alerts -->
@@ -44,18 +44,18 @@
     <div class="daico-tabs-grid">
       <button type="button" class="daico-toggle-btn active" id="tab-trainee" aria-pressed="true">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span>تسجيل دخول متدرب</span>
+        <span data-i18n="auth_tab_trainee">تسجيل دخول متدرب</span>
       </button>
       <button type="button" class="daico-toggle-btn inactive" id="tab-admin" aria-pressed="false">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span>تسجيل دخول مسؤول</span>
+        <span data-i18n="auth_tab_admin">تسجيل دخول مسؤول</span>
       </button>
     </div>
 
     <form class="auth-form" id="login-form" data-endpoint="/api/student/login">
       <!-- Email input -->
       <div class="daico-form-group">
-        <label class="daico-form-label" for="login-email">البريد الإلكتروني</label>
+        <label class="daico-form-label" for="login-email" data-i18n="auth_label_email">البريد الإلكتروني</label>
         <div class="daico-input-wrapper">
           <input type="email" id="login-email" class="daico-input-field" placeholder="name@domain.com" required autocomplete="username">
           <span class="daico-field-icon-right">
@@ -66,7 +66,7 @@
 
       <!-- Password input -->
       <div class="daico-form-group">
-        <label class="daico-form-label" for="login-password">كلمة المرور</label>
+        <label class="daico-form-label" for="login-password" data-i18n="auth_label_password">كلمة المرور</label>
         <div class="daico-input-wrapper">
           <input type="password" id="login-password" class="daico-input-field password-field" placeholder="••••••••" required autocomplete="current-password">
           <span class="daico-field-icon-right">
@@ -82,21 +82,21 @@
       <div class="daico-options-row">
         <label class="daico-checkbox-label">
           <input type="checkbox" id="remember-me">
-          <span>تذكرني على هذا الجهاز</span>
+          <span data-i18n="auth_remember_me">تذكرني على هذا الجهاز</span>
         </label>
-        <a href="forgot-password.html" class="daico-forgot-link">نسيت كلمة المرور؟</a>
+        <a href="forgot-password.html" class="daico-forgot-link" data-i18n="auth_forgot_password">نسيت كلمة المرور؟</a>
       </div>
 
       <!-- Secure Submit button -->
       <button type="submit" class="daico-submit-btn" id="submit-btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span>الدخول الآن</span>
+        <span data-i18n="auth_login_now">الدخول الآن</span>
       </button>
     </form>
 
     <!-- Google Sign In Divider & Button -->
     <div class="daico-divider">
-      <span>أو الدخول بواسطة</span>
+      <span data-i18n="auth_or_login_with">أو الدخول بواسطة</span>
     </div>
 
     <button type="button" class="daico-google-btn" id="google-login-btn">
@@ -106,14 +106,14 @@
         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
       </svg>
-      <span>تسجيل الدخول باستخدام Google</span>
+      <span data-i18n="auth_google_login">تسجيل الدخول باستخدام Google</span>
     </button>
 
     <div class="daico-auth-footer">
-      <span class="daico-footer-signup-text">ليس لديك حساب بعد؟ <a href="register.html" class="daico-footer-signup-link">سجل حساباً جديداً</a></span>
+      <span class="daico-footer-signup-text"><span data-i18n="auth_dont_have_account">ليس لديك حساب بعد؟</span> <a href="register.html" class="daico-footer-signup-link" data-i18n="auth_create_account">سجل حساباً جديداً</a></span>
       <a href="../index.html" class="daico-back-link">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        <span>العودة للصفحة الرئيسية</span>
+        <span data-i18n="auth_back_home">العودة للصفحة الرئيسية</span>
       </a>
     </div>
   </div>
@@ -128,30 +128,31 @@
           <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
           <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
         </svg>
-        <h3>تسجيل الدخول باستخدام Google</h3>
-        <p>اختر حساباً للمتابعة إلى منصة دايكو</p>
+        <h3 data-i18n="auth_google_login">تسجيل الدخول باستخدام Google</h3>
+        <p data-i18n="auth_google_desc">اختر حساباً للمتابعة إلى منصة دايكو</p>
       </div>
       <div class="google-account-list">
         <button class="google-account-item" data-email="student@daico.edu.sa" data-name="عبد الرحمن القحطاني">
           <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=60" alt="avatar" class="google-avatar">
           <div class="google-account-info">
-            <span class="google-name">عبد الرحمن القحطاني (متدرب)</span>
+            <span class="google-name" data-i18n="auth_google_student">عبد الرحمن القحطاني (متدرب)</span>
             <span class="google-email">student@daico.edu.sa</span>
           </div>
         </button>
         <button class="google-account-item" data-email="admin@daico.edu.sa" data-name="سارة العتيبي">
           <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=60" alt="avatar" class="google-avatar">
           <div class="google-account-info">
-            <span class="google-name">سارة العتيبي (مسؤولة)</span>
+            <span class="google-name" data-i18n="auth_google_admin">سارة العتيبي (مسؤولة)</span>
             <span class="google-email">admin@daico.edu.sa</span>
           </div>
         </button>
       </div>
-      <button class="google-modal-close" id="google-modal-close">إلغاء</button>
+      <button class="google-modal-close" id="google-modal-close" data-i18n="btn_cancel">إلغاء</button>
     </div>
   </div>
 
   <!-- JS Core files -->
+  <script src="../js/i18n.js"></script>
   <script src="../js/db.js"></script>
   <script src="../js/auth.js"></script>
 
@@ -208,10 +209,10 @@
             const isUserAdmin = (userRole === 'admin' || userRole === 'super_admin');
 
             if (activeRole === 'admin' && !isUserAdmin) {
-              alerts.innerHTML = `<div class="daico-alert daico-alert-danger">هذا الحساب مخصص للمتدربين. يرجى التبديل لتبويب المتدربين لتسجيل الدخول.</div>`;
+              alerts.innerHTML = `<div class="daico-alert daico-alert-danger">${window.DAICO_I18N.t('auth_error_trainee_only')}</div>`;
               return;
             } else if (activeRole === 'user' && isUserAdmin) {
-              alerts.innerHTML = `<div class="daico-alert daico-alert-danger">هذا حساب مسؤول. يرجى التبديل لتبويب المسؤولين لتسجيل الدخول.</div>`;
+              alerts.innerHTML = `<div class="daico-alert daico-alert-danger">${window.DAICO_I18N.t('auth_error_admin_only')}</div>`;
               return;
             }
           }
@@ -220,7 +221,7 @@
         const res = window.DAICO_AUTH.login(email, pass);
 
         if (res.success) {
-          alerts.innerHTML = `<div class="daico-alert daico-alert-success">تم التحقق بنجاح! جاري تحويلك...</div>`;
+          alerts.innerHTML = `<div class="daico-alert daico-alert-success">${window.DAICO_I18N.t('auth_success_login')}</div>`;
           
           setTimeout(() => {
             if (res.user.role === 'admin' || res.user.role === 'super_admin') {
@@ -250,12 +251,12 @@
         if (passwordInput.type === 'password') {
           passwordInput.type = 'text';
           passwordToggle.setAttribute('aria-pressed', 'true');
-          passwordToggle.setAttribute('aria-label', 'إخفاء كلمة المرور');
+          passwordToggle.setAttribute('aria-label', window.DAICO_I18N.t('auth_hide_password'));
           passwordToggle.innerHTML = `<svg class="icon-eye-off" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
         } else {
           passwordInput.type = 'password';
           passwordToggle.setAttribute('aria-pressed', 'false');
-          passwordToggle.setAttribute('aria-label', 'إظهار كلمة المرور');
+          passwordToggle.setAttribute('aria-label', window.DAICO_I18N.t('auth_show_password'));
           passwordToggle.innerHTML = `<svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
         }
       });
@@ -295,7 +296,7 @@
               localStorage.setItem('daico_session', JSON.stringify(sessionUser));
               
               googleModal.classList.remove('active');
-              alerts.innerHTML = `<div class="daico-alert daico-alert-success">تم تسجيل الدخول بواسطة Google! جاري تحويلك...</div>`;
+              alerts.innerHTML = `<div class="daico-alert daico-alert-success">${window.DAICO_I18N.t('auth_success_google')}</div>`;
               
               setTimeout(() => {
                 if (sessionUser.role === 'admin' || sessionUser.role === 'super_admin') {

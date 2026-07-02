@@ -1,0 +1,286 @@
+﻿
+Line                                                                                                                   
+----                                                                                                                   
+  <title>لوحة تحكم الطالب | منصة دايكو</title>                                                                         
+        <span>دايكو التعليمية</span>                                                                                   
+            <span class="sidebar-link-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H...
+            <span class="sidebar-link-icon"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>...
+            <span class="sidebar-user-name" id="sidebar-user-name">تحميل...</span>                                     
+            <span class="sidebar-user-role" id="sidebar-user-role">طالب / مستخدم</span>                                
+        <button class="btn btn-secondary btn-sm w-full" id="logout-btn" style="margin-top: var(--space-sm)">تسجيل ال...
+          <h2 style="font-size: 1.25rem; font-weight: 700" id="user-name">أهلاً بك!</h2>                               
+          <span style="font-size: 0.8rem; color: var(--text-secondary)" id="user-email">تحميل البريد...</span>         
+          <button id="notif-bell-btn" class="notification-bell-btn" aria-label="الإشعارات">                            
+              <span>الإشعارات التنبيهية</span>                                                                         
+          <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">🌓</button>                         
+            <h1 class="dashboard-section-title">استعراض البرامج والفعاليات</h1>                                        
+            <p class="dashboard-section-desc">سجل في الدورات والمعسكرات التفاعلية والهاكاثونات لتأهيل مهاراتك التقني...
+            <button class="user-nav-btn active" data-type="course">📚 دورات تدريبية</button>                           
+            <button class="user-nav-btn" data-type="bootcamp">🚀 معسكرات مكثفة</button>                                
+            <button class="user-nav-btn" data-type="hackathon">🏆 هاكاثونات وابتكار</button>                           
+            <button class="user-nav-btn" data-type="workshop">💻 ورش عمل</button>                                      
+              <input type="text" id="search-input" class="dashboard-search-input" placeholder="ابحث باسم الدورة أو ا...
+                <option value="">كل طرق اللقاء</option>                                                                
+                <option value="online">عن بعد (أونلاين)</option>                                                       
+                <option value="offline">حضوري</option>                                                                 
+                <option value="">كل الرسوم</option>                                                                    
+                <option value="free">مجاني</option>                                                                    
+                <option value="paid">مدفوع</option>                                                                    
+            <h1 class="dashboard-section-title">مساراتي التدريبية والتسجيلات</h1>                                      
+            <p class="dashboard-section-desc">متابعة حالة قبول الطلبات واستعراض الشهادات الرقمية المعتمدة الصادرة لك...
+                  <th>رقم التسجيل</th>                                                                                 
+                  <th>اسم البرنامج التدريبي</th>                                                                       
+                  <th>تاريخ التسجيل</th>                                                                               
+                  <th>حالة القبول</th>                                                                                 
+                  <th>الشهادة الرقمية</th>                                                                             
+        <h2 id="modal-event-title" style="font-size: 1.5rem">تحميل عنوان البرنامج...</h2>                              
+            <h3 style="font-size: 1.15rem; margin-bottom: var(--space-xs)">وصف ومحاور البرنامج</h3>                    
+              <h4 style="font-size: 1rem; margin-bottom: var(--space-xs); color: var(--primary)">🎯 أهداف التعلم</h4>  
+              <h4 style="font-size: 1rem; margin-bottom: var(--space-xs); color: var(--primary)">📋 شروط الانضمام</h4> 
+            <h4 style="font-size: 1rem; margin-bottom: var(--space-xs); color: var(--primary)">🔑 المهارات المكتسبة<...
+            <h4 style="font-size: 1rem; margin-bottom: var(--space-xs); color: var(--primary)">📅 جدول اللقاءات الأس...
+            <h4 style="font-size: 1rem; margin-bottom: var(--space-xs); color: var(--primary)">❓ الأسئلة الشائعة للب...
+          <h4 style="font-size: 1rem; border-top: 1px solid var(--border-color); padding-top: var(--space-sm); margi...
+              <span>المدة الزمنية:</span>                                                                              
+              <span>طريقة الحضور:</span>                                                                               
+              <span>حالة المقاعد:</span>                                                                               
+              <span>الرسوم المالية:</span>                                                                             
+          <h4 style="font-size: 1rem; border-top: 1px solid var(--border-color); padding-top: var(--space-sm)">الخبي...
+        <h2 style="font-size: 1.25rem">عرض وتنزيل الشهادة الرقمية</h2>                                                 
+          <button class="btn btn-primary" id="download-cert-btn">تحميل بصيغة صورة عالية الدقة (PNG)</button>           
+  <title>الملف الشخصي للمدرب | منصة دايكو</title>                                                                      
+        <span>دايكو <span style="font-weight:300; font-size:1.15rem">DAICO</span></span>                               
+          <li><a href="../index.html" class="nav-link">الصفحة الرئيسية</a></li>                                        
+          <li><a href="../index.html#about" class="nav-link">عن دايكو</a></li>                                         
+          <li><a href="../index.html#programs" class="nav-link">البرامج والمسارات</a></li>                             
+        <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">🌓</button>                           
+        <a href="../auth/login.html" class="btn btn-secondary btn-sm" style="font-weight:700">تسجيل الدخول</a>         
+        <a href="../auth/register.html" class="btn btn-primary btn-sm" style="font-weight:700">انضم إلينا</a>          
+        <h1 style="font-size: 1.5rem; font-weight: 800" id="trainer-name">جاري التحميل...</h1>                         
+        <h4 class="trainer-detail-title">سنوات الخبرة الأكاديمية</h4>                                                  
+        <h4 class="trainer-detail-title">تقييم الطلاب العام</h4>                                                       
+        <h4 class="trainer-detail-title">مجالات التخصص الدقيقة</h4>                                                    
+        <h4 class="trainer-detail-title">الشهادات والاعتمادات المهنية</h4>                                             
+        <h4 class="trainer-detail-title">روابط التواصل والملفات</h4>                                                   
+        <h2 style="font-size: 1.75rem; font-weight: 800; margin-bottom: var(--space-md); border-bottom: 2px solid va...
+        <h2 style="font-size: 1.75rem; font-weight: 800; margin-bottom: var(--space-md); border-bottom: 2px solid va...
+        <h2 style="font-size: 1.75rem; font-weight: 800; margin-bottom: var(--space-md); border-bottom: 2px solid va...
+        <h3 style="color:var(--primary); font-size:1.5rem">دايكو DAICO</h3>                                            
+        <p style="font-size:0.875rem; color:var(--text-secondary)">أكاديمية تدريبية رائدة وحاضنة وطنية للحلول الرقمي...
+      <span>حقوق الطبع محفوظة © 2026 منصة دايكو للتعليم والابتكار.</span>                                              
+      <span>صنع بكل فخر بالمملكة العربية السعودية 🇸🇦</span>                                                          
+  <title>لوحة التحكم - الإدارة العامة | منصة دايكو</title>                                                             
+            <span class="sidebar-user-role" id="sidebar-user-role">مشرف</span>                                         
+          <h2 style="font-size: 1.25rem; font-weight: 700" id="admin-name">مرحباً بك!</h2>                             
+          <span style="font-size: 0.8rem; color: var(--text-secondary)" id="admin-role">رتبتك: مشرف</span>             
+            <h1 class="dashboard-section-title">لوحة التحليلات والإحصائيات</h1>                                        
+            <p class="dashboard-section-desc">مؤشرات أداء البرامج، أعداد المسجلين، والمدخلات المالية للمنصة التقنية....
+                <span class="analytics-label">إجمالي الطلاب المسجلين</span>                                            
+            <h3 class="chart-title">إحصائيات التسجيل الشهرية — 2026</h3>                                               
+              <div class="bar-col"><span class="bar-value">45</span><div class="bar facet-sky" style="height: 40%"><...
+              <div class="bar-col"><span class="bar-value">62</span><div class="bar facet-amber" style="height: 55%"...
+              <div class="bar-col"><span class="bar-value">78</span><div class="bar facet-lime" style="height: 68%">...
+              <div class="bar-col"><span class="bar-value">91</span><div class="bar facet-emerald" style="height: 80...
+              <div class="bar-col"><span class="bar-value">105</span><div class="bar facet-red" style="height: 92%">...
+              <div class="bar-col"><span class="bar-value">114</span><div class="bar facet-sky" style="height: 100%"...
+                    <th>اسم الطالب</th>                                                                                
+                    <th>اسم البرنامج التدريبي</th>                                                                     
+                    <th>تاريخ التقديم</th>                                                                             
+                    <th>الحالة</th>                                                                                    
+              <h1 class="dashboard-section-title">إدارة البرامج والمسارات</h1>                                         
+              <p class="dashboard-section-desc">إضافة برامج جديدة، تعديل بيانات الدورات والهاكاثونات، أو تعديل حالات...
+            <h3 style="font-size: 1.25rem; margin-bottom: var(--space-md)" id="event-form-title">إضافة برنامج تدريبي...
+                <label class="form-label" for="event-title">عنوان الفعالية / البرنامج *</label>                        
+                <input type="text" id="event-title" class="form-control" placeholder="عنوان البرنامج التدريبي" requi...
+                <label class="form-label" for="event-type">نوع الفعالية *</label>                                      
+                  <option value="course">دورة تدريبية</option>                                                         
+                  <option value="bootcamp">معسكر مهني مكثف</option>                                                    
+                  <option value="hackathon">هاكاثون وابتكار</option>                                                   
+                  <option value="workshop">ورشة عمل تخصصية</option>                                                    
+                <label class="form-label" for="event-category">التصنيف الرئيسي *</label>                               
+                  <option value="1">الذكاء الاصطناعي وعلوم البيانات</option>                                           
+                  <option value="2">تطوير البرمجيات والويب</option>                                                    
+                  <option value="3">الأمن السيبراني والشبكات</option>                                                  
+                  <option value="4">تصميم تجربة المستخدم والتصميم الإبداعي</option>                                    
+                <label class="form-label" for="event-trainer">المدرب / الموجه المسؤول *</label>                        
+                  <option value="1">م. خالد الحربي</option>                                                            
+                  <option value="2">د. سارة الشهري</option>                                                            
+                  <option value="3">م. عمر العتيبي</option>                                                            
+                <label class="form-label" for="event-start-date">تاريخ البدء *</label>                                 
+                <label class="form-label" for="event-end-date">تاريخ الانتهاء *</label>                                
+                <label class="form-label" for="event-price">رسوم التسجيل (بالريال - 0 للمجاني) *</label>               
+                <label class="form-label" for="event-seats">السعة الإجمالية (عدد المقاعد) *</label>                    
+                <label class="form-label" for="event-location">طريقة إقامة اللقاءات *</label>                          
+                  <option value="online">عن بعد (أونلاين)</option>                                                     
+                  <option value="offline">حضوري (بمقر حاضنة دايكو)</option>                                            
+                <label class="form-label" for="event-desc">تفاصيل ووصف البرنامج التدريبي *</label>                     
+                <textarea id="event-desc" class="form-control" style="min-height: 80px; resize: vertical" placeholde...
+                <button type="submit" class="btn btn-primary">حفظ وتأكيد البيانات</button>                             
+                <button type="button" class="btn btn-secondary" onclick="this.closest('form').reset(); document.getE...
+                  <th>معرف</th>                                                                                        
+                  <th>عنوان الفعالية</th>                                                                              
+                  <th>النوع</th>                                                                                       
+                  <th>المدرب</th>                                                                                      
+                  <th>الرسوم</th>                                                                                      
+                  <th>المقاعد المتاحة</th>                                                                             
+                  <th>حالة النشر</th>                                                                                  
+                  <th>الإجراءات</th>                                                                                   
+            <h1 class="dashboard-section-title">طلبات التسجيل والمراجعة</h1>                                           
+            <p class="dashboard-section-desc">مراجعة طلبات انضمام الطلاب للبرامج وتحديث حالات القبول، أو إتمام البرا...
+                  <th>معرف الطلب</th>                                                                                  
+                  <th>اسم الطالب</th>                                                                                  
+                  <th>البرنامج المختار</th>                                                                            
+                  <th>تاريخ الطلب</th>                                                                                 
+                  <th>الحالة</th>                                                                                      
+                  <th>الإجراءات المتاحة</th>                                                                           
+            <h1 class="dashboard-section-title">إدارة شؤون الطلاب والمستخدمين</h1>                                     
+            <p class="dashboard-section-desc">إدارة صلاحيات الأعضاء، حظر الحسابات، وترقية الطلاب إلى مشرفين نظام.</p>  
+                  <th>رقم</th>                                                                                         
+                  <th>الاسم الكريم</th>                                                                                
+                  <th>البريد الإلكتروني</th>                                                                           
+                  <th>الصلاحية الحالية</th>                                                                            
+                  <th>التحقق من البريد</th>                                                                            
+                  <th>إجراءات الإدارة</th>                                                                             
+            <h1 class="dashboard-section-title">دليل المدربين والخبراء</h1>                                            
+            <p class="dashboard-section-desc">إدارة السير الذاتية لأعضاء الهيئة التدريبية للمنصة وتقييمات الطلاب.</p>  
+            <h3 style="font-size: 1.25rem; margin-bottom: var(--space-md)" id="trainer-form-title">إضافة مدرب / خبير...
+                <label class="form-label" for="trainer-name-input">اسم المدرب الكريم *</label>                         
+                <input type="text" id="trainer-name-input" class="form-control" placeholder="اسم المدرب ثنائي أو ثلا...
+                <label class="form-label" for="trainer-title-input">المسمى الوظيفي / التخصص *</label>                  
+                <input type="text" id="trainer-title-input" class="form-control" placeholder="مثال: خبير هندسة برمجي...
+                <label class="form-label" for="trainer-exp-input">سنوات الخبرة *</label>                               
+                <label class="form-label" for="trainer-rating-input">تقييم الطلاب الافتراضي *</label>                  
+                <label class="form-label" for="trainer-bio-input">السيرة الذاتية المهنية للتعبير بالخبير *</label>     
+                <textarea id="trainer-bio-input" class="form-control" style="min-height: 80px; resize: vertical" pla...
+                <button type="submit" class="btn btn-primary">حفظ وتأكيد بيانات المدرب</button>                        
+                <button type="button" class="btn btn-secondary" onclick="this.closest('form').reset(); document.getE...
+                  <th>رقم الخبير</th>                                                                                  
+                  <th>اسم المدرب</th>                                                                                  
+                  <th>المسمى الوظيفي</th>                                                                              
+                  <th>سنوات الخبرة</th>                                                                                
+                  <th>تقييم الطلاب</th>                                                                                
+            <h1 class="dashboard-section-title">الشهادات الرقمية الصادرة</h1>                                          
+            <p class="dashboard-section-desc">استعراض والتحقق من الشهادات الرقمية المعتمدة الصادرة للطلاب المتخرجين....
+                  <th>معرف الشهادة</th>                                                                                
+                  <th>كود الشهادة (Serial)</th>                                                                        
+                  <th>اسم الخريج</th>                                                                                  
+                  <th>البرنامج التدريبي</th>                                                                           
+                  <th>تاريخ الإصدار</th>                                                                               
+                  <th>الحالة القانونية</th>                                                                            
+            <h1 class="dashboard-section-title">بث الإشعارات والرسائل التنبيهية</h1>                                   
+            <p class="dashboard-section-desc">إرسال إشعارات تنبيهية فورية لصفحات الطلاب أو بث رسائل عامة لكافة مستخد...
+            <h3 style="font-size: 1.25rem; margin-bottom: var(--space-md)">توجيه إشعار مخصص</h3>                       
+                <label class="form-label" for="notif-target-user">المستهدف بالإرسال</label>                            
+                <label class="form-label" for="notif-title">عنوان الرسالة التنبيهية *</label>                          
+                <input type="text" id="notif-title" class="form-control" placeholder="مثال: تحديث عاجل لموعد اللقاء"...
+                <label class="form-label" for="notif-message">تفاصيل نص الإشعار *</label>                              
+                <textarea id="notif-message" class="form-control" style="min-height: 100px" placeholder="تفاصيل الإش...
+              <button type="submit" class="btn btn-primary">بث الإرسال الفوري 🚀</button>                              
+            <h1 class="dashboard-section-title">تعديل محتوى الصفحة الرئيسية</h1>                                       
+            <p class="dashboard-section-desc">تغيير واجهات البنرات الرئيسية، الأرقام الإحصائية ونصوص النجاح مباشرة.</p>
+            <h3 style="font-size: 1.25rem; margin-bottom: var(--space-md)">تعديل نصوص البانر الرئيسي (Hero Section)<...
+                <label class="form-label" for="home-hero-title">عنوان البانر الرئيسي (Hero Title)</label>              
+                <label class="form-label" for="home-hero-desc">نص الوصف والتعريف (Hero Description)</label>            
+                  <label class="form-label" for="home-stat-students">إحصائية عدد الطلاب</label>                        
+                  <label class="form-label" for="home-stat-courses">إحصائية عدد البرامج</label>                        
+              <button type="submit" class="btn btn-primary">تحديث بيانات الصفحة 💾</button>                            
+  <title>تسجيل الدخول | منصة دايكو</title>                                                                             
+        <img src="../images/daico-logo.svg" alt="شعار دايكو" class="daico-brand-logo">                                 
+        <span class="daico-brand-text">DAICO دايكو</span>                                                              
+      <h1 class="daico-auth-title">تسجيل الدخول للمنصة</h1>                                                            
+      <p class="daico-auth-subtitle">أهلاً بك مجدداً، الرجاء إدخال بياناتك للمتابعة.</p>                               
+        <span>تسجيل دخول متدرب</span>                                                                                  
+        <span>تسجيل دخول مسؤول</span>                                                                                  
+        <label class="daico-form-label" for="login-email">البريد الإلكتروني</label>                                    
+        <label class="daico-form-label" for="login-password">كلمة المرور</label>                                       
+          <button type="button" class="daico-field-icon-left-toggle" id="password-toggle" aria-label="إظهار كلمة الم...
+          <span>تذكرني على هذا الجهاز</span>                                                                           
+        <a href="forgot-password.html" class="daico-forgot-link">نسيت كلمة المرور؟</a>                                 
+        <span>الدخول الآن</span>                                                                                       
+      <span>أو الدخول بواسطة</span>                                                                                    
+      <span>تسجيل الدخول باستخدام Google</span>                                                                        
+      <span class="daico-footer-signup-text">ليس لديك حساب بعد؟ <a href="register.html" class="daico-footer-signup-l...
+        <span>العودة للصفحة الرئيسية</span>                                                                            
+        <h3>تسجيل الدخول باستخدام Google</h3>                                                                          
+        <p>اختر حساباً للمتابعة إلى منصة دايكو</p>                                                                     
+        <button class="google-account-item" data-email="student@daico.edu.sa" data-name="عبد الرحمن القحطاني">         
+            <span class="google-name">عبد الرحمن القحطاني (متدرب)</span>                                               
+        <button class="google-account-item" data-email="admin@daico.edu.sa" data-name="سارة العتيبي">                  
+            <span class="google-name">سارة العتيبي (مسؤولة)</span>                                                     
+      <button class="google-modal-close" id="google-modal-close">إلغاء</button>                                        
+              alerts.innerHTML = `<div class="daico-alert daico-alert-danger">هذا الحساب مخصص للمتدربين. يرجى التبدي...
+              alerts.innerHTML = `<div class="daico-alert daico-alert-danger">هذا حساب مسؤول. يرجى التبديل لتبويب ال...
+          alerts.innerHTML = `<div class="daico-alert daico-alert-success">تم التحقق بنجاح! جاري تحويلك...</div>`;     
+          passwordToggle.setAttribute('aria-label', 'إخفاء كلمة المرور');                                              
+          passwordToggle.setAttribute('aria-label', 'إظهار كلمة المرور');                                              
+              alerts.innerHTML = `<div class="daico-alert daico-alert-success">تم تسجيل الدخول بواسطة Google! جاري ت...
+  <title>إنشاء حساب جديد | منصة دايكو</title>                                                                          
+        <span>التسجيل</span>                                                                                           
+        <span>التفعيل</span>                                                                                           
+        <span>الإتمام</span>                                                                                           
+      <h1 class="daico-auth-title">إنشاء حساب جديد</h1>                                                                
+      <p class="daico-auth-subtitle">انضم إلينا اليوم وابدأ بتطوير مهاراتك التقنية والابتكارية.</p>                    
+        <span>حساب متدرب</span>                                                                                        
+        <span>حساب مسؤول</span>                                                                                        
+        <label class="daico-form-label" for="reg-name">الاسم الثلاثي أو الرباعي *</label>                              
+          <input type="text" id="reg-name" class="daico-input-field" placeholder="مثال: خالد الحربي" required>         
+        <label class="daico-form-label" for="reg-email">البريد الإلكتروني *</label>                                    
+        <label class="daico-form-label" for="reg-password">كلمة المرور *</label>                                       
+          <button type="button" class="daico-field-icon-left-toggle" id="reg-password-toggle" aria-label="إظهار كلمة...
+          <span>شروط كلمة المرور القوية:</span>                                                                        
+          <span id="password-strength-label" style="font-weight:bold; font-size:11px; padding:2px 8px; border-radius...
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>8 خانات على الأقل</span>      
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>حرف كبير واحد على الأقل (Up...
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>حرف صغير واحد على الأقل (Lo...
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>رقم واحد على الأقل (Digit)<...
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>رمز خاص واحد على الأقل (مثل...
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>تجنب الكلمات الشائعة واسم ا...
+        <label class="daico-form-label" for="reg-password-confirm">تأكيد كلمة المرور *</label>                         
+          <button type="button" class="daico-field-icon-left-toggle" id="reg-password-confirm-toggle" aria-label="إظ...
+        <span>تسجيل الحساب</span>                                                                                      
+      <span>أو التسجيل بواسطة</span>                                                                                   
+      <span>التسجيل السريع باستخدام Google</span>                                                                      
+      <span class="daico-footer-signup-text">لديك حساب بالفعل؟ <a href="login.html" class="daico-footer-signup-link"...
+        <h3>التسجيل باستخدام Google</h3>                                                                               
+          strengthLabel.innerText = 'ضعيفة';                                                                           
+          strengthLabel.innerText = 'ضعيفة جداً';                                                                      
+          strengthLabel.innerText = 'متوسطة الأمان';                                                                   
+          strengthLabel.innerText = 'قوية';                                                                            
+          strengthLabel.innerText = 'ممتازة وقوية جداً 🛡️';                                                           
+          alerts.innerHTML = `<div class="daico-alert daico-alert-danger">كلمتا المرور غير متطابقتين.</div>`;          
+        alerts.innerHTML = `<div class="daico-alert daico-alert-success">جاري تسجيل الحساب وإرسال الرمز...</div>`;     
+          alerts.innerHTML = `<div class="daico-alert daico-alert-success">${res.message} جاري التحويل...</div>`;      
+          regPasswordToggle.setAttribute('aria-label', 'إخفاء كلمة المرور');                                           
+          regPasswordToggle.setAttribute('aria-label', 'إظهار كلمة المرور');                                           
+          regConfirmToggle.setAttribute('aria-label', 'إخفاء كلمة المرور');                                            
+          regConfirmToggle.setAttribute('aria-label', 'إظهار كلمة المرور');                                            
+              alerts.innerHTML = `<div class="daico-alert daico-alert-success">تم التسجيل والدخول بواسطة Google! جار...
+  <title>استعادة كلمة المرور | دايكو</title>                                                                           
+          <span>دايكو DAICO</span>                                                                                     
+        <h1 class="auth-title">استعادة كلمة المرور</h1>                                                                
+        <p class="auth-subtitle">أدخل بريدك الإلكتروني المسجل وسنقوم بإرسال رابط إعادة تعيين كلمة المرور.</p>          
+          <label class="form-label" for="forgot-email">البريد الإلكتروني المسجل</label>                                
+        <button type="submit" class="btn btn-primary w-full" style="padding: 0.75rem">إرسال رابط الاستعادة</button>    
+        <span>تذكرت كلمة المرور؟ <a href="login.html">تسجيل الدخول</a></span>                                          
+          alerts.innerHTML = `<div class="alert alert-success">تم إرسال تعليمات ورابط استعادة كلمة المرور إلى بريدك ...
+          alerts.innerHTML = `<div class="alert alert-danger">البريد الإلكتروني غير مسجل لدينا في قاعدة البيانات.</d...
+  <title>تأكيد الحساب | دايكو</title>                                                                                  
+          <span>التسجيل</span>                                                                                         
+          <span>التفعيل</span>                                                                                         
+          <span>الإتمام</span>                                                                                         
+        <h1 class="auth-title">تفعيل الحساب والبريد</h1>                                                               
+        <p class="auth-subtitle">أدخل الرمز المكون من 4 أرقام المرسل إلى: <br><strong id="target-email" style="color...
+        <button type="submit" class="btn btn-primary w-full" style="padding: 0.75rem">تفعيل الحساب</button>            
+        <span>لم يصلك الرمز؟ <a href="#" id="resend-btn">أعد إرسال الرمز (OTP)</a></span>                              
+      alerts.innerHTML = `<div class="alert alert-success">تم إرسال رمز التحقق بنجاح إلى بريدك الإلكتروني. يرجى إدخا...
+          alerts.innerHTML = `<div class="alert alert-success">تم تفعيل حسابك بنجاح! جاري تسجيل الدخول...</div>`;      
+        alerts.innerHTML = `<div class="alert alert-success">جاري توليد وإرسال رمز جديد...</div>`;                     
+        <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">                                      
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="القائمة">                                     
+            <a href="https://ksu.edu.sa/" target="_blank" rel="noopener noreferrer" class="partner-card" title="جامع...
+                <img src="images/ksu-logo.png" alt="جامعة الملك سعود" class="partner-logo-img">                        
+            <a href="https://sdaia.gov.sa/" target="_blank" rel="noopener noreferrer" class="partner-card" title="ال...
+          <img class="partner-logo" src="images/ksu-logo.png" alt="جامعة الملك سعود">                                  
+          <img class="partner-logo" src="images/sdaia-logo.png" alt="سدايا">                                           
+
+

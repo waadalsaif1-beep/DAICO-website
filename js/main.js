@@ -88,19 +88,19 @@ function loadFeaturedPrograms(typeFilter = 'all') {
   events = events.slice(0, 6);
 
   if (events.length === 0) {
-    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: var(--space-xl)">لا توجد برامج تدريبية منشورة حالياً.</div>`;
+    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: var(--space-xl)">${window.DAICO_I18N.t('main_no_programs_published')}</div>`;
     return;
   }
 
   container.innerHTML = events.map((event, index) => {
-    const trainer = window.DAICO_DB.selectOne('trainers', { id: event.trainer_id }) || { name: 'دايكو للتدريب', title: 'خبير تدريب' };
-    const category = window.DAICO_DB.selectOne('categories', { id: event.category_id }) || { name_ar: 'عام' };
+    const trainer = window.DAICO_DB.selectOne('trainers', { id: event.trainer_id }) || { name: window.DAICO_I18N.t('main_daico_training'), title: window.DAICO_I18N.t('main_training_expert') };
+    const category = window.DAICO_DB.selectOne('categories', { id: event.category_id }) || { name_ar: window.DAICO_I18N.t('main_category_general') };
     
     // Type Translate
-    const typesMap = { course: 'دورة', bootcamp: 'معسكر', workshop: 'ورشة عمل', hackathon: 'هاكاثون' };
+    const typesMap = { course: window.DAICO_I18N.t('main_type_course'), bootcamp: window.DAICO_I18N.t('main_type_bootcamp'), workshop: window.DAICO_I18N.t('main_type_workshop'), hackathon: window.DAICO_I18N.t('main_type_hackathon') };
     const typeLabel = typesMap[event.type] || event.type;
     
-    const priceLabel = event.price > 0 ? `${event.price} ريال` : 'مجانًا';
+    const priceLabel = event.price > 0 ? `${event.price} SAR` : window.DAICO_I18N.t('main_price_free');
     const priceClass = event.price > 0 ? 'badge-warning' : 'badge-success';
 
     // Staggered entrance delay (brief §5)
@@ -124,7 +124,7 @@ function loadFeaturedPrograms(typeFilter = 'all') {
 
           <div class="program-meta" style="margin-bottom: var(--space-md)">
             <span>📅 ${event.start_date}</span>
-            <span>📍 ${event.location_type === 'online' ? 'عن بعد' : 'حضوري'}</span>
+            <span>📍 ${event.location_type === 'online' ? window.DAICO_I18N.t('main_loc_online') : window.DAICO_I18N.t('main_loc_onsite')}</span>
           </div>
           
           <div class="program-trainer">
@@ -135,7 +135,7 @@ function loadFeaturedPrograms(typeFilter = 'all') {
             </div>
           </div>
           
-          <a href="auth/login.html" class="btn btn-primary btn-sm" style="margin-top: var(--space-md)">تفاصيل البرنامج وتسجيل</a>
+          <a href="auth/login.html" class="btn btn-primary btn-sm" style="margin-top: var(--space-md)">${window.DAICO_I18N.t('main_btn_details_reg')}</a>
         </div>
       </div>
     `;
@@ -348,12 +348,12 @@ function initContactForm() {
     const msg = document.getElementById('contact-message').value;
 
     if (!name || !email || !msg) {
-      showAlert(alertContainer, 'danger', 'يرجى تعبئة كافة الحقول المطلوبة.');
+      showAlert(alertContainer, 'danger', window.DAICO_I18N.t('main_err_fill_all'));
       return;
     }
 
     // Show toast for success (brief §5: toasts for transient feedback)
-    showToast('success', 'نشكرك على تواصلك معنا! تم إرسال رسالتك وسيتصل بك أحد ممثلي دايكو قريباً.');
+    showToast('success', window.DAICO_I18N.t('main_success_contact'));
     form.reset();
   });
 }

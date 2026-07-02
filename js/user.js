@@ -46,13 +46,13 @@ function checkUrlCertificateVerification() {
     const cert = db.selectOne('certificates', { certificate_code: verifyCode });
     
     if (cert) {
-      const user = db.selectOne('users', { id: cert.user_id }) || { name: 'طالب غير محدد' };
-      const event = db.selectOne('events', { id: cert.event_id }) || { title: 'برنامج غير محدد' };
+      const user = db.selectOne('users', { id: cert.user_id }) || { name: window.DAICO_I18N.t('user_no_student') };
+      const event = db.selectOne('events', { id: cert.event_id }) || { title: window.DAICO_I18N.t('user_no_program') };
       
       // Render popup validation
       showVerificationPopup(verifyCode, user.name, event.title, cert.issued_at);
     } else {
-      alert('رمز التحقق من الشهادة المدخل غير صحيح أو ملغي.');
+      alert(window.DAICO_I18N.t('user_cert_invalid'));
     }
   }
 }
@@ -66,17 +66,17 @@ function showVerificationPopup(code, studentName, programTitle, date) {
   overlay.innerHTML = `
     <div class="modal-content" style="text-align: center; display: flex; flex-direction: column; gap: var(--space-md)">
       <div style="color: var(--success); font-size: 3rem">✔</div>
-      <h3 style="font-size: 1.5rem; color: var(--success)">تم التحقق من الشهادة بنجاح</h3>
+      <h3 style="font-size: 1.5rem; color: var(--success)">${window.DAICO_I18N.t('user_cert_success')}</h3>
       <p style="font-size: 0.95rem; border-top: 1px solid var(--border-color); padding-top: var(--space-md)">
-        تؤكد منصة <strong>دايكو للتعليم والابتكار</strong> أن هذه الشهادة رسمية وصادرة ومعتمدة.
+        ${window.DAICO_I18N.t('user_cert_desc')}
       </p>
       <div style="text-align: right; background-color: var(--bg-tertiary); padding: var(--space-md); border-radius: var(--radius-md); font-size: 0.9rem">
-        <p><strong>اسم الطالب:</strong> ${studentName}</p>
-        <p><strong>اسم البرنامج:</strong> ${programTitle}</p>
-        <p><strong>رقم الشهادة:</strong> ${code}</p>
-        <p><strong>تاريخ الإصدار:</strong> ${date}</p>
+        <p><strong>${window.DAICO_I18N.t('user_student_name')}</strong> ${studentName}</p>
+        <p><strong>${window.DAICO_I18N.t('user_program_name')}</strong> ${programTitle}</p>
+        <p><strong>${window.DAICO_I18N.t('user_cert_num')}</strong> ${code}</p>
+        <p><strong>${window.DAICO_I18N.t('user_issue_date')}</strong> ${date}</p>
       </div>
-      <button class="btn btn-primary" onclick="this.closest('.modal-overlay').remove()">إغلاق النافذة</button>
+      <button class="btn btn-primary" onclick="this.closest('.modal-overlay').remove()">${window.DAICO_I18N.t('user_close_window')}</button>
     </div>
   `;
   document.body.appendChild(overlay);
@@ -95,7 +95,7 @@ function renderUserHeaderInfo() {
   if (nameEl) nameEl.innerText = user.name;
   if (emailEl) emailEl.innerText = user.email;
   if (sidebarName) sidebarName.innerText = user.name;
-  if (sidebarRole) sidebarRole.innerText = 'طالب / مستخدم';
+  if (sidebarRole) sidebarRole.innerText = window.DAICO_I18N.t('user_role_student');
 
   // Logout Click
   const logoutBtn = document.getElementById('logout-btn');
@@ -185,7 +185,7 @@ function loadNotifications() {
 
   if (list) {
     if (notifs.length === 0) {
-      list.innerHTML = `<div style="padding: var(--space-md); text-align: center; color: var(--text-muted)">لا توجد إشعارات حالية</div>`;
+      list.innerHTML = `<div style="padding: var(--space-md); text-align: center; color: var(--text-muted)">${window.DAICO_I18N.t('user_no_notifications')}</div>`;
       return;
     }
 
@@ -232,13 +232,13 @@ function loadBrowseEvents() {
   });
 
   if (events.length === 0) {
-    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: var(--space-2xl)">لا توجد برامج تطابق خيارات البحث الفردية.</div>`;
+    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: var(--space-2xl)">${window.DAICO_I18N.t('user_no_search_results')}</div>`;
     return;
   }
 
   container.innerHTML = events.map(e => {
-    const trainer = db.selectOne('trainers', { id: e.trainer_id }) || { name: 'مدرب دايكو' };
-    const priceText = e.price > 0 ? `${e.price} ريال` : 'مجانًا';
+    const trainer = db.selectOne('trainers', { id: e.trainer_id }) || { name: window.DAICO_I18N.t('user_trainer_daico') };
+    const priceText = e.price > 0 ? `${e.price} SAR` : window.DAICO_I18N.t('user_price_free');
     const priceClass = e.price > 0 ? 'badge-warning' : 'badge-success';
 
     return `
@@ -247,7 +247,7 @@ function loadBrowseEvents() {
         <div class="program-card-body">
           <div class="program-meta">
             <span class="badge ${priceClass}">${priceText}</span>
-            <span>📍 ${e.location_type === 'online' ? 'عن بعد' : 'حضوري'}</span>
+            <span>📍 ${e.location_type === 'online' ? window.DAICO_I18N.t('user_loc_online') : window.DAICO_I18N.t('user_loc_onsite')}</span>
           </div>
           <h3 style="font-size: 1.15rem; margin: var(--space-sm) 0">${e.title}</h3>
           <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: var(--space-md)">
@@ -255,7 +255,7 @@ function loadBrowseEvents() {
           </p>
           <div class="program-meta" style="margin-top: auto; border-top: 1px solid var(--border-color); padding-top: var(--space-sm)">
             <span>👤 ${trainer.name}</span>
-            <button class="btn btn-primary btn-sm" onclick="viewEventDetails(${e.id})">التفاصيل والتسجيل</button>
+            <button class="btn btn-primary btn-sm" onclick="viewEventDetails(${e.id})">${window.DAICO_I18N.t('user_btn_details_reg')}</button>
           </div>
         </div>
       </div>
@@ -274,7 +274,7 @@ function setupSearchAndFilters() {
   const db = window.DAICO_DB;
   if (cat) {
     const categories = db.readTable('categories');
-    cat.innerHTML = `<option value="">كل التصنيفات</option>` + 
+    cat.innerHTML = `<option value="">${window.DAICO_I18N.t('user_all_categories')}</option>` + 
       categories.map(c => `<option value="${c.id}">${c.name_ar}</option>`).join('');
   }
 
@@ -291,20 +291,20 @@ window.viewEventDetails = function(eventId) {
   if (!e) return;
 
   selectedEventForDetails = e;
-  const trainer = db.selectOne('trainers', { id: e.trainer_id }) || { name: 'غير محدد' };
+  const trainer = db.selectOne('trainers', { id: e.trainer_id }) || { name: window.DAICO_I18N.t('user_no_trainer') };
 
   // Check user registration state
   const registration = db.selectOne('registrations', { user_id: user.id, program_id: eventId });
   
   let regBtnHTML = '';
   if (registration) {
-    const regStatusNames = { pending: 'قيد الانتظار', approved: 'مسجل نشط', cancelled: 'ملغي', completed: 'مكتمل' };
+    const regStatusNames = { pending: window.DAICO_I18N.t('user_reg_pending'), approved: window.DAICO_I18N.t('user_reg_approved'), cancelled: window.DAICO_I18N.t('user_reg_cancelled'), completed: window.DAICO_I18N.t('user_reg_completed') };
     const badgeMap = { pending: 'badge-warning', approved: 'badge-success', completed: 'badge-info', cancelled: 'badge-danger' };
-    regBtnHTML = `<div style="text-align: center"><span class="badge ${badgeMap[registration.status]}" style="font-size: 1rem; padding: var(--space-sm) var(--space-md)">حالة التسجيل: ${regStatusNames[registration.status]}</span></div>`;
+    regBtnHTML = `<div style="text-align: center"><span class="badge ${badgeMap[registration.status]}" style="font-size: 1rem; padding: var(--space-sm) var(--space-md)">${window.DAICO_I18N.t('user_reg_status')} ${regStatusNames[registration.status]}</span></div>`;
   } else if (e.seats_remaining <= 0) {
-    regBtnHTML = `<button class="btn btn-secondary w-full" disabled>عذراً، المقاعد ممتلئة</button>`;
+    regBtnHTML = `<button class="btn btn-secondary w-full" disabled>${window.DAICO_I18N.t('user_seats_full')}</button>`;
   } else {
-    regBtnHTML = `<button class="btn btn-primary w-full" onclick="registerForEvent(${e.id})">سجل الآن (المقاعد محدودة)</button>`;
+    regBtnHTML = `<button class="btn btn-primary w-full" onclick="registerForEvent(${e.id})">${window.DAICO_I18N.t('user_reg_now')}</button>`;
   }
 
   // Populate Modal Fields
@@ -313,16 +313,16 @@ window.viewEventDetails = function(eventId) {
   document.getElementById('modal-cover').src = e.cover_image;
   
   document.getElementById('modal-duration').innerText = e.duration;
-  document.getElementById('modal-location').innerText = e.location_type === 'online' ? 'أونلاين (عن بعد)' : e.location_name;
-  document.getElementById('modal-seats').innerText = `${e.seats_remaining} مقعد متبقي (من ${e.seats_total})`;
-  document.getElementById('modal-price').innerText = e.price > 0 ? `${e.price} ريال سعودي` : 'برنامج مجاني';
+  document.getElementById('modal-location').innerText = e.location_type === 'online' ? window.DAICO_I18N.t('user_loc_online_full') : e.location_name;
+  document.getElementById('modal-seats').innerText = `${e.seats_remaining} ${window.DAICO_I18N.t('user_seats_rem')} ${e.seats_total})`;
+  document.getElementById('modal-price').innerText = e.price > 0 ? `${e.price} ${window.DAICO_I18N.t('user_sar')}` : window.DAICO_I18N.t('user_prog_free');
 
   // Trainer Section
   document.getElementById('modal-trainer-photo').src = trainer.photo;
   document.getElementById('modal-trainer-name').innerText = trainer.name;
   document.getElementById('modal-trainer-title').innerText = trainer.title;
   document.getElementById('modal-trainer-bio').innerText = trainer.bio;
-  document.getElementById('modal-trainer-exp').innerText = `${trainer.experience_years} سنوات خبرة`;
+  document.getElementById('modal-trainer-exp').innerText = `${trainer.experience_years} ${window.DAICO_I18N.t('user_exp_years')}`;
   document.getElementById('modal-trainer-link').href = `../trainer/index.html?id=${trainer.id}`;
 
   // Dynamic Lists (Objectives, Requirements, FAQs, Schedule)
@@ -338,10 +338,10 @@ window.viewEventDetails = function(eventId) {
 
   document.getElementById('modal-faqs').innerHTML = e.faqs ? e.faqs.map(f => `
     <div style="margin-bottom: var(--space-sm)">
-      <strong style="color: var(--primary)">س: ${f.question}</strong>
-      <p style="font-size: 0.85rem; margin-top: 2px">ج: ${f.answer}</p>
+      <strong style="color: var(--primary)">${window.DAICO_I18N.t('user_q')} ${f.question}</strong>
+      <p style="font-size: 0.85rem; margin-top: 2px">${window.DAICO_I18N.t('user_a')} ${f.answer}</p>
     </div>
-  `).join('') : '<p>لا تتوفر أسئلة شائعة لهذا البرنامج حالياً.</p>';
+  `).join('') : `<p>${window.DAICO_I18N.t('user_no_faqs')}</p>`;
 
   document.getElementById('modal-registration-action').innerHTML = regBtnHTML;
 
@@ -365,7 +365,7 @@ window.registerForEvent = function(eventId) {
   const e = db.selectOne('events', { id: eventId });
 
   if (e.seats_remaining <= 0) {
-    alert('عذراً، لا تتوفر مقاعد شاغرة للبرنامج.');
+    alert(window.DAICO_I18N.t('user_err_no_seats'));
     return;
   }
 
@@ -387,13 +387,13 @@ window.registerForEvent = function(eventId) {
   // Add Notification
   db.insert('notifications', {
     user_id: user.id,
-    title: 'نجاح التسجيل بالبرنامج 🚀',
-    message: `تهانينا! تم تسجيلك بنجاح في "${e.title}". يمكنك البدء باستعراض تفاصيل الدورة والجدول التدريبي.`,
+    title: window.DAICO_I18N.t('user_reg_success_title'),
+    message: `${window.DAICO_I18N.t('user_reg_success_msg_1')} "${e.title}". ${window.DAICO_I18N.t('user_reg_success_msg_2')}`,
     is_read: false,
     created_at: timeStr
   });
 
-  alert('تم التسجيل بنجاح في البرنامج التدريبي!');
+  alert(window.DAICO_I18N.t('user_reg_success_alert'));
   document.getElementById('detail-modal').classList.remove('active');
   
   // Reload
@@ -408,24 +408,24 @@ function loadMyRegistrations() {
   const tableBody = document.getElementById('my-regs-table-body');
   if (!tableBody) return;
 
-  const statusMap = { pending: 'قيد المراجعة', approved: 'نشط / مقبول', completed: 'مكتمل', cancelled: 'ملغي' };
+  const statusMap = { pending: window.DAICO_I18N.t('user_status_pending'), approved: window.DAICO_I18N.t('user_status_approved'), completed: window.DAICO_I18N.t('user_status_completed'), cancelled: window.DAICO_I18N.t('user_status_cancelled') };
 
   if (regs.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="5" class="text-center" style="color: var(--text-muted); padding: var(--space-lg)">لا توجد لديك تسجيلات نشطة حالياً.</td></tr>`;
+    tableBody.innerHTML = `<tr><td colspan="5" class="text-center" style="color: var(--text-muted); padding: var(--space-lg)">${window.DAICO_I18N.t('user_no_active_regs')}</td></tr>`;
     return;
   }
 
   tableBody.innerHTML = regs.map(r => {
-    const e = db.selectOne('events', { id: r.program_id }) || { title: 'برنامج غير متوفر' };
+    const e = db.selectOne('events', { id: r.program_id }) || { title: window.DAICO_I18N.t('user_prog_unavailable') };
     const cert = db.selectOne('certificates', { registration_id: r.id });
     
     const badgeMap = { pending: 'badge-warning', approved: 'badge-success', completed: 'badge-info', cancelled: 'badge-danger' };
     
     let certAction = '';
     if (r.status === 'completed' && cert) {
-      certAction = `<button class="btn btn-secondary btn-sm" onclick="showCertificateCanvas(${cert.id})">عرض الشهادة والـ QR</button>`;
+      certAction = `<button class="btn btn-secondary btn-sm" onclick="showCertificateCanvas(${cert.id})">${window.DAICO_I18N.t('user_view_cert_qr')}</button>`;
     } else {
-      certAction = `<span style="color: var(--text-muted); font-size: 0.85rem">البرنامج غير مكتمل بعد</span>`;
+      certAction = `<span style="color: var(--text-muted); font-size: 0.85rem">${window.DAICO_I18N.t('user_prog_incomplete')}</span>`;
     }
 
     return `
@@ -476,7 +476,7 @@ window.showCertificateCanvas = function(certId) {
   ctx.fillStyle = '#1e3a8a';
   ctx.font = 'bold 36px Tajawal';
   ctx.textAlign = 'center';
-  ctx.fillText('منصة دايكو للتعليم والابتكار', 400, 80);
+  ctx.fillText(window.DAICO_I18N.t('user_cert_platform'), 400, 80);
 
   ctx.fillStyle = '#86868b';
   ctx.font = '16px Tajawal';
@@ -485,11 +485,11 @@ window.showCertificateCanvas = function(certId) {
   // Core title
   ctx.fillStyle = '#d97706'; // Gold
   ctx.font = 'bold 42px Tajawal';
-  ctx.fillText('شهادة إتمام برنامج تدريبي', 400, 180);
+  ctx.fillText(window.DAICO_I18N.t('user_cert_title'), 400, 180);
 
   ctx.fillStyle = '#1d1d1f';
   ctx.font = '20px Tajawal';
-  ctx.fillText('تشهد المنصة بأن الطالب / الطالبة:', 400, 240);
+  ctx.fillText(window.DAICO_I18N.t('user_cert_certifies'), 400, 240);
 
   // Student Name
   ctx.fillStyle = '#1e3a8a';
@@ -499,7 +499,7 @@ window.showCertificateCanvas = function(certId) {
   // Course Details text
   ctx.fillStyle = '#1d1d1f';
   ctx.font = '18px Tajawal';
-  ctx.fillText(`قد أتم بنجاح متطلبات المعسكر / الدورة التدريبية المتقدمة بعنوان:`, 400, 340);
+  ctx.fillText(window.DAICO_I18N.t('user_cert_completed'), 400, 340);
   
   ctx.fillStyle = '#111827';
   ctx.font = 'bold 24px Tajawal';
@@ -507,16 +507,16 @@ window.showCertificateCanvas = function(certId) {
 
   ctx.fillStyle = '#6b7280';
   ctx.font = '16px Tajawal';
-  ctx.fillText(`بتاريخ إصدار: ${cert.issued_at} م | رقم الشهادة المعتمد: ${cert.certificate_code}`, 400, 435);
+  ctx.fillText(`${window.DAICO_I18N.t('user_cert_issued_at')} ${cert.issued_at} ${window.DAICO_I18N.t('user_cert_cert_num')} ${cert.certificate_code}`, 400, 435);
 
   // 3. Draw signature & dynamic QR Code
   // Left side signature
   ctx.textAlign = 'right';
   ctx.fillStyle = '#1d1d1f';
   ctx.font = 'bold 16px Tajawal';
-  ctx.fillText('توقيع عميد الأكاديمية:', 680, 480);
+  ctx.fillText(window.DAICO_I18N.t('user_cert_dean_sig'), 680, 480);
   ctx.font = 'italic 18px Tajawal';
-  ctx.fillText('خالد الحربي', 660, 510);
+  ctx.fillText(window.DAICO_I18N.t('user_cert_dean_name'), 660, 510);
 
   // Right side QR Code drawing block
   ctx.textAlign = 'left';
@@ -530,7 +530,7 @@ window.showCertificateCanvas = function(certId) {
   // Certificate Verification Link description
   ctx.fillStyle = '#6b7280';
   ctx.font = '12px Tajawal';
-  ctx.fillText('امسح الرمز للتحقق الفوري', 70, 540);
+  ctx.fillText(window.DAICO_I18N.t('user_cert_scan_qr'), 70, 540);
 
   // Show Certificate Modal Overlay
   document.getElementById('cert-modal').classList.add('active');

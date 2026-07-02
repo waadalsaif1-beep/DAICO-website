@@ -13,21 +13,21 @@ const AUTH = {
   login(email, password) {
     if (!window.DAICO_DB) {
       console.error('Database not initialized');
-      return { success: false, message: 'قاعدة البيانات غير متصلة' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_db_offline') };
     }
 
     const user = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
     
     if (!user) {
-      return { success: false, message: 'البريد الإلكتروني غير مسجل لدينا' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_email_unregistered') };
     }
 
     if (user.password_hash !== password) {
-      return { success: false, message: 'كلمة المرور غير صحيحة' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_pass_incorrect') };
     }
 
     if (!user.verified) {
-      return { success: false, message: 'حسابك غير مفعل، يرجى تفعيل البريد الإلكتروني أولاً', unverified: true, email: user.email };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_account_unverified'), unverified: true, email: user.email };
     }
 
     // Determine Role text
@@ -48,19 +48,19 @@ const AUTH = {
     const errors = [];
 
     if (!password || password.length < minLength) {
-      errors.push('يجب ألا تقل كلمة المرور عن 8 خانات');
+      errors.push(window.DAICO_I18N.t('auth_err_pass_length'));
     }
     if (!/[A-Z]/.test(password)) {
-      errors.push('يجب أن تحتوي على حرف كبير واحد على الأقل (Uppercase)');
+      errors.push(window.DAICO_I18N.t('auth_err_pass_upper'));
     }
     if (!/[a-z]/.test(password)) {
-      errors.push('يجب أن تحتوي على حرف صغير واحد على الأقل (Lowercase)');
+      errors.push(window.DAICO_I18N.t('auth_err_pass_lower'));
     }
     if (!/\d/.test(password)) {
-      errors.push('يجب أن تحتوي على رقم واحد على الأقل (Digit)');
+      errors.push(window.DAICO_I18N.t('auth_err_pass_digit'));
     }
     if (!/[@#\$%&\*\-\+\!\?\^\~\(\)\[\]\{\}\<\>\,\.\:\;\=\_\/\\|]/.test(password)) {
-      errors.push('يجب أن تحتوي على رمز خاص واحد على الأقل (مثل: @, #, $, %, &)');
+      errors.push(window.DAICO_I18N.t('auth_err_pass_special'));
     }
 
     // Common passwords list
@@ -69,19 +69,19 @@ const AUTH = {
       'welcome123', '11111111', '12341234', 'password123', 'pass123'
     ];
     if (commonPasswords.includes(password.toLowerCase())) {
-      errors.push('منع استخدام كلمات مرور شائعة وسهلة التخمين');
+      errors.push(window.DAICO_I18N.t('auth_err_pass_common'));
     }
 
     // Sequential / repeating patterns
     if (/(\w)\1\1\1/.test(password)) {
-      errors.push('تجنب استخدام أحرف أو أرقام متكررة متتالية');
+      errors.push(window.DAICO_I18N.t('auth_err_pass_repetitive'));
     }
 
     // Name or Email similarity checks
     if (email) {
       const emailPrefix = email.split('@')[0].toLowerCase();
       if (emailPrefix.length >= 3 && password.toLowerCase().includes(emailPrefix)) {
-        errors.push('منع استخدام جزء من البريد الإلكتروني في كلمة المرور');
+        errors.push(window.DAICO_I18N.t('auth_err_pass_email_part'));
       }
     }
 
@@ -89,7 +89,7 @@ const AUTH = {
       const nameParts = name.toLowerCase().split(/\s+/);
       for (const part of nameParts) {
         if (part.length >= 3 && password.toLowerCase().includes(part)) {
-          errors.push('منع استخدام الاسم الشخصي أو جزء منه في كلمة المرور');
+          errors.push(window.DAICO_I18N.t('auth_err_pass_name_part'));
           break;
         }
       }
@@ -102,11 +102,11 @@ const AUTH = {
   },
 
   register(name, email, password, roleId = 3) {
-    if (!window.DAICO_DB) return { success: false, message: 'خطأ في قاعدة البيانات' };
+    if (!window.DAICO_DB) return { success: false, message: window.DAICO_I18N.t('auth_err_db_error') };
 
     const existingUser = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
     if (existingUser) {
-      return { success: false, message: 'البريد الإلكتروني مستخدم بالفعل' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_email_used') };
     }
 
     // Run password validation
@@ -139,33 +139,33 @@ const AUTH = {
       console.warn('Backend service offline. OTP verification code is: ', verificationCode);
     });
 
-    return { success: true, email: newUser.email, message: 'تم إرسال رمز التفعيل إلى بريدك الإلكتروني.' };
+    return { success: true, email: newUser.email, message: window.DAICO_I18N.t('auth_success_code_sent') };
   },
 
   verifyEmail(email, pin) {
     if (!pin || pin.length !== 4) {
-      return { success: false, message: 'يرجى إدخال رمز تفعيل صحيح مكون من 4 أرقام' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_invalid_code') };
     }
 
     const user = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
     if (!user) {
-      return { success: false, message: 'المستخدم غير موجود' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_user_not_found') };
     }
     
     if (user.verified) {
-      return { success: false, message: 'هذا الحساب مفعل مسبقاً' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_already_verified') };
     }
 
     if (!user.verification_code) {
-      return { success: false, message: 'لم يتم العثور على طلب تفعيل. يرجى طلب رمز جديد.' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_no_activation_req') };
     }
 
     if (Date.now() > user.verification_expires_at) {
-      return { success: false, message: 'انتهت صلاحية رمز التفعيل (صلاحية الرمز 5 دقائق فقط). يرجى طلب رمز جديد.' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_code_expired') };
     }
 
     if (user.verification_code !== pin) {
-      return { success: false, message: 'رمز التفعيل غير صحيح' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_wrong_code') };
     }
 
     window.DAICO_DB.update('users', user.id, { 
@@ -190,10 +190,10 @@ const AUTH = {
   resendVerificationCode(email) {
     const user = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
     if (!user) {
-      return { success: false, message: 'المستخدم غير موجود' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_user_not_found') };
     }
     if (user.verified) {
-      return { success: false, message: 'هذا الحساب مفعل مسبقاً' };
+      return { success: false, message: window.DAICO_I18N.t('auth_err_already_verified') };
     }
 
     const newCode = Math.floor(1000 + Math.random() * 9000).toString();
@@ -213,7 +213,7 @@ const AUTH = {
       console.warn('Backend service offline. OTP verification code is: ', newCode);
     });
 
-    return { success: true, message: 'تم إرسال رمز تفعيل جديد إلى بريدك الإلكتروني.' };
+    return { success: true, message: window.DAICO_I18N.t('auth_success_new_code') };
   },
 
   logout() {

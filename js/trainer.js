@@ -48,8 +48,8 @@ function loadTrainerProfile() {
   if (!trainer) {
     document.getElementById('trainer-profile-content').innerHTML = `
       <div style="text-align: center; padding: var(--space-3xl) var(--space-md)">
-        <h2>عذراً، لم يتم العثور على المدرب المطلوب.</h2>
-        <a href="../index.html" class="btn btn-primary" style="margin-top: var(--space-md)">العودة للرئيسية</a>
+        <h2>${window.DAICO_I18N.t('trainer_not_found')}</h2>
+        <a href="../index.html" class="btn btn-primary" style="margin-top: var(--space-md)">${window.DAICO_I18N.t('trainer_back_home')}</a>
       </div>
     `;
     return;
@@ -60,7 +60,7 @@ function loadTrainerProfile() {
   document.getElementById('trainer-title').innerText = trainer.title;
   document.getElementById('trainer-bio').innerText = trainer.bio;
   document.getElementById('trainer-photo').src = trainer.photo;
-  document.getElementById('trainer-experience').innerText = `${trainer.experience_years} سنوات`;
+  document.getElementById('trainer-experience').innerText = `${trainer.experience_years} ${window.DAICO_I18N.t('trainer_years')}`;
   document.getElementById('trainer-rating').innerText = `⭐ ${trainer.rating} / 5.0`;
 
   // Render Specializations tags
@@ -74,7 +74,7 @@ function loadTrainerProfile() {
   if (certContainer) {
     certContainer.innerHTML = trainer.certificates && trainer.certificates.length > 0 
       ? trainer.certificates.map(c => `<span class="badge badge-info" style="margin: 3px; font-size: 0.85rem">${c}</span>`).join('')
-      : '<span style="color: var(--text-muted)">لا تتوفر شهادات موثقة حالياً</span>';
+      : `<span style="color: var(--text-muted)">${window.DAICO_I18N.t('trainer_no_certs')}</span>`;
   }
 
   // Render Social Links
@@ -85,7 +85,7 @@ function loadTrainerProfile() {
     if (links.linkedin) socialHTML += `<a href="${links.linkedin}" class="btn btn-secondary btn-sm" style="direction: ltr">🔗 LinkedIn</a>`;
     if (links.twitter) socialHTML += `<a href="${links.twitter}" class="btn btn-secondary btn-sm" style="direction: ltr">🐦 Twitter/X</a>`;
     if (links.github) socialHTML += `<a href="${links.github}" class="btn btn-secondary btn-sm" style="direction: ltr">💻 GitHub</a>`;
-    socialContainer.innerHTML = socialHTML || '<span style="color: var(--text-muted)">لا توجد روابط تواصل اجتماعي</span>';
+    socialContainer.innerHTML = socialHTML || `<span style="color: var(--text-muted)">${window.DAICO_I18N.t('trainer_no_social')}</span>`;
   }
 
   // Render Courses Provided
@@ -94,13 +94,13 @@ function loadTrainerProfile() {
     const events = db.select('events', { trainer_id: trainerId, status: 'published' });
     
     if (events.length === 0) {
-      coursesContainer.innerHTML = `<p style="color: var(--text-muted); text-align: center; width: 100%">لا يقدم هذا المدرب أي برامج نشطة حالياً.</p>`;
+      coursesContainer.innerHTML = `<p style="color: var(--text-muted); text-align: center; width: 100%">${window.DAICO_I18N.t('trainer_no_active_programs')}</p>`;
     } else {
-      const typesMap = { course: 'دورة', bootcamp: 'معسكر', workshop: 'ورشة عمل', hackathon: 'هاكاثون' };
+      const typesMap = { course: window.DAICO_I18N.t('trainer_type_course'), bootcamp: window.DAICO_I18N.t('trainer_type_bootcamp'), workshop: window.DAICO_I18N.t('trainer_type_workshop'), hackathon: window.DAICO_I18N.t('trainer_type_hackathon') };
       
       coursesContainer.innerHTML = events.map(e => {
-        const category = db.selectOne('categories', { id: e.category_id }) || { name_ar: 'عام' };
-        const priceText = e.price > 0 ? `${e.price} ريال` : 'مجانًا';
+        const category = db.selectOne('categories', { id: e.category_id }) || { name_ar: window.DAICO_I18N.t('trainer_cat_general') };
+        const priceText = e.price > 0 ? `${e.price} SAR` : window.DAICO_I18N.t('trainer_price_free');
         const priceClass = e.price > 0 ? 'badge-warning' : 'badge-success';
 
         return `
@@ -118,7 +118,7 @@ function loadTrainerProfile() {
               </p>
               <div class="program-meta" style="margin-top: auto; border-top: 1px solid var(--border-color); padding-top: var(--space-xs)">
                 <span>📅 ${e.start_date}</span>
-                <span>📍 ${e.location_type === 'online' ? 'عن بعد' : 'حضوري'}</span>
+                <span>📍 ${e.location_type === 'online' ? window.DAICO_I18N.t('trainer_loc_online') : window.DAICO_I18N.t('trainer_loc_onsite')}</span>
               </div>
               
               <a href="${(() => {
@@ -127,7 +127,7 @@ function loadTrainerProfile() {
                   return (currentUser.role === 'admin' || currentUser.role === 'super_admin') ? '../admin/index.html' : `../user/index.html?event_id=${e.id}`;
                 }
                 return '../auth/login.html';
-              })()}" class="btn btn-primary btn-sm" style="margin-top: var(--space-sm); font-size: 0.8rem">سجل الآن</a>
+              })()}" class="btn btn-primary btn-sm" style="margin-top: var(--space-sm); font-size: 0.8rem">${window.DAICO_I18N.t('trainer_reg_now')}</a>
             </div>
           </div>
         `;
@@ -139,9 +139,9 @@ function loadTrainerProfile() {
   const reviewsContainer = document.getElementById('trainer-reviews-list');
   if (reviewsContainer) {
     const reviews = [
-      { student: 'سلمان الدوسري', rating: 5, comment: 'مدرب رائع ومتمكن جداً، الشرح عملي ومرتب للغاية ويهتم بالرد على استفسارات الجميع.', date: '2026-05-12' },
-      { student: 'منى القحطاني', rating: 5, comment: 'المعسكر كان مكثفاً ولكن مهارات م. خالد وإيصاله للمعلومة جعل الأمور ميسرة والتطبيق العملي كان ممتازاً.', date: '2026-04-30' },
-      { student: 'عبد الله العتيبي', rating: 4, comment: 'دورة ممتازة جداً ومحتوى غني بالمعرفة، أنصح بالحضور بقوة لمن يرغب بالتطور الفعلي.', date: '2026-04-10' }
+      { student: window.DAICO_I18N.t('trainer_review_1_name'), rating: 5, comment: window.DAICO_I18N.t('trainer_review_1_text'), date: '2026-05-12' },
+      { student: window.DAICO_I18N.t('trainer_review_2_name'), rating: 5, comment: window.DAICO_I18N.t('trainer_review_2_text'), date: '2026-04-30' },
+      { student: window.DAICO_I18N.t('trainer_review_3_name'), rating: 4, comment: window.DAICO_I18N.t('trainer_review_3_text'), date: '2026-04-10' }
     ];
 
     reviewsContainer.innerHTML = reviews.map(r => {
@@ -178,12 +178,12 @@ function initHeaderAuth() {
   dashboardBtn.href = dashboardPath;
   dashboardBtn.className = 'btn btn-primary btn-sm';
   dashboardBtn.style.fontWeight = '700';
-  dashboardBtn.innerText = 'لوحة التحكم';
+  dashboardBtn.innerText = window.DAICO_I18N.t('trainer_dashboard');
   
   const logoutBtn = document.createElement('button');
   logoutBtn.className = 'btn btn-secondary btn-sm';
   logoutBtn.style.fontWeight = '700';
-  logoutBtn.innerText = 'تسجيل الخروج';
+  logoutBtn.innerText = window.DAICO_I18N.t('trainer_logout');
   logoutBtn.addEventListener('click', () => {
     window.DAICO_AUTH.logout();
   });

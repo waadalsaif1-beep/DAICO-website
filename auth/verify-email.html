@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تأكيد الحساب | دايكو</title>
+  <title data-i18n="auth_verify_page_title">تأكيد الحساب | دايكو</title>
   
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/base.css">
@@ -21,17 +21,17 @@
       <div class="auth-progress">
         <div class="auth-progress-step completed">
           <div class="auth-progress-dot">✓</div>
-          <span>التسجيل</span>
+          <span data-i18n="auth_verify_step1">التسجيل</span>
         </div>
         <div class="auth-progress-line completed"></div>
         <div class="auth-progress-step active">
           <div class="auth-progress-dot">2</div>
-          <span>التفعيل</span>
+          <span data-i18n="auth_verify_step2">التفعيل</span>
         </div>
         <div class="auth-progress-line"></div>
         <div class="auth-progress-step">
           <div class="auth-progress-dot">3</div>
-          <span>الإتمام</span>
+          <span data-i18n="auth_verify_step3">الإتمام</span>
         </div>
       </div>
 
@@ -76,10 +76,10 @@
             <path d="M 100,130 L 90,87 L 48,100 Z" fill="url(#grad-bottom-left)" />
             <path d="M 48,100 L 80,70 L 48,40 Z" fill="url(#grad-left)" />
           </svg>
-          <span>دايكو DAICO</span>
+          <span data-i18n="auth_brand">دايكو DAICO</span>
         </div>
-        <h1 class="auth-title">تفعيل الحساب والبريد</h1>
-        <p class="auth-subtitle">أدخل الرمز المكون من 4 أرقام المرسل إلى: <br><strong id="target-email" style="color:var(--text-primary)">-</strong></p>
+        <h1 class="auth-title" data-i18n="auth_verify_heading">تفعيل الحساب والبريد</h1>
+        <p class="auth-subtitle"><span data-i18n="auth_verify_desc_text">أدخل الرمز المكون من 4 أرقام المرسل إلى:</span> <br><strong id="target-email" style="color:var(--text-primary)">-</strong></p>
       </div>
 
       <div id="auth-alert-container"></div>
@@ -93,15 +93,16 @@
           <input type="text" class="pin-input" maxlength="1" required pattern="[0-9]">
         </div>
 
-        <button type="submit" class="btn btn-primary w-full" style="padding: 0.75rem">تفعيل الحساب</button>
+        <button type="submit" class="btn btn-primary w-full" style="padding: 0.75rem" data-i18n="auth_verify_btn">تفعيل الحساب</button>
       </form>
 
       <div class="auth-links">
-        <span>لم يصلك الرمز؟ <a href="#" id="resend-btn">أعد إرسال الرمز (OTP)</a></span>
+        <span><span data-i18n="auth_verify_no_code">لم يصلك الرمز؟</span> <a href="#" id="resend-btn" data-i18n="auth_verify_resend">أعد إرسال الرمز (OTP)</a></span>
       </div>
     </div>
   </div>
 
+  <script src="../js/i18n.js"></script>
   <script src="../js/db.js"></script>
   <script src="../js/auth.js"></script>
 
@@ -117,7 +118,7 @@
       const form = document.getElementById('verify-form');
 
       // Display professional user-friendly message
-      alerts.innerHTML = `<div class="alert alert-success">تم إرسال رمز التحقق بنجاح إلى بريدك الإلكتروني. يرجى إدخال الرمز المكون من 4 أرقام لتفعيل حسابك (الرمز صالح لمدة 5 دقائق).</div>`;
+      alerts.innerHTML = `<div class="alert alert-success">${window.DAICO_I18N.t('auth_verify_success_sent')}</div>`;
 
       // Auto focus jump inside OTP boxes
       pinInputs.forEach((input, index) => {
@@ -140,7 +141,7 @@
         const res = window.DAICO_AUTH.verifyEmail(email, pin);
 
         if (res.success) {
-          alerts.innerHTML = `<div class="alert alert-success">تم تفعيل حسابك بنجاح! جاري تسجيل الدخول...</div>`;
+          alerts.innerHTML = `<div class="alert alert-success">${window.DAICO_I18N.t('auth_verify_success_activated')}</div>`;
           setTimeout(() => {
             window.location.href = '../user/index.html';
           }, 1500);
@@ -154,7 +155,7 @@
         e.preventDefault();
         alerts.innerHTML = '';
         
-        alerts.innerHTML = `<div class="alert alert-success">جاري توليد وإرسال رمز جديد...</div>`;
+        alerts.innerHTML = `<div class="alert alert-success">${window.DAICO_I18N.t('auth_verify_generating_new')}</div>`;
         
         const res = await window.DAICO_AUTH.resendVerificationCode(email);
         if (res.success) {
