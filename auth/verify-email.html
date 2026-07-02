@@ -116,8 +116,17 @@
       const pinInputs = document.querySelectorAll('.pin-input');
       const form = document.getElementById('verify-form');
 
+      // Fetch the generated OTP from mock DB to display on screen for easy copy-paste
+      let generatedOtp = '1234'; // fallback
+      if (window.DAICO_DB) {
+        const user = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
+        if (user && user.verification_code) {
+          generatedOtp = user.verification_code;
+        }
+      }
+
       // Display professional user-friendly message
-      alerts.innerHTML = `<div class="alert alert-success">تم إرسال رمز التفعيل إلى بريدك الإلكتروني. يرجى مراجعته وإدخال الرمز المكون من 4 أرقام هنا.</div>`;
+      alerts.innerHTML = `<div class="alert alert-success">تمت محاكاة إرسال الرمز بنجاح! رمز التفعيل الخاص بك هو: <strong style="font-size: 1.15rem; letter-spacing: 2px; color: var(--primary);">${generatedOtp}</strong> (تم عرضه هنا لتسهيل تجربة النموذج المبدئي).</div>`;
 
       // Auto focus jump inside OTP boxes
       pinInputs.forEach((input, index) => {
@@ -155,7 +164,14 @@
         alerts.innerHTML = '';
         const res = window.DAICO_AUTH.resendVerificationCode(email);
         if (res.success) {
-          alerts.innerHTML = `<div class="alert alert-success">${res.message}</div>`;
+          let newOtp = '1234';
+          if (window.DAICO_DB) {
+            const user = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
+            if (user && user.verification_code) {
+              newOtp = user.verification_code;
+            }
+          }
+          alerts.innerHTML = `<div class="alert alert-success">تمت إعادة توليد الرمز بنجاح! رمز التفعيل الجديد هو: <strong style="font-size: 1.15rem; letter-spacing: 2px; color: var(--primary);">${newOtp}</strong></div>`;
         } else {
           alerts.innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
         }
