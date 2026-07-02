@@ -139,28 +139,29 @@ html[data-theme="dark"] {
   --border-color: rgba(255, 255, 255, 0.08);
   --border-focus: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.5);
   
-  --primary-light: 45%;
+  --primary-sat: 60%;
+  --primary-light: 48%;
   --primary: hsl(var(--primary-hue), var(--primary-sat), var(--primary-light));
-  --primary-hover: hsl(var(--primary-hue), var(--primary-sat), 55%);
-  --primary-glow: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.25);
+  --primary-hover: hsl(var(--primary-hue), var(--primary-sat), 58%);
+  --primary-glow: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.12);
   
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
   --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 40px hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.15);
+  --shadow-glow: 0 0 40px hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.10);
   
   --success-bg: rgba(16, 185, 129, 0.15);
   --warning-bg: rgba(245, 158, 11, 0.15);
   --danger-bg: rgba(239, 68, 68, 0.15);
   --info-bg: rgba(14, 165, 233, 0.15);
 
-  /* Facet glow intensities increase in dark mode for visibility */
-  --facet-sky-glow: rgba(94, 194, 246, 0.25);
-  --facet-amber-glow: rgba(250, 204, 21, 0.25);
-  --facet-lime-glow: rgba(163, 230, 53, 0.25);
-  --facet-emerald-glow: rgba(16, 185, 129, 0.25);
-  --facet-red-glow: rgba(249, 115, 22, 0.25);
+  /* Facet glow intensities are muted in dark mode to prevent distraction */
+  --facet-sky-glow: rgba(94, 194, 246, 0.05);
+  --facet-amber-glow: rgba(250, 204, 21, 0.04);
+  --facet-lime-glow: rgba(163, 230, 53, 0.04);
+  --facet-emerald-glow: rgba(16, 185, 129, 0.05);
+  --facet-red-glow: rgba(249, 115, 22, 0.04);
   --facet-sky-bg: rgba(94, 194, 246, 0.15);
   --facet-amber-bg: rgba(250, 204, 21, 0.12);
   --facet-lime-bg: rgba(163, 230, 53, 0.12);

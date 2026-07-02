@@ -116,17 +116,8 @@
       const pinInputs = document.querySelectorAll('.pin-input');
       const form = document.getElementById('verify-form');
 
-      // Fetch the generated OTP from mock DB to display on screen for easy copy-paste
-      let generatedOtp = '1234'; // fallback
-      if (window.DAICO_DB) {
-        const user = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
-        if (user && user.verification_code) {
-          generatedOtp = user.verification_code;
-        }
-      }
-
       // Display professional user-friendly message
-      alerts.innerHTML = `<div class="alert alert-success">تمت محاكاة إرسال الرمز بنجاح! رمز التفعيل الخاص بك هو: <strong style="font-size: 1.15rem; letter-spacing: 2px; color: var(--primary);">${generatedOtp}</strong> (تم عرضه هنا لتسهيل تجربة النموذج المبدئي).</div>`;
+      alerts.innerHTML = `<div class="alert alert-success">تم إرسال رمز التحقق بنجاح إلى بريدك الإلكتروني. يرجى إدخال الرمز المكون من 4 أرقام لتفعيل حسابك (الرمز صالح لمدة 5 دقائق).</div>`;
 
       // Auto focus jump inside OTP boxes
       pinInputs.forEach((input, index) => {
@@ -159,19 +150,15 @@
       });
 
       // Resend OTP real implementation
-      document.getElementById('resend-btn').addEventListener('click', (e) => {
+      document.getElementById('resend-btn').addEventListener('click', async (e) => {
         e.preventDefault();
         alerts.innerHTML = '';
-        const res = window.DAICO_AUTH.resendVerificationCode(email);
+        
+        alerts.innerHTML = `<div class="alert alert-success">جاري توليد وإرسال رمز جديد...</div>`;
+        
+        const res = await window.DAICO_AUTH.resendVerificationCode(email);
         if (res.success) {
-          let newOtp = '1234';
-          if (window.DAICO_DB) {
-            const user = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
-            if (user && user.verification_code) {
-              newOtp = user.verification_code;
-            }
-          }
-          alerts.innerHTML = `<div class="alert alert-success">تمت إعادة توليد الرمز بنجاح! رمز التفعيل الجديد هو: <strong style="font-size: 1.15rem; letter-spacing: 2px; color: var(--primary);">${newOtp}</strong></div>`;
+          alerts.innerHTML = `<div class="alert alert-success">${res.message}</div>`;
         } else {
           alerts.innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
         }

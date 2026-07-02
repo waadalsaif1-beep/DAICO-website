@@ -43,6 +43,64 @@ const AUTH = {
     return { success: true, user: sessionUser };
   },
 
+  validatePassword(password, name, email) {
+    const minLength = 8;
+    const errors = [];
+
+    if (!password || password.length < minLength) {
+      errors.push('يجب ألا تقل كلمة المرور عن 8 خانات');
+    }
+    if (!/[A-Z]/.test(password)) {
+      errors.push('يجب أن تحتوي على حرف كبير واحد على الأقل (Uppercase)');
+    }
+    if (!/[a-z]/.test(password)) {
+      errors.push('يجب أن تحتوي على حرف صغير واحد على الأقل (Lowercase)');
+    }
+    if (!/\d/.test(password)) {
+      errors.push('يجب أن تحتوي على رقم واحد على الأقل (Digit)');
+    }
+    if (!/[@#\$%&\*\-\+\!\?\^\~\(\)\[\]\{\}\<\>\,\.\:\;\=\_\/\\|]/.test(password)) {
+      errors.push('يجب أن تحتوي على رمز خاص واحد على الأقل (مثل: @, #, $, %, &)');
+    }
+
+    // Common passwords list
+    const commonPasswords = [
+      '123456', '12345678', '123456789', 'password', 'qwerty', 'admin123', 'student123', 'daico123',
+      'welcome123', '11111111', '12341234', 'password123', 'pass123'
+    ];
+    if (commonPasswords.includes(password.toLowerCase())) {
+      errors.push('منع استخدام كلمات مرور شائعة وسهلة التخمين');
+    }
+
+    // Sequential / repeating patterns
+    if (/(\w)\1\1\1/.test(password)) {
+      errors.push('تجنب استخدام أحرف أو أرقام متكررة متتالية');
+    }
+
+    // Name or Email similarity checks
+    if (email) {
+      const emailPrefix = email.split('@')[0].toLowerCase();
+      if (emailPrefix.length >= 3 && password.toLowerCase().includes(emailPrefix)) {
+        errors.push('منع استخدام جزء من البريد الإلكتروني في كلمة المرور');
+      }
+    }
+
+    if (name) {
+      const nameParts = name.toLowerCase().split(/\s+/);
+      for (const part of nameParts) {
+        if (part.length >= 3 && password.toLowerCase().includes(part)) {
+          errors.push('منع استخدام الاسم الشخصي أو جزء منه في كلمة المرور');
+          break;
+        }
+      }
+    }
+
+    return {
+      isValid: errors.length === 0,
+      errors: errors
+    };
+  },
+
   register(name, email, password, roleId = 3) {
     if (!window.DAICO_DB) return { success: false, message: 'خطأ في قاعدة البيانات' };
 
@@ -51,9 +109,15 @@ const AUTH = {
       return { success: false, message: 'البريد الإلكتروني مستخدم بالفعل' };
     }
 
+    // Run password validation
+    const validationResult = this.validatePassword(password, name, email);
+    if (!validationResult.isValid) {
+      return { success: false, message: validationResult.errors.join('<br>') };
+    }
+
     // Generate secure random 4-digit code
     const verificationCode = Math.floor(1000 + Math.random() * 9000).toString();
-    const expirationTime = Date.now() + 15 * 60 * 1000; // 15 minutes
+    const expirationTime = Date.now() + 5 * 60 * 1000; // 5 minutes
 
     const newUser = window.DAICO_DB.insert('users', {
       name: name,
@@ -66,7 +130,15 @@ const AUTH = {
       created_at: new Date().toISOString().split('T')[0]
     });
 
-    // Simulate sending email via configured service securely (no console logs)
+    // Send email via configured backend service
+    fetch('http://localhost:3000/api/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.toLowerCase(), name: name, otp: verificationCode })
+    }).catch(err => {
+      console.warn('Backend service offline. OTP verification code is: ', verificationCode);
+    });
+
     return { success: true, email: newUser.email, message: 'تم إرسال رمز التفعيل إلى بريدك الإلكتروني.' };
   },
 
@@ -89,7 +161,7 @@ const AUTH = {
     }
 
     if (Date.now() > user.verification_expires_at) {
-      return { success: false, message: 'انتهت صلاحية رمز التفعيل. يرجى طلب رمز جديد.' };
+      return { success: false, message: 'انتهت صلاحية رمز التفعيل (صلاحية الرمز 5 دقائق فقط). يرجى طلب رمز جديد.' };
     }
 
     if (user.verification_code !== pin) {
@@ -125,14 +197,22 @@ const AUTH = {
     }
 
     const newCode = Math.floor(1000 + Math.random() * 9000).toString();
-    const expirationTime = Date.now() + 15 * 60 * 1000;
+    const expirationTime = Date.now() + 5 * 60 * 1000; // 5 minutes
 
     window.DAICO_DB.update('users', user.id, {
       verification_code: newCode,
       verification_expires_at: expirationTime
     });
 
-    // Simulate sending email securely
+    // Send email via configured backend service
+    fetch('http://localhost:3000/api/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.toLowerCase(), name: user.name, otp: newCode })
+    }).catch(err => {
+      console.warn('Backend service offline. OTP verification code is: ', newCode);
+    });
+
     return { success: true, message: 'تم إرسال رمز تفعيل جديد إلى بريدك الإلكتروني.' };
   },
 

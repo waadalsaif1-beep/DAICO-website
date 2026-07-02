@@ -421,3 +421,82 @@ a:hover {
   color: var(--danger);
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
+
+/* ================================================================
+   LANGUAGE SWITCHER & LTR STYLING OVERRIDES
+   ================================================================ */
+.lang-toggle {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-family);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.lang-toggle:hover {
+  background-color: var(--bg-tertiary);
+  border-color: var(--text-muted);
+  transform: translateY(-1px);
+}
+
+.lang-toggle:active {
+  transform: scale(0.95);
+}
+
+html[dir="ltr"] body {
+  direction: ltr;
+  text-align: left;
+}
+
+html[dir="ltr"] .hero-grid-container,
+html[dir="ltr"] .hero-text-content .hero-title,
+html[dir="ltr"] .hero-text-content .hero-desc,
+html[dir="ltr"] .hero-text-content .hero-cta,
+html[dir="ltr"] .contact-form,
+html[dir="ltr"] .form-group,
+html[dir="ltr"] .daico-auth-title,
+html[dir="ltr"] .daico-auth-subtitle,
+html[dir="ltr"] .auth-title,
+html[dir="ltr"] .auth-subtitle,
+html[dir="ltr"] .auth-form,
+html[dir="ltr"] .dashboard-section-title,
+html[dir="ltr"] .dashboard-section-desc,
+html[dir="ltr"] .stat-item,
+html[dir="ltr"] .dashboard-header {
+  text-align: left;
+}
+
+html[dir="ltr"] .sdaia-badge {
+  border-right: none !important;
+  border-left: 1px solid var(--border-color) !important;
+  padding-right: 0 !important;
+  padding-left: var(--space-sm) !important;
+  margin-right: 0 !important;
+  margin-left: 2px !important;
+}
+
+html[dir="ltr"] .hero-cta,
+html[dir="ltr"] .nav-actions,
+html[dir="ltr"] .dashboard-actions {
+  flex-direction: row;
+}
+
+html[dir="ltr"] .sidebar-user {
+  text-align: left;
+}
+
+html[dir="ltr"] .sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  text-align: left;
+}
+

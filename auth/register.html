@@ -107,6 +107,34 @@
         </div>
       </div>
 
+      <!-- Password Strength Checklist -->
+      <div id="password-rules-checklist" class="password-rules-container" style="display:none; margin-top:-8px; margin-bottom:16px; padding:14px; border-radius:12px; border:1px solid var(--daico-border); background:var(--daico-teal-tint); font-size:12px; animation: fadeIn 0.3s ease;">
+        <div style="font-weight:600; color:var(--daico-teal-primary); margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+          <span>شروط كلمة المرور القوية:</span>
+          <span id="password-strength-label" style="font-weight:bold; font-size:11px; padding:2px 8px; border-radius:12px; background:#ffffff; color:#ef4444; border: 1px solid rgba(0,0,0,0.05);">ضعيفة</span>
+        </div>
+        <ul style="list-style:none; padding:0; margin:0; display:grid; grid-template-columns:1fr; gap:6px;">
+          <li id="rule-length" style="color:#ef4444; display:flex; align-items:center; gap:6px; transition:color 0.2s;">
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>8 خانات على الأقل</span>
+          </li>
+          <li id="rule-upper" style="color:#ef4444; display:flex; align-items:center; gap:6px; transition:color 0.2s;">
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>حرف كبير واحد على الأقل (Uppercase)</span>
+          </li>
+          <li id="rule-lower" style="color:#ef4444; display:flex; align-items:center; gap:6px; transition:color 0.2s;">
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>حرف صغير واحد على الأقل (Lowercase)</span>
+          </li>
+          <li id="rule-digit" style="color:#ef4444; display:flex; align-items:center; gap:6px; transition:color 0.2s;">
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>رقم واحد على الأقل (Digit)</span>
+          </li>
+          <li id="rule-special" style="color:#ef4444; display:flex; align-items:center; gap:6px; transition:color 0.2s;">
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>رمز خاص واحد على الأقل (مثل: @, #, $, %)</span>
+          </li>
+          <li id="rule-avoid" style="color:#ef4444; display:flex; align-items:center; gap:6px; transition:color 0.2s;">
+            <span class="rule-icon" style="font-weight:bold; width:12px;">✕</span> <span>تجنب الكلمات الشائعة واسم المستخدم</span>
+          </li>
+        </ul>
+      </div>
+
       <!-- Password Confirm -->
       <div class="daico-form-group">
         <label class="daico-form-label" for="reg-password-confirm">تأكيد كلمة المرور *</label>
@@ -221,14 +249,118 @@
         alerts.innerHTML = '';
       });
 
+      // Password strength elements
+      const regPasswordInput = document.getElementById('reg-password');
+      const checklistContainer = document.getElementById('password-rules-checklist');
+      const ruleLength = document.getElementById('rule-length');
+      const ruleUpper = document.getElementById('rule-upper');
+      const ruleLower = document.getElementById('rule-lower');
+      const ruleDigit = document.getElementById('rule-digit');
+      const ruleSpecial = document.getElementById('rule-special');
+      const ruleAvoid = document.getElementById('rule-avoid');
+      const strengthLabel = document.getElementById('password-strength-label');
+
+      function updateRule(element, isValid) {
+        const icon = element.querySelector('.rule-icon');
+        if (isValid) {
+          element.style.color = '#22c55e';
+          icon.innerText = '✓';
+        } else {
+          element.style.color = '#ef4444';
+          icon.innerText = '✕';
+        }
+      }
+
+      regPasswordInput.addEventListener('focus', () => {
+        checklistContainer.style.display = 'block';
+      });
+
+      regPasswordInput.addEventListener('input', () => {
+        const val = regPasswordInput.value;
+        const name = document.getElementById('reg-name').value;
+        const email = emailInput.value;
+
+        // Perform validations
+        const isLengthValid = val.length >= 8;
+        const isUpperValid = /[A-Z]/.test(val);
+        const isLowerValid = /[a-z]/.test(val);
+        const isDigitValid = /\d/.test(val);
+        const isSpecialValid = /[@#\$%&\*\-\+\!\?\^\~\(\)\[\]\{\}\<\>\,\.\:\;\=\_\/\\|]/.test(val);
+
+        let isAvoidValid = true;
+        const commonPasswords = [
+          '123456', '12345678', '123456789', 'password', 'qwerty', 'admin123', 'student123', 'daico123',
+          'welcome123', '11111111', '12341234', 'password123', 'pass123'
+        ];
+        if (commonPasswords.includes(val.toLowerCase())) {
+          isAvoidValid = false;
+        }
+        if (/(\w)\1\1\1/.test(val)) {
+          isAvoidValid = false;
+        }
+        if (email) {
+          const emailPrefix = email.split('@')[0].toLowerCase();
+          if (emailPrefix.length >= 3 && val.toLowerCase().includes(emailPrefix)) {
+            isAvoidValid = false;
+          }
+        }
+        if (name) {
+          const nameParts = name.toLowerCase().split(/\s+/);
+          for (const part of nameParts) {
+            if (part.length >= 3 && val.toLowerCase().includes(part)) {
+              isAvoidValid = false;
+              break;
+            }
+          }
+        }
+
+        updateRule(ruleLength, isLengthValid);
+        updateRule(ruleUpper, isUpperValid);
+        updateRule(ruleLower, isLowerValid);
+        updateRule(ruleDigit, isDigitValid);
+        updateRule(ruleSpecial, isSpecialValid);
+        updateRule(ruleAvoid, isAvoidValid && val.length > 0);
+
+        // Score logic
+        let score = 0;
+        if (isLengthValid) score++;
+        if (isUpperValid) score++;
+        if (isLowerValid) score++;
+        if (isDigitValid) score++;
+        if (isSpecialValid) score++;
+        if (isAvoidValid && val.length > 0) score++;
+
+        if (val.length === 0) {
+          strengthLabel.innerText = 'ضعيفة';
+          strengthLabel.style.backgroundColor = '#ffffff';
+          strengthLabel.style.color = '#ef4444';
+        } else if (score <= 2) {
+          strengthLabel.innerText = 'ضعيفة جداً';
+          strengthLabel.style.backgroundColor = '#fef2f2';
+          strengthLabel.style.color = '#ef4444';
+        } else if (score <= 4) {
+          strengthLabel.innerText = 'متوسطة الأمان';
+          strengthLabel.style.backgroundColor = '#fffbeb';
+          strengthLabel.style.color = '#f59e0b';
+        } else if (score < 6) {
+          strengthLabel.innerText = 'قوية';
+          strengthLabel.style.backgroundColor = '#f0fdf4';
+          strengthLabel.style.color = '#10b981';
+        } else {
+          strengthLabel.innerText = 'ممتازة وقوية جداً 🛡️';
+          strengthLabel.style.backgroundColor = '#f0fdf4';
+          strengthLabel.style.color = '#22c55e';
+        }
+      });
+
       // Submit Registration form
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
         alerts.innerHTML = '';
 
         const name = document.getElementById('reg-name').value;
         const email = emailInput.value;
-        const pass = document.getElementById('reg-password').value;
+        const pass = regPasswordInput.value;
         const confirmPass = document.getElementById('reg-password-confirm').value;
 
         if (pass !== confirmPass) {
@@ -236,28 +368,31 @@
           return;
         }
 
-        if (pass.length < 6) {
-          alerts.innerHTML = `<div class="daico-alert daico-alert-danger">يجب أن تتكون كلمة المرور من 6 خانات على الأقل.</div>`;
+        // Enforce the Password Security Policy validation via DAICO_AUTH
+        const passValidation = window.DAICO_AUTH.validatePassword(pass, name, email);
+        if (!passValidation.isValid) {
+          alerts.innerHTML = `<div class="daico-alert daico-alert-danger">${passValidation.errors.join('<br>')}</div>`;
           return;
         }
 
         // Map role to standard DB role_id (2 for Admin, 3 for User)
         const targetRoleId = activeRole === 'admin' ? 2 : 3;
 
-        const res = window.DAICO_AUTH.register(name, email, pass, targetRoleId);
+        alerts.innerHTML = `<div class="daico-alert daico-alert-success">جاري تسجيل الحساب وإرسال الرمز...</div>`;
+
+        const res = await window.DAICO_AUTH.register(name, email, pass, targetRoleId);
 
         if (res.success) {
           alerts.innerHTML = `<div class="daico-alert daico-alert-success">${res.message} جاري التحويل...</div>`;
           setTimeout(() => {
             window.location.href = `verify-email.html?email=${encodeURIComponent(res.email)}`;
-          }, 2000);
+          }, 3000);
         } else {
           alerts.innerHTML = `<div class="daico-alert daico-alert-danger">${res.message}</div>`;
         }
       });
 
       // Show/Hide Password Toggles
-      const regPasswordInput = document.getElementById('reg-password');
       const regPasswordToggle = document.getElementById('reg-password-toggle');
       regPasswordToggle.addEventListener('click', () => {
         if (regPasswordInput.type === 'password') {
