@@ -1,7 +1,7 @@
 :root {
-  --daico-teal-primary: #0e8074;    /* اللون الأساسي: الأزرار، التبويب النشط، الروابط */
-  --daico-teal-dark: #0a5f56;       /* hover states */
-  --daico-teal-tint: #e5f4f2;       /* خلفيات فاتحة (badge الإعدادات، حالات hover خفيفة) */
+  --daico-teal-primary: #1C355E;    /* اللون الأساسي الجديد: الكحلي الداكن */
+  --daico-teal-dark: #12223c;       /* hover states */
+  --daico-teal-tint: rgba(28, 53, 94, 0.06);       /* خلفيات فاتحة */
   --daico-text-primary: #1a1a1a;
   --daico-text-secondary: #6b7280;
   --daico-border: #e5e7eb;
@@ -45,8 +45,8 @@
 }
 
 .daico-brand-logo {
-  width: 42px;
-  height: 42px;
+  width: 28px;
+  height: 28px;
   object-fit: contain;
 }
 

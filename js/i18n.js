@@ -177,7 +177,7 @@ const I18N_TRANSLATIONS = {
     trainer_menu_schedule: "جدول المحاضرات والمهام",
     trainer_menu_students: "تقييم أداء الطلاب",
     trainer_menu_profile: "بياناتي المهنية والخبرات",
-    auth_brand: "دايكو DAICO",
+    auth_brand: "دايكو <strong>DAICO</strong>",
     auth_subtitle_desc: "مركز التميز للبيانات والذكاء الاصطناعي",
     auth_login_title: "تسجيل الدخول للمنصة",
     auth_login_desc: "أهلاً بك مجدداً، الرجاء إدخال بياناتك للمتابعة.",
@@ -739,7 +739,7 @@ const I18N_TRANSLATIONS = {
     trainer_menu_schedule: "Schedule & Tasks",
     trainer_menu_students: "Student Performance Evaluation",
     trainer_menu_profile: "Professional Data & Experience",
-    auth_brand: "DAICO",
+    auth_brand: "<strong>DAICO</strong>",
     auth_subtitle_desc: "Data & AI Center of Excellence",
     auth_login_title: "Platform Login",
     auth_login_desc: "Welcome back, please enter your details to continue.",
@@ -1165,8 +1165,12 @@ function translatePage(lang) {
           }
         }
       } else {
-        // Simple text replacement
-        el.textContent = dict[key];
+        // Simple text replacement (uses innerHTML if HTML tags are present)
+        if (dict[key] && dict[key].includes('<')) {
+          el.innerHTML = dict[key];
+        } else {
+          el.textContent = dict[key];
+        }
       }
     }
   });
