@@ -1,9 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
+@font-face {
+  font-family: 'DiodrumArabic';
+  src: local('Diodrum Arabic'), local('DiodrumArabic'), local('Diodrum');
+}
+@font-face {
+  font-family: 'Helvetica Neue Arabic';
+  src: local('Helvetica Neue Arabic'), local('HelveticaNeueArabic'), local('Helvetica Neue'), Helvetica, Arial, sans-serif;
+}
+
 :root {
-  /* Font Family - IBM Plex Sans Arabic for Arabic (primary), Inter for numbers/UI */
-  --font-family: 'IBM Plex Sans Arabic', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  
+  /* Fonts - DiodrumArabic for headings, Helvetica Neue Arabic for body (SDAIA Identity) */
+  --font-family-title: 'DiodrumArabic', 'Diodrum Arabic', 'IBM Plex Sans Arabic', sans-serif;
+  --font-family-body: 'Helvetica Neue Arabic', 'Helvetica Neue', 'Inter', 'Segoe UI', sans-serif;
+  --font-family: var(--font-family-body);
+
   /* ================================================================
      DISPLAY TYPOGRAPHY SCALE — (brief §3: push the type system further)
      ================================================================ */
@@ -23,7 +34,7 @@
   --space-xl: 2rem;
   --space-2xl: 3rem;
   --space-3xl: 4.5rem;
-  
+
   /* Border Radius */
   --radius-sm: 6px;
   --radius-md: 12px;
@@ -37,50 +48,61 @@
   --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ================================================================
-     BRAND COLOR — BASE PLATFORM BLUE
-     (brief §1: "dominant UI color — same role it plays as the vessel")
+     BRAND COLORS — SDAIA IDENTITY
      ================================================================ */
-  --primary-hue: 181;
-  --primary-sat: 100%;
-  --primary-light: 33%;
+  --sdaia-dark-blue: #1C355E;
+  --sdaia-coral: #e96852;
+  --sdaia-teal: #00ae8d;
+  --sdaia-purple: #625d9c;
+  --sdaia-cyan: #00c1de;
+  --sdaia-lime: #6abf4b;
+  --sdaia-yellow: #ffb548;
+  --sdaia-black: #101820;
+
+  --primary-hue: 217;
+  --primary-sat: 54%;
+  --primary-light: 24%;
   --primary: hsl(var(--primary-hue), var(--primary-sat), var(--primary-light));
-  --primary-hover: hsl(var(--primary-hue), var(--primary-sat), 26%);
+  --primary-hover: hsl(var(--primary-hue), var(--primary-sat), 16%);
   --primary-glow: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.15);
 
+  --hero-badge-bg: rgba(28, 53, 94, 0.05);
+  --hero-badge-text: var(--sdaia-teal);
+  --hero-badge-border: rgba(28, 53, 94, 0.12);
+
   /* ================================================================
-     FACET ACCENT PALETTE — Derived from the logo's 5 facet colors
-     (brief §1: "use as ACCENT PALETTE for badges, tags, charts, celebrations")
+     FACET ACCENT PALETTE — Mapped to SDAIA Brand Palette
      ================================================================ */
-  
-  /* Sky/Star Blue — "insight" facet (course badge) */
-  --facet-sky: #5EC2F6;
-  --facet-sky-deep: #2A86C7;
-  --facet-sky-glow: rgba(94, 194, 246, 0.15);
-  --facet-sky-bg: rgba(94, 194, 246, 0.10);
 
-  /* Amber/Orange — "energy" facet (bootcamp badge) */
-  --facet-amber: #FACC15;
-  --facet-amber-deep: #EA580C;
-  --facet-amber-glow: rgba(250, 204, 21, 0.15);
-  --facet-amber-bg: rgba(250, 204, 21, 0.10);
+  /* Sky/Star Blue — mapped to SDAIA Cyan */
+  --facet-sky: var(--sdaia-cyan);
+  --facet-sky-deep: var(--sdaia-dark-blue);
+  --facet-sky-glow: rgba(0, 193, 222, 0.15);
+  --facet-sky-bg: rgba(0, 193, 222, 0.10);
 
-  /* Lime/Green — "growth" facet (workshop badge) */
-  --facet-lime: #A3E635;
-  --facet-lime-deep: #65A30D;
-  --facet-lime-glow: rgba(163, 230, 53, 0.15);
-  --facet-lime-bg: rgba(163, 230, 53, 0.10);
+  /* Amber/Orange — mapped to SDAIA Yellow/Orange */
+  --facet-amber: var(--sdaia-yellow);
+  --facet-amber-deep: var(--sdaia-coral);
+  --facet-amber-glow: rgba(255, 181, 72, 0.15);
+  --facet-amber-bg: rgba(255, 181, 72, 0.10);
 
-  /* Emerald/Teal — "completion/success" facet */
-  --facet-emerald: #10B981;
-  --facet-emerald-deep: #047857;
-  --facet-emerald-glow: rgba(16, 185, 129, 0.15);
-  --facet-emerald-bg: rgba(16, 185, 129, 0.10);
+  /* Lime/Green — mapped to SDAIA Lime/Green */
+  --facet-lime: var(--sdaia-lime);
+  --facet-lime-deep: #4d8f33;
+  --facet-lime-glow: rgba(106, 191, 75, 0.15);
+  --facet-lime-bg: rgba(106, 191, 75, 0.10);
 
-  /* Red-Orange — "fire/spark" facet (hackathon badge, alerts — use sparingly) */
-  --facet-red: #F97316;
-  --facet-red-deep: #B91C1C;
-  --facet-red-glow: rgba(249, 115, 22, 0.15);
-  --facet-red-bg: rgba(249, 115, 22, 0.10);
+  /* Emerald/Teal — mapped to SDAIA Teal */
+  --facet-emerald: var(--sdaia-teal);
+  --facet-emerald-deep: #007c65;
+  --facet-emerald-glow: rgba(0, 174, 141, 0.15);
+  --facet-emerald-bg: rgba(0, 174, 141, 0.10);
+
+  /* Red-Orange — mapped to SDAIA Coral */
+  --facet-red: var(--sdaia-coral);
+  --facet-red-deep: #c44d39;
+  --facet-red-glow: rgba(233, 104, 82, 0.15);
+  --facet-red-bg: rgba(233, 104, 82, 0.10);
 
   /* ================================================================
      PROGRAM-TYPE BADGE COLOR MAP
@@ -104,7 +126,7 @@
   --text-muted: #64748b;
   --border-color: rgba(15, 23, 42, 0.08);
   --border-focus: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.4);
-  
+
   /* Semantic Colors */
   --success: #10b981;
   --success-bg: rgba(16, 185, 129, 0.1);
@@ -114,7 +136,7 @@
   --danger-bg: rgba(239, 68, 68, 0.1);
   --info: #0ea5e9;
   --info-bg: rgba(14, 165, 233, 0.1);
-  
+
   /* Elevation Shadows (Apple Inspired) */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(0, 0, 0, 0.02);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.03);
@@ -130,27 +152,31 @@
    DARK THEME — preserves existing override pattern
    ================================================================ */
 html[data-theme="dark"] {
-  --bg-primary: #030712;
-  --bg-secondary: #0b1329;
-  --bg-tertiary: #111c3a;
+  --bg-primary: #101820; /* SDAIA Dark Navy/Black */
+  --bg-secondary: #172230; /* Lighter shade of navy */
+  --bg-tertiary: #1f2d3f;
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
   --border-color: rgba(255, 255, 255, 0.08);
   --border-focus: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.5);
-  
-  --primary-sat: 60%;
-  --primary-light: 48%;
+
+  --primary-sat: 75%;
+  --primary-light: 60%;
   --primary: hsl(var(--primary-hue), var(--primary-sat), var(--primary-light));
-  --primary-hover: hsl(var(--primary-hue), var(--primary-sat), 58%);
-  --primary-glow: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.12);
-  
+  --primary-hover: hsl(var(--primary-hue), var(--primary-sat), 70%);
+  --primary-glow: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.15);
+
+  --hero-badge-bg: rgba(0, 174, 141, 0.10);
+  --hero-badge-text: var(--sdaia-teal);
+  --hero-badge-border: rgba(0, 174, 141, 0.25);
+
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
   --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.4);
   --shadow-glow: 0 0 40px hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.10);
-  
+
   --success-bg: rgba(16, 185, 129, 0.15);
   --warning-bg: rgba(245, 158, 11, 0.15);
   --danger-bg: rgba(239, 68, 68, 0.15);
@@ -175,31 +201,77 @@ html[data-theme="dark"] {
 
 /* Existing — preserved */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeOut {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(10px); }
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 }
 
 @keyframes pulseGlow {
-  0%, 100% { transform: scale(1); opacity: 0.4; filter: blur(50px); }
-  50% { transform: scale(1.1); opacity: 0.6; filter: blur(60px); }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+    filter: blur(50px);
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.6;
+    filter: blur(60px);
+  }
 }
 
 @keyframes rotateSpinner {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* NEW — Stripe-inspired slow glow drift (brief §4 HOMEPAGE) */
 @keyframes glowDrift {
-  0%   { transform: translate(0, 0) scale(1);   opacity: 0.35; }
-  25%  { transform: translate(30px, -20px) scale(1.05); opacity: 0.5; }
-  50%  { transform: translate(-15px, 15px) scale(1.1); opacity: 0.4; }
-  75%  { transform: translate(10px, 25px) scale(1.02); opacity: 0.55; }
-  100% { transform: translate(0, 0) scale(1);   opacity: 0.35; }
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.35;
+  }
+
+  25% {
+    transform: translate(30px, -20px) scale(1.05);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translate(-15px, 15px) scale(1.1);
+    opacity: 0.4;
+  }
+
+  75% {
+    transform: translate(10px, 25px) scale(1.02);
+    opacity: 0.55;
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.35;
+  }
 }
 
 /* NEW — Staggered card/element entrance (brief §5) */
@@ -208,6 +280,7 @@ html[data-theme="dark"] {
     opacity: 0;
     transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -216,9 +289,17 @@ html[data-theme="dark"] {
 
 /* NEW — Section title gradient shift for rhythm (brief §3) */
 @keyframes gradientShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* NEW — Toast slide-in from bottom (brief §5) */
@@ -227,6 +308,7 @@ html[data-theme="dark"] {
     opacity: 0;
     transform: translateY(20px) translateX(-50%);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) translateX(-50%);
@@ -238,6 +320,19 @@ html[data-theme="dark"] {
     opacity: 1;
     transform: translateY(0) translateX(-50%);
   }
+
+  to {
+    opacity: 0;
+    transform: translateY(20px) translateX(-50%);
+  }
+}
+
+@keyframes toastSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+
   to {
     opacity: 0;
     transform: translateY(20px) translateX(-50%);

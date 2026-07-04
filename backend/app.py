@@ -2,6 +2,8 @@ import os
 import re
 import random
 import time
+import hashlib
+import secrets
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import smtplib
@@ -15,9 +17,33 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)  # Enable Cross-Origin Resource Sharing
 
+# Security Headers Middleware
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['Referrer-Policy'] = 'no-referrer'
+    response.headers['Content-Security-Policy'] = "default-src 'self'; frame-ancestors 'none';"
+    return response
+
 # Mock database
 users_db = []
-otps_db = {}  # email -> { 'code': str, 'expires_at': float }
+otps_db = {}  # email -> { 'code': str, 'expires_at': float, 'attempts': int, 'last_sent_at': float }
+send_otp_cooldown = {} # email -> last_sent_timestamp (float)
+
+def hash_password(password: str) -> str:
+    salt = secrets.token_hex(16)
+    # PBKDF2 with SHA-256 and 100,000 iterations
+    hash_val = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), bytes.fromhex(salt), 100000).hex()
+    return f"{salt}:{hash_val}"
+
+def verify_password(password: str, stored_hash: str) -> bool:
+    try:
+        salt, hash_val = stored_hash.split(':')
+        test_hash = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), bytes.fromhex(salt), 100000).hex()
+        return secrets.compare_digest(hash_val, test_hash)
+    except Exception:
+        return False
 
 def validate_password(password, name="", email=""):
     min_length = 8
@@ -128,6 +154,19 @@ def send_otp_endpoint():
     if not email or not otp:
         return jsonify({"success": False, "message": "البريد الإلكتروني والرمز مطلوبان"}), 400
 
+    # Rate Limiting: 60 seconds cooldown per email
+    email_clean = email.strip().lower()
+    now = time.time()
+    if email_clean in send_otp_cooldown:
+        last_sent = send_otp_cooldown[email_clean]
+        diff = now - last_sent
+        if diff < 60:
+            return jsonify({
+                "success": False,
+                "message": f"يرجى الانتظار {int(60 - diff) + 1} ثانية قبل طلب رمز تحقق جديد."
+            }), 429
+    send_otp_cooldown[email_clean] = now
+
     try:
         send_smtp_email(email, name, otp)
         return jsonify({"success": True, "message": "تم إرسال رمز التحقق بنجاح."})
@@ -156,20 +195,31 @@ def register():
         if u["email"] == email_clean:
             return jsonify({"success": False, "message": "البريد الإلكتروني مسجل بالفعل"}), 400
 
-    # Generate OTP (5 mins expiry)
-    otp = str(random.randint(1000, 9999))
-    expires_at = time.time() + 5 * 60  # 5 minutes
+    # Rate Limiting: 60 seconds cooldown for registering OTP
+    now = time.time()
+    if email_clean in otps_db:
+        existing_otp = otps_db[email_clean]
+        if 'last_sent_at' in existing_otp and (now - existing_otp['last_sent_at']) < 60:
+            diff = now - existing_otp['last_sent_at']
+            return jsonify({
+                "success": False,
+                "message": f"يرجى الانتظار {int(60 - diff) + 1} ثانية قبل طلب رمز تحقق جديد."
+            }), 429
 
-    # Insert user (In production, hash password)
+    # Generate secure OTP using CSPRNG
+    otp = str(secrets.randbelow(9000) + 1000)
+    expires_at = now + 5 * 60  # 5 minutes
+
+    # Insert user (securely hashed password using pbkdf2_hmac)
     new_user = {
         "id": len(users_db) + 1,
         "name": name,
         "email": email_clean,
-        "password_hash": password,  # Use bcrypt/scrypt in prod
+        "password_hash": hash_password(password),
         "verified": False
     }
     users_db.append(new_user)
-    otps_db[email_clean] = {"code": otp, "expires_at": expires_at}
+    otps_db[email_clean] = {"code": otp, "expires_at": expires_at, "attempts": 0, "last_sent_at": now}
 
     # Send email
     try:
@@ -198,13 +248,19 @@ def verify_otp():
     if not record:
         return jsonify({"success": False, "message": "لم يتم طلب رمز تفعيل لهذا البريد الإلكتروني"}), 400
 
+    # Track attempts to prevent brute force
+    record['attempts'] = record.get('attempts', 0) + 1
+
     # Check expiry
     if time.time() > record["expires_at"]:
         del otps_db[email_clean]
         return jsonify({"success": False, "message": "انتهت صلاحية رمز التحقق (صلاحية الرمز 5 دقائق فقط). يرجى طلب رمز جديد."}), 400
 
     if record["code"] != otp:
-        return jsonify({"success": False, "message": "رمز التحقق غير صحيح"}), 400
+        if record['attempts'] >= 5:
+            del otps_db[email_clean]
+            return jsonify({"success": False, "message": "تم تجاوز الحد الأقصى للمحاولات الخاطئة (5 محاولات). تم إبطال الرمز، يرجى طلب رمز جديد."}), 400
+        return jsonify({"success": False, "message": f"رمز التحقق غير صحيح. المحاولات المتبقية: {5 - record['attempts']}"}), 400
 
     # Verify user
     for u in users_db:
@@ -239,7 +295,8 @@ def login():
     if not user:
         return jsonify({"success": False, "message": "البريد الإلكتروني غير مسجل لدينا"}), 404
 
-    if user["password_hash"] != password:
+    # Securely verify password
+    if not verify_password(password, user["password_hash"]):
         return jsonify({"success": False, "message": "كلمة المرور غير صحيحة"}), 401
 
     if not user["verified"]:

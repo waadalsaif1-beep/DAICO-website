@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const app = express();
@@ -10,9 +11,39 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Security Headers Middleware
+app.use((req, res, next) => {
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Referrer-Policy', 'no-referrer');
+  res.setHeader('Content-Security-Policy', "default-src 'self'; frame-ancestors 'none';");
+  next();
+});
+
 // In-Memory Storage for mock production database (Users & OTPs)
 const usersDb = [];
-const otpsDb = new Map(); // email -> { code, expiresAt }
+const otpsDb = new Map(); // email -> { code, expiresAt, attempts, lastSentAt }
+const sendOtpCooldown = new Map(); // email -> lastSentTimestamp (for /api/send-otp rate limit)
+
+/**
+ * Secure Password Hashing & Verification using built-in scrypt
+ */
+function hashPassword(password) {
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+  return `${salt}:${hash}`;
+}
+
+function verifyPassword(password, storedHash) {
+  try {
+    const [salt, hash] = storedHash.split(':');
+    if (!salt || !hash) return false;
+    const testHash = crypto.scryptSync(password, salt, 64).toString('hex');
+    return crypto.timingSafeEqual(Buffer.from(hash, 'hex'), Buffer.from(testHash, 'hex'));
+  } catch (err) {
+    return false;
+  }
+}
 
 /**
  * Robust Password Strength Validation Policy
@@ -122,6 +153,21 @@ app.post('/api/send-otp', async (req, res) => {
     return res.status(400).json({ success: false, message: 'البريد الإلكتروني والرمز مطلوبان' });
   }
 
+  // Rate Limiting: 60 seconds cooldown per email
+  const emailClean = email.toLowerCase().trim();
+  const now = Date.now();
+  if (sendOtpCooldown.has(emailClean)) {
+    const lastSent = sendOtpCooldown.get(emailClean);
+    const diff = (now - lastSent) / 1000;
+    if (diff < 60) {
+      return res.status(429).json({
+        success: false,
+        message: `يرجى الانتظار ${Math.ceil(60 - diff)} ثانية قبل طلب رمز تحقق جديد.`
+      });
+    }
+  }
+  sendOtpCooldown.set(emailClean, now);
+
   try {
     const transporter = getEmailTransporter();
     
@@ -179,29 +225,42 @@ app.post('/api/auth/register', async (req, res) => {
     return res.status(400).json({ success: false, message: passValidation.errors.join(', ') });
   }
 
+  const emailClean = email.toLowerCase().trim();
+
   // Check if user already exists
-  const existingUser = usersDb.find(u => u.email === email.toLowerCase());
+  const existingUser = usersDb.find(u => u.email === emailClean);
   if (existingUser) {
     return res.status(400).json({ success: false, message: 'البريد الإلكتروني مسجل بالفعل' });
   }
 
-  // Generate 4-digit OTP code & 5-minute expiry
-  const otp = Math.floor(1000 + Math.random() * 9000).toString();
-  const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
+  // Rate Limiting: 60 seconds cooldown per email for register OTP resend
+  const now = Date.now();
+  const existingOtp = otpsDb.get(emailClean);
+  if (existingOtp && existingOtp.lastSentAt && (now - existingOtp.lastSentAt) < 60000) {
+    const diff = (now - existingOtp.lastSentAt) / 1000;
+    return res.status(429).json({
+      success: false,
+      message: `يرجى الانتظار ${Math.ceil(60 - diff)} ثانية قبل طلب رمز تحقق جديد.`
+    });
+  }
 
-  // Save new user in mock DB (In production, hash the password using bcrypt)
+  // Generate secure 4-digit OTP code & 5-minute expiry
+  const otp = crypto.randomInt(1000, 10000).toString();
+  const expiresAt = now + 5 * 60 * 1000; // 5 minutes
+
+  // Save new user in mock DB (securely hashed password using scrypt)
   const newUser = {
     id: usersDb.length + 1,
     name,
-    email: email.toLowerCase(),
-    passwordHash: password, // In production, bcrypt.hashSync(password, 10)
+    email: emailClean,
+    passwordHash: hashPassword(password),
     verified: false,
     createdAt: new Date().toISOString()
   };
   usersDb.push(newUser);
 
-  // Store OTP
-  otpsDb.set(email.toLowerCase(), { code: otp, expiresAt });
+  // Store OTP with attempts tracker and lastSentAt
+  otpsDb.set(emailClean, { code: otp, expiresAt, attempts: 0, lastSentAt: now });
 
   // Send real email via SMTP service
   try {
@@ -233,30 +292,40 @@ app.post('/api/auth/verify-otp', (req, res) => {
     return res.status(400).json({ success: false, message: 'البريد الإلكتروني ورمز OTP مطلوبان' });
   }
 
-  const record = otpsDb.get(email.toLowerCase());
+  const emailClean = email.toLowerCase().trim();
+  const record = otpsDb.get(emailClean);
   if (!record) {
     return res.status(400).json({ success: false, message: 'لم يتم طلب رمز تفعيل لهذا البريد الإلكتروني' });
   }
 
+  // Track attempts to prevent brute force
+  if (!record.attempts) record.attempts = 0;
+  record.attempts++;
+
   // Check expiry (5 minutes limit)
   if (Date.now() > record.expiresAt) {
-    otpsDb.delete(email.toLowerCase());
+    otpsDb.delete(emailClean);
     return res.status(400).json({ success: false, message: 'انتهت صلاحية رمز التحقق (صلاحية الرمز 5 دقائق فقط). يرجى طلب رمز جديد.' });
   }
 
   // Validate OTP code
   if (record.code !== otp) {
-    return res.status(400).json({ success: false, message: 'رمز التحقق غير صحيح' });
+    if (record.attempts >= 5) {
+      otpsDb.delete(emailClean);
+      return res.status(400).json({ success: false, message: 'تم تجاوز الحد الأقصى للمحاولات الخاطئة (5 محاولات). تم إبطال الرمز، يرجى طلب رمز جديد.' });
+    }
+    otpsDb.set(emailClean, record); // update attempts count
+    return res.status(400).json({ success: false, message: `رمز التحقق غير صحيح. المحاولات المتبقية: ${5 - record.attempts}` });
   }
 
   // Update user verified status
-  const user = usersDb.find(u => u.email === email.toLowerCase());
+  const user = usersDb.find(u => u.email === emailClean);
   if (user) {
     user.verified = true;
   }
 
   // Clear OTP code from storage
-  otpsDb.delete(email.toLowerCase());
+  otpsDb.delete(emailClean);
 
   return res.status(200).json({
     success: true,
@@ -280,8 +349,8 @@ app.post('/api/auth/login', (req, res) => {
     return res.status(404).json({ success: false, message: 'البريد الإلكتروني غير مسجل لدينا' });
   }
 
-  // Validate password (In production, use bcrypt.compareSync)
-  if (user.passwordHash !== password) {
+  // Validate password using secure comparison
+  if (!verifyPassword(password, user.passwordHash)) {
     return res.status(401).json({ success: false, message: 'كلمة المرور غير صحيحة' });
   }
 

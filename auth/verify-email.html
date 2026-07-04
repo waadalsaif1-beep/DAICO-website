@@ -37,45 +37,7 @@
 
       <div class="auth-header">
         <div class="auth-logo">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="32" height="32" class="daico-logo">
-            <defs>
-              <linearGradient id="grad-top-left" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#5ec2f6" />
-                <stop offset="100%" stop-color="#2a86c7" />
-              </linearGradient>
-              <linearGradient id="grad-top-right" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#3ba8e8" />
-                <stop offset="100%" stop-color="#1e6091" />
-              </linearGradient>
-              <linearGradient id="grad-right" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#a3e635" />
-                <stop offset="100%" stop-color="#65a30d" />
-              </linearGradient>
-              <linearGradient id="grad-bottom-right" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#10b981" />
-                <stop offset="100%" stop-color="#047857" />
-              </linearGradient>
-              <linearGradient id="grad-bottom-left" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#f97316" />
-                <stop offset="100%" stop-color="#b91c1c" />
-              </linearGradient>
-              <linearGradient id="grad-left" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#facc15" />
-                <stop offset="100%" stop-color="#ea580c" />
-              </linearGradient>
-              <linearGradient id="grad-u-shape" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#0ea5e9" />
-                <stop offset="100%" stop-color="#0284c7" />
-              </linearGradient>
-            </defs>
-            <path d="M 48,108 L 100,138 L 152,108 L 152,150 A 52,52 0 0,1 48,150 Z" fill="url(#grad-u-shape)" />
-            <path d="M 100,10 L 48,40 L 90,53 Z" fill="url(#grad-top-left)" />
-            <path d="M 100,10 L 110,53 L 152,40 Z" fill="url(#grad-top-right)" />
-            <path d="M 152,40 L 120,70 L 152,100 Z" fill="url(#grad-right)" />
-            <path d="M 152,100 L 110,87 L 100,130 Z" fill="url(#grad-bottom-right)" />
-            <path d="M 100,130 L 90,87 L 48,100 Z" fill="url(#grad-bottom-left)" />
-            <path d="M 48,100 L 80,70 L 48,40 Z" fill="url(#grad-left)" />
-          </svg>
+          <img src="../images/daico-logo.png" alt="شعار دايكو" class="daico-logo" width="32" height="32" style="border-radius: 4px; object-fit: cover;">
           <span data-i18n="auth_brand">دايكو DAICO</span>
         </div>
         <h1 class="auth-title" data-i18n="auth_verify_heading">تفعيل الحساب والبريد</h1>
@@ -83,6 +45,18 @@
       </div>
 
       <div id="auth-alert-container"></div>
+
+      <!-- Developer Bypass Info Banner (Active only on local prototype) -->
+      <div id="dev-bypass-container" style="margin-top: 15px; display: none;">
+        <div style="background: rgba(14, 128, 116, 0.08); border: 1.5px dashed rgba(14, 128, 116, 0.4); border-radius: 12px; padding: 12px; font-size: 13.5px; text-align: center; color: #0e8074; backdrop-filter: blur(8px); margin-bottom: 20px; transition: all 0.3s ease;">
+          <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>⚡ وضع التجربة السريعة (Prototype Mode)</span>
+          </div>
+          <span>رمز التفعيل الحالي للحساب: <strong id="dev-otp-code" style="font-size: 17px; letter-spacing: 1.5px; text-decoration: underline; cursor: pointer; color: #2a86c7; font-family: monospace;">-</strong></span>
+          <br>
+          <span style="font-size: 11px; opacity: 0.8; margin-top: 4px; display: inline-block;">(اضغط على الرمز الأزرق أعلاه لتعبئته وتفعيل الحساب تلقائياً)</span>
+        </div>
+      </div>
 
       <form class="auth-form" id="verify-form">
         <!-- OTP Pin fields -->
@@ -120,14 +94,98 @@
       // Display professional user-friendly message
       alerts.innerHTML = `<div class="alert alert-success">${window.DAICO_I18N.t('auth_verify_success_sent')}</div>`;
 
-      // Auto focus jump inside OTP boxes
+      // Auto focus jump inside OTP boxes and key/paste handling
       pinInputs.forEach((input, index) => {
-        input.addEventListener('keyup', (e) => {
-          if (e.target.value.length === 1 && index < pinInputs.length - 1) {
+        // Enforce numeric only and focus next box
+        input.addEventListener('input', (e) => {
+          const val = input.value;
+          if (val && !/^[0-9]$/.test(val)) {
+            input.value = '';
+            return;
+          }
+          if (val.length === 1 && index < pinInputs.length - 1) {
             pinInputs[index + 1].focus();
+          }
+          checkAndAutoSubmit();
+        });
+
+        // Keydown handler for backspace and focus previous
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace') {
+            if (input.value.length === 0 && index > 0) {
+              pinInputs[index - 1].focus();
+              pinInputs[index - 1].value = '';
+            } else {
+              input.value = '';
+            }
+            e.preventDefault();
+            checkAndAutoSubmit();
+          }
+        });
+
+        // Paste support: paste 4 digit code directly
+        input.addEventListener('paste', (e) => {
+          e.preventDefault();
+          const pastedData = (e.clipboardData || window.clipboardData).getData('text').trim();
+          if (/^\d{4}$/.test(pastedData)) {
+            pinInputs.forEach((pinIn, idx) => {
+              pinIn.value = pastedData[idx];
+            });
+            pinInputs[pinInputs.length - 1].focus();
+            checkAndAutoSubmit();
           }
         });
       });
+
+      function checkAndAutoSubmit() {
+        let pin = '';
+        pinInputs.forEach(i => pin += i.value);
+        if (pin.length === 4) {
+          form.dispatchEvent(new Event('submit'));
+        }
+      }
+
+      // Check if user has an active code in the local DB for quick developer test mode
+      function updateDevBypass() {
+        if (window.DAICO_DB) {
+          const user = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
+          if (user && !user.verified && user.verification_code) {
+            const devContainer = document.getElementById('dev-bypass-container');
+            const devOtp = document.getElementById('dev-otp-code');
+            if (devContainer && devOtp) {
+              devOtp.innerText = user.verification_code;
+              devContainer.style.display = 'block';
+            }
+          }
+        }
+      }
+
+      updateDevBypass();
+
+      // Bind click on dev OTP code
+      const devOtp = document.getElementById('dev-otp-code');
+      if (devOtp) {
+        devOtp.addEventListener('click', () => {
+          if (window.DAICO_DB) {
+            const user = window.DAICO_DB.selectOne('users', { email: email.toLowerCase() });
+            if (user && user.verification_code) {
+              const codeStr = user.verification_code.toString();
+              pinInputs.forEach((pinIn, idx) => {
+                pinIn.value = codeStr[idx] || '';
+              });
+              const devContainer = document.getElementById('dev-bypass-container');
+              if (devContainer) {
+                devContainer.style.background = 'rgba(16, 185, 129, 0.12)';
+                devContainer.style.borderColor = '#10b981';
+              }
+              devOtp.style.color = '#10b981';
+              setTimeout(() => {
+                form.dispatchEvent(new Event('submit'));
+              }, 300);
+            }
+          }
+        });
+      }
 
       form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -160,6 +218,7 @@
         const res = await window.DAICO_AUTH.resendVerificationCode(email);
         if (res.success) {
           alerts.innerHTML = `<div class="alert alert-success">${res.message}</div>`;
+          updateDevBypass();
         } else {
           alerts.innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
         }

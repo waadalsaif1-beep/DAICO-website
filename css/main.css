@@ -263,8 +263,8 @@ html[data-theme="dark"] .header {
 }
 
 .hero-badge {
-  background-color: #0f172a; /* Dark Navy Blue background for institutional style */
-  color: var(--primary); /* Accent color (Cyan/Teal) */
+  background-color: rgba(28, 53, 94, 0.06);
+  color: var(--sdaia-teal);
   padding: 0.5rem 1.25rem;
   border-radius: var(--radius-full);
   font-size: 0.875rem;
@@ -272,8 +272,13 @@ html[data-theme="dark"] .header {
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
-  border: 1px solid hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.25);
+  border: 1px solid rgba(28, 53, 94, 0.15);
   animation: fadeIn 0.8s ease-out;
+}
+
+html[data-theme="dark"] .hero-badge {
+  background-color: rgba(0, 174, 141, 0.10);
+  border-color: rgba(0, 174, 141, 0.25);
 }
 
 .hero-partners {

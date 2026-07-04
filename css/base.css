@@ -56,6 +56,7 @@ body {
    TYPOGRAPHY — (brief §3: increase type-weight contrast)
    ================================================================ */
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-title);
   font-weight: var(--weight-bold);
   line-height: 1.25;
   letter-spacing: -0.02em;
